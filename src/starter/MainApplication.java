@@ -6,6 +6,7 @@ public class MainApplication extends GraphicsApplication {
 	private static final String[] SOUND_FILES = { "r2d2.mp3", "somethinlikethis.mp3" };
 
 	private MenuPane menu;
+	private LevelSelectPane sel;
 	private int count;
 
 	public void init() {
@@ -19,13 +20,11 @@ public class MainApplication extends GraphicsApplication {
 	}
 
 	public void switchToMenu() {
-		playRandomSound();
-		count++;
 		switchToScreen(menu);
 	}
 
-	public void switchToSome() {
-		
+	public void switchToSel() {
+		switchToScreen(sel);
 	}
 
 	private void playRandomSound() {
