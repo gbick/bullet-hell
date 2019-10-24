@@ -6,6 +6,8 @@ import acm.graphics.GObject;
 public class LevelSelectPane extends GraphicsPane {
 	private MainApplication program; // you will use program to get access to
 										// all of the GraphicsProgram calls
+	private static final int BUTTON_WIDTH = 200;
+	private static final int BUTTON_HEIGHT = 50;
 	//TODO Identify required objects here
 	private GButton menuButton;
 	private GButton startButton;
@@ -14,8 +16,8 @@ public class LevelSelectPane extends GraphicsPane {
 	public LevelSelectPane(MainApplication app) {
 		this.program = app;
 		//TODO Declare object properties here
-		menuButton = new GButton("Return to Main Menu",0 ,924 ,400 , 100);
-		startButton = new GButton("Start Game", 624, 924, 400, 100);
+		menuButton = new GButton("Return to Main Menu",0 ,program.getHeight() - BUTTON_HEIGHT ,BUTTON_WIDTH , BUTTON_HEIGHT);
+		startButton = new GButton("Start Game", program.getWidth() - BUTTON_WIDTH, program.getHeight() - BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT);
 		//=====
 	}
 
