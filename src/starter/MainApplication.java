@@ -30,7 +30,9 @@ public class MainApplication extends GraphicsApplication {
 		switchToScreen(menu);
 	}
 
-
+	public void switchToLeaderboard() {
+		switchToScreen(leaderboard);
+	}
 	public void switchToSel() {
 		switchToScreen(sel);
 	}

@@ -59,11 +59,11 @@ public class LeaderboardPane extends GraphicsPane {
 		GObject obj = program.getElementAt(e.getX(), e.getY());
 		if (obj == nextLevel && levelNumber != 3) {
 			levelNumber++;
-			program.switchToSome();
+			program.switchToMenu();
 		}
 		else if(obj == prevLevel && levelNumber != 1) {
 			levelNumber--;
-			program.switchToSome();
+			program.switchToMenu();
 		}
 	}
 }
