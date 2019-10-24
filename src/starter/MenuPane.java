@@ -20,6 +20,7 @@ public class MenuPane extends GraphicsPane {
 		super();
 		program = app;
 		title = new GLabel("Celestial Combat",250,program.getHeight()/8);
+		title.setFont("Arial-24");
 		program.add(title);
 		
 		start = new GButton("Start Game", 200, 200, 200, 50);
@@ -65,11 +66,11 @@ public class MenuPane extends GraphicsPane {
 		}
 		else if(obj==controls)
 		{
-			
+			//to add the function later
 		}
 		else if(obj==exit)
 		{
-			
+			// to add later
 		}
 	}
 }
