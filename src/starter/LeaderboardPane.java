@@ -49,7 +49,10 @@ public class LeaderboardPane extends GraphicsPane {
 	@Override
 	public void hideContents() {
 		//TODO program.remove(" ") all objects
-		
+		program.remove(nextLevel);
+		program.remove(prevLevel);
+		program.remove(leaderboard);
+		program.remove(level);
 		//=====
 	}
 
