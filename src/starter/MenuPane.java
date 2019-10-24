@@ -1,6 +1,7 @@
 package starter;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.MouseEvent;
 
 import acm.graphics.GLabel;
@@ -18,19 +19,19 @@ public class MenuPane extends GraphicsPane {
 	public MenuPane(MainApplication app) {
 		super();
 		program = app;
-		title = new GLabel("Celestial Combat",program.getWidth()/2,program.getHeight()/4);
+		title = new GLabel("Celestial Combat",250,program.getHeight()/8);
 		program.add(title);
 		
 		start = new GButton("Start Game", 200, 200, 200, 50);
 		start.setFillColor(Color.MAGENTA);
 		
-		lead = new GButton("Leaderboards", 300,300,200,50);
+		lead = new GButton("Leaderboards", 200,300,200,50);
 		lead.setFillColor(Color.MAGENTA);
 		
-		controls = new GButton("Controls",400, 400, 200, 50);
+		controls = new GButton("Controls",200, 400, 200, 50);
 		controls.setFillColor(Color.MAGENTA);
 		
-		exit = new GButton("Exit", 500,500,200,50);
+		exit = new GButton("Exit", 200,500,200,50);
 		exit.setFillColor(Color.MAGENTA);
 		
 	}
@@ -40,6 +41,7 @@ public class MenuPane extends GraphicsPane {
 		program.add(start);
 		program.add(lead);
 		program.add(controls);
+		program.add(exit);
 	}
 
 	@Override
@@ -47,6 +49,7 @@ public class MenuPane extends GraphicsPane {
 		program.remove(start);
 		program.remove(lead);
 		program.remove(controls);
+		program.remove(exit);
 	}
 
 	@Override
@@ -54,15 +57,15 @@ public class MenuPane extends GraphicsPane {
 		GObject obj = program.getElementAt(e.getX(), e.getY());
 		if (obj == start)
 		{
-		
+			program.switchToSel();
 		}
 		else if(obj==lead)
 		{
-			
+			//program.switchToLeaderboard
 		}
 		else if(obj==controls)
 		{
-			
+			//program.switchToControls
 		}
 		else if(obj==exit)
 		{
