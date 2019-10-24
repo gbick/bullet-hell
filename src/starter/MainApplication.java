@@ -16,6 +16,7 @@ public class MainApplication extends GraphicsApplication {
 	public void run() {
 		System.out.println("Hello, world!");
 		menu = new MenuPane(this);
+		leaderboard = new LeaderboardPane(this);
 		switchToMenu();
 	}
 
