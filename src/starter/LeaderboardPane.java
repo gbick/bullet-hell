@@ -29,7 +29,7 @@ public class LeaderboardPane extends GraphicsPane {
 		this.program = app;
 		//TODO Declare object properties here
 		leaderboard = new GLabel("Leaderboard", 100, 100);
-		nextLevel = new GButton("Next Level", 600, 0, 200, 50);
+		nextLevel = new GButton("Next Level", 700, 0, 200, 50);
 		prevLevel = new GButton("Previous Level", 0, 0, 200, 50);
 		levelNumber = 1;
 		level = new GLabel("Level " + levelNumber, 100, 200);
@@ -60,12 +60,10 @@ public class LeaderboardPane extends GraphicsPane {
 	
 	public void mousePressed(MouseEvent e) {
 		GObject obj = program.getElementAt(e.getX(), e.getY());
-		if (obj == nextLevel && levelNumber != 3) {
-			levelNumber++;
+		if (obj == nextLevel) {
 			program.switchToMenu();
 		}
-		else if(obj == prevLevel && levelNumber != 1) {
-			levelNumber--;
+		else if(obj == prevLevel) {
 			program.switchToMenu();
 		}
 	}
