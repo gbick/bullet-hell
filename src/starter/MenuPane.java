@@ -61,11 +61,11 @@ public class MenuPane extends GraphicsPane {
 		}
 		else if(obj==lead)
 		{
-			//program.switchToLeaderboard
+			program.switchToLeaderboard();
 		}
 		else if(obj==controls)
 		{
-			//program.switchToControls
+			
 		}
 		else if(obj==exit)
 		{
