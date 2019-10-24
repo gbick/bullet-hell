@@ -28,16 +28,21 @@ public class LeaderboardPane extends GraphicsPane {
 	public LeaderboardPane(MainApplication app) {
 		this.program = app;
 		//TODO Declare object properties here
-		leaderboard = new GLabel("Leaderboard");
-		nextLevel = new GButton("Next Level", 800, 0, 200, 200);
-		prevLevel = new GButton("Previous Level", 0, 0, 200, 200);
+		leaderboard = new GLabel("Leaderboard", 100, 100);
+		nextLevel = new GButton("Next Level", 600, 0, 200, 50);
+		prevLevel = new GButton("Previous Level", 0, 0, 200, 50);
+		levelNumber = 1;
+		level = new GLabel("Level " + levelNumber, 100, 200);
 		//=====
 	}
 
 	@Override
 	public void showContents() {
 		//TODO program.add(" ") all objects that should be immediately visible on load
-		
+		program.add(nextLevel);
+		program.add(prevLevel);
+		program.add(leaderboard);
+		program.add(level);
 		//=====
 	}
 
@@ -52,6 +57,13 @@ public class LeaderboardPane extends GraphicsPane {
 	
 	public void mousePressed(MouseEvent e) {
 		GObject obj = program.getElementAt(e.getX(), e.getY());
-		if (obj == )
+		if (obj == nextLevel && levelNumber != 3) {
+			levelNumber++;
+			program.switchToSome();
+		}
+		else if(obj == prevLevel && levelNumber != 1) {
+			levelNumber--;
+			program.switchToSome();
+		}
 	}
 }

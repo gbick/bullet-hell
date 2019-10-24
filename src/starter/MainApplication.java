@@ -6,6 +6,7 @@ public class MainApplication extends GraphicsApplication {
 	private static final String[] SOUND_FILES = { "r2d2.mp3", "somethinlikethis.mp3" };
 
 	private MenuPane menu;
+	private LeaderboardPane leaderboard;
 	private int count;
 
 	public void init() {
@@ -23,7 +24,7 @@ public class MainApplication extends GraphicsApplication {
 		count++;
 		switchToScreen(menu);
 	}
-
+	
 	public void switchToSome() {
 		
 	}
