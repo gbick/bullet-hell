@@ -6,6 +6,9 @@ public class MainApplication extends GraphicsApplication {
 	private static final String[] SOUND_FILES = { "r2d2.mp3", "somethinlikethis.mp3" };
 
 	private MenuPane menu;
+
+	private LeaderboardPane leaderboard;
+
 	private LevelSelectPane sel;
 	private int count;
 
@@ -16,6 +19,9 @@ public class MainApplication extends GraphicsApplication {
 	public void run() {
 		System.out.println("Hello, world!");
 		menu = new MenuPane(this);
+
+		leaderboard = new LeaderboardPane(this);
+
 		sel = new LevelSelectPane(this);
 		switchToMenu();
 	}
@@ -23,6 +29,7 @@ public class MainApplication extends GraphicsApplication {
 	public void switchToMenu() {
 		switchToScreen(menu);
 	}
+
 
 	public void switchToSel() {
 		switchToScreen(sel);
