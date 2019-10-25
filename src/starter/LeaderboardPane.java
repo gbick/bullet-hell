@@ -1,6 +1,7 @@
 package starter;
 
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import acm.graphics.GImage;
@@ -12,7 +13,7 @@ public class LeaderboardPane extends GraphicsPane {
 	private MainApplication program; // you will use program to get access to
 										// all of the GraphicsProgram calls
 	//TODO Identify required objects here
-	private GLabel level;
+	private ArrayList<GLabel> levels;
 	private int levelNumber;
 	private GLabel leaderboard;
 	private GLabel easy;
@@ -32,7 +33,7 @@ public class LeaderboardPane extends GraphicsPane {
 		nextLevel = new GButton("Next Level", 700, 0, 200, 50);
 		prevLevel = new GButton("Previous Level", 0, 0, 200, 50);
 		levelNumber = 1;
-		level = new GLabel("Level " + levelNumber, 100, 200);
+		levels.add(new GLabel("Level " + levelNumber, 100, 200));
 		//=====
 	}
 
@@ -42,7 +43,9 @@ public class LeaderboardPane extends GraphicsPane {
 		program.add(nextLevel);
 		program.add(prevLevel);
 		program.add(leaderboard);
-		program.add(level);
+		if (!levels.isEmpty()) {
+			program.add(levels.get(0));
+		}
 		//=====
 	}
 
@@ -57,11 +60,11 @@ public class LeaderboardPane extends GraphicsPane {
 	
 	public void mousePressed(MouseEvent e) {
 		GObject obj = program.getElementAt(e.getX(), e.getY());
-		if (obj == nextLevel) {
-			program.remove(level);
+		if (obj == nextLevel && levelNumber < 3) {
+			program.remove(levels.get(levelNumber - 1));
 			levelNumber++;
-			level = new GLabel("Level " + levelNumber, 100, 200);
-			program.add(level);
+			levels.add(new GLabel("Level " + levelNumber, 100, 200));
+			program.add(levels.get(levelNumber - 1));
 		}
 		else if(obj == prevLevel) {
 			program.switchToMenu();
