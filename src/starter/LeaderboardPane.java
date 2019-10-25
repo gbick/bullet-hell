@@ -49,10 +49,7 @@ public class LeaderboardPane extends GraphicsPane {
 	@Override
 	public void hideContents() {
 		//TODO program.remove(" ") all objects
-		program.remove(nextLevel);
-		program.remove(prevLevel);
-		program.remove(leaderboard);
-		program.remove(level);
+		program.removeAll();
 		//=====
 	}
 
@@ -61,7 +58,10 @@ public class LeaderboardPane extends GraphicsPane {
 	public void mousePressed(MouseEvent e) {
 		GObject obj = program.getElementAt(e.getX(), e.getY());
 		if (obj == nextLevel) {
-			program.switchToMenu();
+			program.remove(level);
+			levelNumber++;
+			level = new GLabel("Level " + levelNumber, 100, 200);
+			program.add(level);
 		}
 		else if(obj == prevLevel) {
 			program.switchToMenu();
