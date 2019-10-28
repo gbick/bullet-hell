@@ -1,8 +1,10 @@
 package starter;
+import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import acm.graphics.GImage;
+import acm.graphics.GLabel;
 import acm.graphics.GObject;
 
 public class LevelSelectPane extends GraphicsPane {
@@ -10,13 +12,14 @@ public class LevelSelectPane extends GraphicsPane {
 										// all of the GraphicsProgram calls
 	private static final int BUTTON_WIDTH = 200; //Width of bottom buttons
 	private static final int BUTTON_HEIGHT = 50; //Height of bottom buttons
-	private static final int NUM_LEVELS = 3; //Number of level selection buttons (total number of levels)
+	private static final int NUM_LEVELS = 10; //Number of level selection buttons (total number of levels)
 	private static final int LEVEL_GRID_HEIGHT = 350; //The height at which the level button grid is located
-	private static final int LEVEL_BUTTON_SIZE = 200; //Height and width of level buttons
+	private static final int LEVEL_BUTTON_SIZE = 150; //Height and width of level buttons
 	private static final int MARGIN = 100; //The amount of space on the left and right of the level select buttons
 	//TODO Identify required objects here
 	private GButton menuButton;
 	private GButton startButton;
+	private GLabel title;
 	private ArrayList<GButton> levels;
 	//=====
 
@@ -39,9 +42,14 @@ public class LevelSelectPane extends GraphicsPane {
 			levels.add(temp);
 		}
 		
+		title = new GLabel("Choose a level", program.getWidth()/2 - 80, 50);
+		title.setFont("Arial-25");
+		
 		menuButton = new GButton("Return to Main Menu",0 ,program.getHeight() - BUTTON_HEIGHT ,BUTTON_WIDTH , BUTTON_HEIGHT);
 		startButton = new GButton("Start Game", program.getWidth() - BUTTON_WIDTH, program.getHeight() - BUTTON_HEIGHT, 
 				BUTTON_WIDTH, BUTTON_HEIGHT);
+		menuButton.setFillColor(Color.MAGENTA);
+		startButton.setFillColor(Color.MAGENTA);
 		//=====
 	}
 
@@ -50,6 +58,7 @@ public class LevelSelectPane extends GraphicsPane {
 		//TODO program.add(" ") all objects that should be immediately visible on load
 		program.add(menuButton);
 		program.add(startButton);
+		program.add(title);
 		
 		//Add grid of levels
 		for(int i = 0; i < levels.size(); i++) {
@@ -63,6 +72,7 @@ public class LevelSelectPane extends GraphicsPane {
 		//TODO program.remove(" ") all objects
 		program.remove(menuButton);
 		program.remove(startButton);
+		program.remove(title);
 		
 		//Remove grid of levels
 		for(int i = 0; i < levels.size(); i++) {
