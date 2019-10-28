@@ -23,6 +23,7 @@ public class LeaderboardPane extends GraphicsPane {
 	private GButton nextLevel;
 	private GButton prevLevel;
 	private static final int LEADERBOARD_X = MainApplication.WINDOW_HEIGHT/5;
+	private static final int NUM_LEVELS = 3;
 	private HashMap<Integer, Pair<String, Integer>> scores; // first element is a 3-digit int - 
 	
 	//=====
@@ -34,7 +35,11 @@ public class LeaderboardPane extends GraphicsPane {
 		nextLevel = new GButton("Next Level", 700, 0, 200, 50);
 		prevLevel = new GButton("Previous Level", 0, 0, 200, 50);
 		levelNumber = 1;
-		levels.add(new GLabel("Level " + levelNumber, 100, 200));
+		for(int i = 0; i < NUM_LEVELS; ++i) {
+			level = new GLabel("Level " + (i+1), 400, 200);
+			level.setFont("Arial-Bold-24");
+			levels.add(level);
+		}
 		//=====
 	}
 
@@ -61,16 +66,14 @@ public class LeaderboardPane extends GraphicsPane {
 	
 	public void mousePressed(MouseEvent e) {
 		GObject obj = program.getElementAt(e.getX(), e.getY());
-		if (obj == nextLevel && levelNumber < 3) {
+		if (obj == nextLevel && levelNumber < NUM_LEVELS) {
 			program.remove(levels.get(levelNumber - 1));
 			levelNumber++;
-			levels.add(new GLabel("Level " + levelNumber, 100, 200));
 			program.add(levels.get(levelNumber - 1));
 		}
 		else if(obj == prevLevel && levelNumber != 1) {
 			program.remove(levels.get(levelNumber - 1));
 			levelNumber--;
-			levels.add(new GLabel("Level " + levelNumber, 100, 200));
 			program.add(levels.get(levelNumber - 1));
 		}
 	}
