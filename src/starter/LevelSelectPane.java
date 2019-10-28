@@ -8,10 +8,12 @@ import acm.graphics.GObject;
 public class LevelSelectPane extends GraphicsPane {
 	private MainApplication program; // you will use program to get access to
 										// all of the GraphicsProgram calls
-	private static final int BUTTON_WIDTH = 200;
-	private static final int BUTTON_HEIGHT = 50;
-	private static final int NUM_LEVELS = 3;
-	private static final int LEVEL_GRID_HEIGHT = 350;
+	private static final int BUTTON_WIDTH = 200; //Width of bottom buttons
+	private static final int BUTTON_HEIGHT = 50; //Height of bottom buttons
+	private static final int NUM_LEVELS = 3; //Number of level selection buttons (total number of levels)
+	private static final int LEVEL_GRID_HEIGHT = 350; //The height at which the level button grid is located
+	private static final int LEVEL_BUTTON_SIZE = 200; //Height and width of level buttons
+	private static final int MARGIN = 100; //The amount of space on the left and right of the level select buttons
 	//TODO Identify required objects here
 	private GButton menuButton;
 	private GButton startButton;
@@ -24,14 +26,22 @@ public class LevelSelectPane extends GraphicsPane {
 		
 		//Set up number of levels for display
 		levels = new ArrayList<GButton>();
-		int levelStartX = 0;
+		int spaceBetween = ((program.getWidth() - (MARGIN * 2) - (LEVEL_BUTTON_SIZE * NUM_LEVELS)) / NUM_LEVELS);
+		GButton temp;
 		for(int i = 0; i < NUM_LEVELS; i++) {
-			GButton temp = new GButton("Level " + (i + 1), levelStartX + (100 * i), LEVEL_GRID_HEIGHT, 100, 100);
+			if(i == 0) {
+				temp = new GButton("Level " + (i + 1), MARGIN, LEVEL_GRID_HEIGHT, LEVEL_BUTTON_SIZE, LEVEL_BUTTON_SIZE);
+			}
+			else {
+				temp = new GButton("Level " + (i + 1), MARGIN + (spaceBetween * i) + (LEVEL_BUTTON_SIZE * i), LEVEL_GRID_HEIGHT, 
+						LEVEL_BUTTON_SIZE, LEVEL_BUTTON_SIZE);
+			}
 			levels.add(temp);
 		}
 		
 		menuButton = new GButton("Return to Main Menu",0 ,program.getHeight() - BUTTON_HEIGHT ,BUTTON_WIDTH , BUTTON_HEIGHT);
-		startButton = new GButton("Start Game", program.getWidth() - BUTTON_WIDTH, program.getHeight() - BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT);
+		startButton = new GButton("Start Game", program.getWidth() - BUTTON_WIDTH, program.getHeight() - BUTTON_HEIGHT, 
+				BUTTON_WIDTH, BUTTON_HEIGHT);
 		//=====
 	}
 
