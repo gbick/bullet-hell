@@ -13,7 +13,8 @@ public class LeaderboardPane extends GraphicsPane {
 	private MainApplication program; // you will use program to get access to
 										// all of the GraphicsProgram calls
 	//TODO Identify required objects here
-	private ArrayList<GLabel> levels;
+	private ArrayList<GLabel> levels = new ArrayList<GLabel>();
+	private GLabel level;
 	private int levelNumber;
 	private GLabel leaderboard;
 	private GLabel easy;
@@ -66,8 +67,11 @@ public class LeaderboardPane extends GraphicsPane {
 			levels.add(new GLabel("Level " + levelNumber, 100, 200));
 			program.add(levels.get(levelNumber - 1));
 		}
-		else if(obj == prevLevel) {
-			program.switchToMenu();
+		else if(obj == prevLevel && levelNumber != 1) {
+			program.remove(levels.get(levelNumber - 1));
+			levelNumber--;
+			levels.add(new GLabel("Level " + levelNumber, 100, 200));
+			program.add(levels.get(levelNumber - 1));
 		}
 	}
 }
