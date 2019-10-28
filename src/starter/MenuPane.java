@@ -19,20 +19,20 @@ public class MenuPane extends GraphicsPane {
 	public MenuPane(MainApplication app) {
 		super();
 		program = app;
-		title = new GLabel("Celestial Combat",program.getWidth()/4,program.getHeight()/8);
+		title = new GLabel("Celestial Combat",program.getWidth()/5,program.getHeight()/6);
 		title.setFont("Arial-50");
 		program.add(title);
 		
-		start = new GButton("Start Game", program.getWidth()/4 + 100 , program.getHeight()/8 + 100, 200, 50);
+		start = new GButton("Start Game", program.getWidth()/2 - 100 , program.getHeight()/8 + 100, 200, 50);
 		start.setFillColor(Color.MAGENTA);
 		
-		lead = new GButton("Leaderboards", program.getWidth()/4 + 100,program.getHeight()/8 + 200 ,200,50);
+		lead = new GButton("Leaderboards", program.getWidth()/2 - 100,program.getHeight()/8 + 200 ,200,50);
 		lead.setFillColor(Color.MAGENTA);
 		
-		controls = new GButton("Controls",program.getWidth()/4 + 100, program.getHeight()/8 + 300, 200, 50);
+		controls = new GButton("Controls",program.getWidth()/2 - 100, program.getHeight()/8 + 300, 200, 50);
 		controls.setFillColor(Color.MAGENTA);
 		
-		exit = new GButton("Exit", program.getWidth()/4 + 100,program.getHeight()/8 + 400,200,50);
+		exit = new GButton("Exit", program.getWidth()/2 - 100,program.getHeight()/8 + 400,200,50);
 		exit.setFillColor(Color.MAGENTA);
 		
 	}
