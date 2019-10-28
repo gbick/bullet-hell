@@ -22,6 +22,7 @@ public class LeaderboardPane extends GraphicsPane {
 	private GLabel hard;
 	private GButton nextLevel;
 	private GButton prevLevel;
+	private GButton returnToMenu;
 	private static final int LEADERBOARD_X = 350;
 	private static final int LEADERBOARD_Y = 150;
 	private static final int NUM_LEVELS = 3;
@@ -37,6 +38,7 @@ public class LeaderboardPane extends GraphicsPane {
 		nextLevel = new GButton("Next Level", 700, 0, 200, 50);
 		prevLevel = new GButton("Previous Level", 0, 0, 200, 50);
 		levelNumber = 1;
+		returnToMenu = new GButton("Return to Main Menu", 0, 550, 200, 50);
 		for(int i = 0; i < NUM_LEVELS; ++i) {
 			level = new GLabel("Level " + (i+1), 400, 200);
 			level.setFont("Arial-Bold-24");
@@ -51,6 +53,7 @@ public class LeaderboardPane extends GraphicsPane {
 		program.add(nextLevel);
 		program.add(prevLevel);
 		program.add(leaderboard);
+		program.add(returnToMenu);
 		if (!levels.isEmpty()) {
 			program.add(levels.get(0));
 		}
