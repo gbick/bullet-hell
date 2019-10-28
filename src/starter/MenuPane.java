@@ -19,19 +19,20 @@ public class MenuPane extends GraphicsPane {
 	public MenuPane(MainApplication app) {
 		super();
 		program = app;
-		title = new GLabel("Celestial Combat",250,program.getHeight()/8);
+		title = new GLabel("Celestial Combat",230,program.getHeight()/8);
+		title.setFont("Arial-50");
 		program.add(title);
 		
-		start = new GButton("Start Game", 200, 200, 200, 50);
+		start = new GButton("Start Game", 325, 200, 200, 50);
 		start.setFillColor(Color.MAGENTA);
 		
-		lead = new GButton("Leaderboards", 200,300,200,50);
+		lead = new GButton("Leaderboards", 325,300,200,50);
 		lead.setFillColor(Color.MAGENTA);
 		
-		controls = new GButton("Controls",200, 400, 200, 50);
+		controls = new GButton("Controls",325, 400, 200, 50);
 		controls.setFillColor(Color.MAGENTA);
 		
-		exit = new GButton("Exit", 200,500,200,50);
+		exit = new GButton("Exit", 325,500,200,50);
 		exit.setFillColor(Color.MAGENTA);
 		
 	}
@@ -61,15 +62,15 @@ public class MenuPane extends GraphicsPane {
 		}
 		else if(obj==lead)
 		{
-			//program.switchToLeaderboard
+			program.switchToLeaderboard();
 		}
 		else if(obj==controls)
 		{
-			//program.switchToControls
+			//to add the function later
 		}
 		else if(obj==exit)
 		{
-			
+			// to add later
 		}
 	}
 }
