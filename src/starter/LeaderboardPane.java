@@ -35,12 +35,12 @@ public class LeaderboardPane extends GraphicsPane {
 		//TODO Declare object properties here
 		leaderboard = new GLabel("Leaderboard", LEADERBOARD_X, LEADERBOARD_Y);
 		leaderboard.setFont("Arial-Bold-32");
-		nextLevel = new GButton("Next Level", MainApplication.WINDOW_WIDTH-200, 0, MainApplication.WINDOW_WIDTH*(2/9), MainApplication.WINDOW_HEIGHT*(1/18));
-		prevLevel = new GButton("Previous Level", 0, 0, MainApplication.WINDOW_WIDTH*(2/9), MainApplication.WINDOW_HEIGHT*(1/18));
+		nextLevel = new GButton("Next Level", MainApplication.WINDOW_WIDTH*((double)7/9), 0, MainApplication.WINDOW_WIDTH*((double)2/9), MainApplication.WINDOW_HEIGHT*((double)1/18));
+		prevLevel = new GButton("Previous Level", 0, 0, MainApplication.WINDOW_WIDTH*((double)2/9), MainApplication.WINDOW_HEIGHT*((double)1/18));
 		levelNumber = 1;
-		returnToMenu = new GButton("Return to Main Menu", 0, 550, 200, 50);
+		returnToMenu = new GButton("Return to Main Menu", 0, MainApplication.WINDOW_HEIGHT-MainApplication.WINDOW_HEIGHT*((double)1/18), MainApplication.WINDOW_WIDTH*((double)(2/9)), MainApplication.WINDOW_HEIGHT*((double)1/18));
 		for(int i = 0; i < NUM_LEVELS; ++i) {
-			level = new GLabel("Level " + (i+1), MainApplication.WINDOW_WIDTH*(4/9), MainApplication.WINDOW_HEIGHT*(2/9));
+			level = new GLabel("Level " + (i+1), MainApplication.WINDOW_WIDTH*((double)4/9), MainApplication.WINDOW_HEIGHT*((double)2/9));
 			level.setFont("Arial-Bold-24");
 			levels.add(level);
 		}
