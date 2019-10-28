@@ -35,12 +35,12 @@ public class LeaderboardPane extends GraphicsPane {
 		//TODO Declare object properties here
 		leaderboard = new GLabel("Leaderboard", LEADERBOARD_X, LEADERBOARD_Y);
 		leaderboard.setFont("Arial-Bold-32");
-		nextLevel = new GButton("Next Level", 700, 0, 200, 50);
-		prevLevel = new GButton("Previous Level", 0, 0, 200, 50);
+		nextLevel = new GButton("Next Level", MainApplication.WINDOW_WIDTH-200, 0, MainApplication.WINDOW_WIDTH*(2/9), MainApplication.WINDOW_HEIGHT*(1/18));
+		prevLevel = new GButton("Previous Level", 0, 0, MainApplication.WINDOW_WIDTH*(2/9), MainApplication.WINDOW_HEIGHT*(1/18));
 		levelNumber = 1;
 		returnToMenu = new GButton("Return to Main Menu", 0, 550, 200, 50);
 		for(int i = 0; i < NUM_LEVELS; ++i) {
-			level = new GLabel("Level " + (i+1), 400, 200);
+			level = new GLabel("Level " + (i+1), MainApplication.WINDOW_WIDTH*(4/9), MainApplication.WINDOW_HEIGHT*(2/9));
 			level.setFont("Arial-Bold-24");
 			levels.add(level);
 		}
@@ -80,6 +80,9 @@ public class LeaderboardPane extends GraphicsPane {
 			program.remove(levels.get(levelNumber - 1));
 			levelNumber--;
 			program.add(levels.get(levelNumber - 1));
+		}
+		else if(obj == returnToMenu) {
+			program.switchToMenu();
 		}
 	}
 }
