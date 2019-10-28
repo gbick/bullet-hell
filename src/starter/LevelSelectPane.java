@@ -18,7 +18,7 @@ public class LevelSelectPane extends GraphicsPane {
 	private static final int BUTTON_WIDTH = 200; //Width of bottom buttons
 	private static final int BUTTON_HEIGHT = 50; //Height of bottom buttons
 	private static final int NUM_LEVELS = 3; //Number of level selection buttons (total number of levels)
-	private static final int LEVEL_GRID_HEIGHT = 350; //The height at which the level button grid is located
+	private static final int LEVEL_GRID_HEIGHT = 250; //The height at which the level button grid is located
 	private static final int LEVEL_BUTTON_SIZE = 150; //Height and width of level buttons
 	private static final int MARGIN = 100; //The amount of space on the left and right of the level select buttons
 	//TODO Identify required objects here
