@@ -1,7 +1,7 @@
 package starter;
 public class MainApplication extends GraphicsApplication {
-	public static final int WINDOW_WIDTH = 900;
-	public static final int WINDOW_HEIGHT = 900;
+	public static final int WINDOW_WIDTH = 650;
+	public static final int WINDOW_HEIGHT = 650;
 	public static final String MUSIC_FOLDER = "sounds";
 	private static final String[] SOUND_FILES = { "r2d2.mp3", "somethinlikethis.mp3" };
 
