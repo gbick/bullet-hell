@@ -43,6 +43,7 @@ public class MenuPane extends GraphicsPane {
 		program.add(lead);
 		program.add(controls);
 		program.add(exit);
+		program.add(title);
 	}
 
 	@Override
@@ -51,6 +52,7 @@ public class MenuPane extends GraphicsPane {
 		program.remove(lead);
 		program.remove(controls);
 		program.remove(exit);
+		program.remove(title);
 	}
 
 	@Override
