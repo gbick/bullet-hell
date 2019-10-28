@@ -35,7 +35,7 @@ public class LevelSelectPane extends GraphicsPane {
 	public LevelSelectPane(MainApplication app) {
 		this.program = app;
 		//TODO Declare object properties here
-		
+
 		//Read level unlocks
 		lockedStatus = new ArrayList<Integer>();
 		try {
