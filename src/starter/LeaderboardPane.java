@@ -22,7 +22,8 @@ public class LeaderboardPane extends GraphicsPane {
 	private GLabel hard;
 	private GButton nextLevel;
 	private GButton prevLevel;
-	private static final int LEADERBOARD_X = MainApplication.WINDOW_HEIGHT/5;
+	private static final int LEADERBOARD_X = 350;
+	private static final int LEADERBOARD_Y = 150;
 	private static final int NUM_LEVELS = 3;
 	private HashMap<Integer, Pair<String, Integer>> scores; // first element is a 3-digit int - 
 	
@@ -31,7 +32,8 @@ public class LeaderboardPane extends GraphicsPane {
 	public LeaderboardPane(MainApplication app) {
 		this.program = app;
 		//TODO Declare object properties here
-		leaderboard = new GLabel("Leaderboard", 100, 100);
+		leaderboard = new GLabel("Leaderboard", LEADERBOARD_X, LEADERBOARD_Y);
+		leaderboard.setFont("Arial-Bold-32");
 		nextLevel = new GButton("Next Level", 700, 0, 200, 50);
 		prevLevel = new GButton("Previous Level", 0, 0, 200, 50);
 		levelNumber = 1;
