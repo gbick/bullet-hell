@@ -1,6 +1,8 @@
 package starter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import acm.graphics.GImage;
@@ -14,10 +16,9 @@ public class FileSelectPop extends GraphicsPane {
 	GButton file1;
 	GButton file2;
 	GButton file3;
+	String display;
 	
-	File save1 = new File("data\\saves\\save1");
-	File save2 = new File("data\\saves\\save2");
-	File save3 = new File("data\\saves\\save3");
+	File save;
 	Scanner scan;
 	
 	//=====
@@ -26,12 +27,38 @@ public class FileSelectPop extends GraphicsPane {
 		this.program = app;
 		//TODO Declare object properties here
 		frame = new GButton("", program.getWidth()/4, program.getHeight()/4, program.getWidth()/2, program.getHeight()/2);
-		file1 = new GButton("New File", frame.getX()  + frame.getWidth()/65, frame.getY()  + frame.getWidth()/65,
-				frame.getWidth() - ((frame.getWidth()/65) * 2), frame.getHeight()/3 - ((frame.getWidth()/65) * 2));
-		file2 = new GButton("New File", frame.getX() + frame.getWidth()/65, frame.getY() + frame.getHeight()/3 + frame.getWidth()/65,
-				frame.getWidth() - ((frame.getWidth()/65) * 2), frame.getHeight()/3 - ((frame.getWidth()/65) * 2));
-		file3 = new GButton("New File", frame.getX() + frame.getWidth()/65, frame.getY() + ((frame.getHeight()/3) * 2) + frame.getWidth()/65,
-				frame.getWidth() - ((frame.getWidth()/65) * 2), frame.getHeight()/3 - ((frame.getWidth()/65) * 2));		//=====
+		
+		//Read saves
+		for(int i = 1; i <= 3; i++) {
+			save = new File("data\\saves\\save" + (i) + ".txt");
+			display = "Save " + i;
+			try {
+				scan = new Scanner(save);
+			} catch (FileNotFoundException e) {
+				display = "New File";
+			}
+			switch (i) {
+			case 1:
+				file1 = new GButton(display, frame.getX()  + frame.getWidth()/65, frame.getY()  + frame.getWidth()/65,
+						frame.getWidth() - ((frame.getWidth()/65) * 2), frame.getHeight()/3 - ((frame.getWidth()/65) * 2));
+				break;
+			case 2:
+				file2 = new GButton(display, frame.getX() + frame.getWidth()/65, frame.getY() + frame.getHeight()/3 + frame.getWidth()/65,
+						frame.getWidth() - ((frame.getWidth()/65) * 2), frame.getHeight()/3 - ((frame.getWidth()/65) * 2));
+				break;
+			case 3:
+				file3 = new GButton(display, frame.getX() + frame.getWidth()/65, frame.getY() + ((frame.getHeight()/3) * 2) + frame.getWidth()/65,
+						frame.getWidth() - ((frame.getWidth()/65) * 2), frame.getHeight()/3 - ((frame.getWidth()/65) * 2));	
+				break;
+			default:
+				break;
+			}
+		}
+		
+	//	while (scan.hasNextLine()) {
+	//			
+	//	} 
+		//=====
 	}
 
 	@Override
