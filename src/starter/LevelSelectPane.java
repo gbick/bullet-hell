@@ -48,7 +48,7 @@ public class LevelSelectPane extends GraphicsPane {
 		
 		while (scan.hasNextLine()) {
 				lockedStatus.add(scan.nextInt());
-		  } 
+		} 
 		
 		
 		//Set up number of levels for display
