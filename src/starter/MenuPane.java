@@ -78,7 +78,7 @@ public class MenuPane extends GraphicsPane {
 		}
 		else if(obj==exit)
 		{
-			// to add later
+			Runtime.getRuntime().exit(0);
 		}
 	}
 }
