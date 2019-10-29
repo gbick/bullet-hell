@@ -28,7 +28,7 @@ public class LevelSelectPane extends GraphicsPane {
 	private ArrayList<GButton> levels;
 	private ArrayList<Integer> lockedStatus;
 	
-	private GImage ship = new GImage("sprites//player//ship1.png", 0, 0);
+	private GImage ship = new GImage("sprites//player//ship1_64x64.png", 0, 0);
 	
 	File file = new File("data\\unlockedLevels.txt");
 	Scanner scan;
@@ -37,7 +37,7 @@ public class LevelSelectPane extends GraphicsPane {
 	public LevelSelectPane(MainApplication app) {
 		this.program = app;
 		//TODO Declare object properties here
-		ship.scale(1.5);
+		
 		//Read level unlocks
 		lockedStatus = new ArrayList<Integer>();
 		try {
