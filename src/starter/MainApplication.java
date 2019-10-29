@@ -5,11 +5,13 @@ public class MainApplication extends GraphicsApplication {
 	public static final String MUSIC_FOLDER = "sounds";
 	private static final String[] SOUND_FILES = { "r2d2.mp3", "somethinlikethis.mp3" };
 
+	//Screens
 	private MenuPane menu;
-
 	private LeaderboardPane lead;
-
 	private LevelSelectPane sel;
+	
+	//Popups
+	private FileSelectPop load;
 	private int count;
 
 	public void init() {
@@ -20,6 +22,7 @@ public class MainApplication extends GraphicsApplication {
 		menu = new MenuPane(this);
 		lead = new LeaderboardPane(this);
 		sel = new LevelSelectPane(this);
+		load = new FileSelectPop(this);
 		switchToMenu();
 	}
 
@@ -33,6 +36,15 @@ public class MainApplication extends GraphicsApplication {
 	public void switchToSel() {
 		switchToScreen(sel);
 	}
+	
+	public void delPop() {
+		delPopUp();
+	}
+	
+	public void addPopFileSelect() {
+		addPop(load);
+	}
+	
 
 	private void playRandomSound() {
 		AudioPlayer audio = AudioPlayer.getInstance();

@@ -8,6 +8,7 @@ import acm.program.GraphicsProgram;
 
 public abstract class GraphicsApplication extends GraphicsProgram {
 	private GraphicsPane curScreen;
+	private GraphicsPane curPop = null;
 	
 	public GraphicsApplication() {
 		super();
@@ -39,6 +40,24 @@ public abstract class GraphicsApplication extends GraphicsProgram {
 		curScreen = newScreen;
 	}
 	
+	protected void addPop(GraphicsPane newPop) {
+		if(curPop != null) {
+			curPop.hideContents();
+		}
+		newPop.showContents();
+		curPop = newPop;
+	}
+	
+	protected void delPopUp() {
+		if(curPop != null){
+			curPop.hideContents();
+			curPop = null;
+		}
+	}
+	
+	protected GraphicsPane getCurPop() {
+		return(curPop);
+	}
 	/*
 	 * These methods just override the basic
 	 * mouse listeners to pass any information that
