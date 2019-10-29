@@ -1,5 +1,7 @@
 package starter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.util.Scanner;
 
 import acm.graphics.GImage;
 import acm.graphics.GObject;
@@ -12,6 +14,11 @@ public class FileSelectPop extends GraphicsPane {
 	GButton file1;
 	GButton file2;
 	GButton file3;
+	
+	File save1 = new File("data\\saves\\save1");
+	File save2 = new File("data\\saves\\save2");
+	File save3 = new File("data\\saves\\save3");
+	Scanner scan;
 	
 	//=====
 
