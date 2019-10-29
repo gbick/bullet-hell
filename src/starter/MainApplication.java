@@ -12,6 +12,7 @@ public class MainApplication extends GraphicsApplication {
 	
 	//Popups
 	private FileSelectPop load;
+	private ControlsPop controls;
 	private int count;
 
 	public void init() {
@@ -23,6 +24,7 @@ public class MainApplication extends GraphicsApplication {
 		lead = new LeaderboardPane(this);
 		sel = new LevelSelectPane(this);
 		load = new FileSelectPop(this);
+		controls = new ControlsPop(this);
 		switchToMenu();
 	}
 
@@ -43,6 +45,10 @@ public class MainApplication extends GraphicsApplication {
 	
 	public void addPopFileSelect() {
 		addPop(load);
+	}
+	
+	public void addControlsPop() {
+		addPop(controls);
 	}
 	
 

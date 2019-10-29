@@ -74,7 +74,7 @@ public class MenuPane extends GraphicsPane {
 		}
 		else if(obj==controls)
 		{
-			//to add the function later
+			program.addControlsPop();
 		}
 		else if(obj==exit)
 		{
