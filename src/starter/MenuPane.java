@@ -57,10 +57,16 @@ public class MenuPane extends GraphicsPane {
 
 	@Override
 	public void mousePressed(MouseEvent e) {
+		//ICheck for popups
+		if(program.getCurPop() != null) {
+			program.getCurPop().mousePressed(e);
+		}
+		
+		//No popups
 		GObject obj = program.getElementAt(e.getX(), e.getY());
 		if (obj == start)
 		{
-			program.switchToSel();
+			program.addPopFileSelect();
 		}
 		else if(obj==lead)
 		{
