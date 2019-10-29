@@ -23,8 +23,8 @@ public class LeaderboardPane extends GraphicsPane {
 	private GButton nextLevel;
 	private GButton prevLevel;
 	private GButton returnToMenu;
-	private static final int LEADERBOARD_X = 350;
-	private static final int LEADERBOARD_Y = 150;
+	private static final double LEADERBOARD_X = MainApplication.WINDOW_WIDTH*((double)9/26);
+	private static final double LEADERBOARD_Y = MainApplication.WINDOW_HEIGHT*.25;
 	private static final int NUM_LEVELS = 3;
 	private HashMap<Integer, Pair<String, Integer>> scores; // first element is a 3-digit int - 
 	
@@ -40,7 +40,7 @@ public class LeaderboardPane extends GraphicsPane {
 		levelNumber = 1;
 		returnToMenu = new GButton("Return to Main Menu", 0, MainApplication.WINDOW_HEIGHT-MainApplication.WINDOW_HEIGHT*((double)1/18), MainApplication.WINDOW_WIDTH*((double)2/9), MainApplication.WINDOW_HEIGHT*((double)1/18));
 		for(int i = 0; i < NUM_LEVELS; ++i) {
-			level = new GLabel("Level " + (i+1), MainApplication.WINDOW_WIDTH*((double)4/9), MainApplication.WINDOW_HEIGHT*((double)2/9));
+			level = new GLabel("Level " + (i+1), MainApplication.WINDOW_WIDTH*((double)4/9), MainApplication.WINDOW_HEIGHT*((double)1/3));
 			level.setFont("Arial-Bold-24");
 			levels.add(level);
 		}
