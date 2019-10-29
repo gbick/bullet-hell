@@ -28,7 +28,7 @@ public class LevelSelectPane extends GraphicsPane {
 	private ArrayList<GButton> levels;
 	private ArrayList<Integer> lockedStatus;
 	
-	private GImage ship = new GImage("sprites//player//ship1_64x64.png", 0, 0);
+	// private GImage ship = new GImage("sprites//player//ship1.png", 0, 0);
 	
 	File file = new File("data\\unlockedLevels.txt");
 	Scanner scan;
@@ -95,7 +95,6 @@ public class LevelSelectPane extends GraphicsPane {
 		program.add(menuButton);
 		program.add(startButton);
 		program.add(title);
-		program.add(ship);
 		
 		//Add grid of levels
 		for(int i = 0; i < levels.size(); i++) {
@@ -120,10 +119,6 @@ public class LevelSelectPane extends GraphicsPane {
 
 	//TODO Add all mouse/key events below here \/ \/ \/ 
 	//Don't forget your @Override!
-	@Override
-	public void mouseDragged(MouseEvent e) {
-		ship.setLocation(e.getX(), e.getY());
-	}
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		GObject clicked = program.getElementAt(e.getX(), e.getY());
