@@ -76,6 +76,7 @@ public class MenuPane extends GraphicsPane {
 		{
 			program.addControlsPop();
 		}
+		
 		else if(obj==exit)
 		{
 			Runtime.getRuntime().exit(0);
