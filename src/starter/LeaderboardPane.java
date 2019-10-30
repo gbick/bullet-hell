@@ -44,6 +44,12 @@ public class LeaderboardPane extends GraphicsPane {
 			level.setFont("Arial-Bold-24");
 			levels.add(level);
 		}
+		easy = new GLabel("Easy Mode", level.getX(), 250);
+		easy.setFont("Arial-Bold-16");
+		medium = new GLabel("Medium Mode", level.getX(), 350);
+		medium.setFont("Arial-Bold-16");
+		hard = new GLabel("Hard Mode", level.getX(), 450);
+		hard.setFont("Arial-Bold-16");
 		//=====
 	}
 
@@ -57,6 +63,9 @@ public class LeaderboardPane extends GraphicsPane {
 		if (!levels.isEmpty()) {
 			program.add(levels.get(0));
 		}
+		program.add(easy);
+		program.add(medium);
+		program.add(hard);
 		//=====
 	}
 
