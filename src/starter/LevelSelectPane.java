@@ -30,7 +30,7 @@ public class LevelSelectPane extends GraphicsPane {
 	
 	// private GImage ship = new GImage("sprites//player//ship1.png", 0, 0);
 	
-	File file = new File("data\\unlockedLevels.txt");
+	File file = new File("../media/data/unlockedLevels.txt");
 	Scanner scan;
 	//=====
 

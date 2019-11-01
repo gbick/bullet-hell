@@ -158,7 +158,7 @@ public class FileSelectPop extends GraphicsPane {
 				charNum--;
 			}
 			else if(charNum < 3 && !e.isActionKey() && e.getKeyChar() != KeyEvent.CHAR_UNDEFINED &&
-					e.getKeyCode() != KeyEvent.VK_DELETE && e.getKeyCode() != KeyEvent.VK_ENTER){
+					e.getKeyCode() != KeyEvent.VK_DELETE && e.getKeyCode() != KeyEvent.VK_ENTER && e.getKeyCode() != KeyEvent.VK_BACK_SPACE){
 				id.set(charNum, e.getKeyChar());
 				charNum++;
 			}
