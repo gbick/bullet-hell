@@ -9,11 +9,12 @@ public class BasicBullet implements Bullet {
 	// TODO make a sprite for the Bullet
 	private MainApplication program;
 	
-	public BasicBullet(int damage, Path bulletPattern) {
+	public BasicBullet(int damage) {
 		this.damage = damage;
-		this.bulletPattern = bulletPattern;
+		bulletPattern.setMovementEquation(MovementEquation.STRAIGHT);
+		bulletPattern.setDirection();
 	}
-	
+		
 	@Override
 	public void spawn() {
 		// TODO Auto-generated method stub
