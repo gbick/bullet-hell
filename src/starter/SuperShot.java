@@ -16,8 +16,4 @@ public class SuperShot implements Bullet{
 	public void despawn() {
 		program.remove(sprite);
 	}
-	@Override
-	public void start() {}
-	@Override
-	public void stop() {}
 }
