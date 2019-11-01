@@ -12,7 +12,7 @@ public class MainApplication extends GraphicsApplication {
 	
 	//Popups
 	private FileSelectPop load;
-	private ControlsPop controls;
+	private InstructPop controls;
 	private ExitPop exitPop;
 	private int count;
 
@@ -25,7 +25,7 @@ public class MainApplication extends GraphicsApplication {
 		lead = new LeaderboardPane(this);
 		sel = new LevelSelectPane(this);
 		load = new FileSelectPop(this);
-		controls = new ControlsPop(this);
+		controls = new InstructPop(this);
 		exitPop = new ExitPop(this);
 		switchToMenu();
 	}
@@ -49,8 +49,7 @@ public class MainApplication extends GraphicsApplication {
 		addPop(load);
 	}
 	
-	
-	public void addControlsPop() {
+	public void addInstructPop() {
 		addPop(controls);
 	}
 	public void addExitPop() {

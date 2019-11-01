@@ -7,7 +7,7 @@ import acm.graphics.GImage;
 import acm.graphics.GLabel;
 import acm.graphics.GObject;
 
-public class ControlsPop extends GraphicsPane {
+public class InstructPop extends GraphicsPane {
 	
 	private MainApplication program;
 	
@@ -16,7 +16,7 @@ public class ControlsPop extends GraphicsPane {
 	GButton label2;
 	GButton label3;
 	
-	public ControlsPop(MainApplication app)
+	public InstructPop(MainApplication app)
 	{
 		this.program = app;
 		frame = new GButton("", program.getWidth()/4, program.getHeight()/4, program.getWidth()/2, program.getHeight()/2);
