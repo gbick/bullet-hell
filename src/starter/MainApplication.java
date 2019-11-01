@@ -13,6 +13,7 @@ public class MainApplication extends GraphicsApplication {
 	//Popups
 	private FileSelectPop load;
 	private ControlsPop controls;
+	private ExitPop exitPop;
 	private int count;
 
 	public void init() {
@@ -25,6 +26,7 @@ public class MainApplication extends GraphicsApplication {
 		sel = new LevelSelectPane(this);
 		load = new FileSelectPop(this);
 		controls = new ControlsPop(this);
+		exitPop = new ExitPop(this);
 		switchToMenu();
 	}
 
@@ -51,10 +53,13 @@ public class MainApplication extends GraphicsApplication {
 	public void addControlsPop() {
 		addPop(controls);
 	}
-	
+	public void addExitPop() {
+		addPop(exitPop);
+	}
 
 	private void playRandomSound() {
 		AudioPlayer audio = AudioPlayer.getInstance();
 		audio.playSound(MUSIC_FOLDER, SOUND_FILES[count % SOUND_FILES.length]);
 	}
+
 }
