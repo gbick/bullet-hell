@@ -5,4 +5,5 @@ public interface Obstacle {
 	public void despawn();
 	public void start();
 	public void stop();
+	public void hit(Bullet bullet);
 }
