@@ -37,7 +37,6 @@ public class LeaderboardPane extends GraphicsPane {
 		leaderboard.setFont("Arial-Bold-32");
 		nextLevel = new GButton("Next Level", MainApplication.WINDOW_WIDTH*((double)7/9), 0, MainApplication.WINDOW_WIDTH*((double)2/9), MainApplication.WINDOW_HEIGHT*((double)1/18));
 		prevLevel = new GButton("Previous Level", 0, 0, MainApplication.WINDOW_WIDTH*((double)2/9), MainApplication.WINDOW_HEIGHT*((double)1/18));
-		levelNumber = 1;
 		returnToMenu = new GButton("Return to Main Menu", 0, MainApplication.WINDOW_HEIGHT-MainApplication.WINDOW_HEIGHT*((double)1/18), MainApplication.WINDOW_WIDTH*((double)2/9), MainApplication.WINDOW_HEIGHT*((double)1/18));
 		for(int i = 0; i < NUM_LEVELS; ++i) {
 			level = new GLabel("Level " + (i+1), MainApplication.WINDOW_WIDTH*((double)4/9), MainApplication.WINDOW_HEIGHT*((double)1/3));
@@ -56,6 +55,7 @@ public class LeaderboardPane extends GraphicsPane {
 	@Override
 	public void showContents() {
 		//TODO program.add(" ") all objects that should be immediately visible on load
+		levelNumber = 1;
 		program.add(nextLevel);
 		program.add(prevLevel);
 		program.add(leaderboard);
