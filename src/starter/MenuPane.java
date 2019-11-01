@@ -2,6 +2,7 @@ package starter;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 import acm.graphics.GLabel;
@@ -60,6 +61,7 @@ public class MenuPane extends GraphicsPane {
 		//ICheck for popups
 		if(program.getCurPop() != null) {
 			program.getCurPop().mousePressed(e);
+			return;
 		}
 		
 		//No popups
@@ -79,6 +81,19 @@ public class MenuPane extends GraphicsPane {
 		
 		else if(obj==exit)
 		{
+			System.exit(0);
+		}
+	}
+	
+	@Override
+	public void keyPressed(KeyEvent e) {
+		//Check for popups
+		if(program.getCurPop() != null) {
+			program.getCurPop().keyPressed(e);
+			return;
+		}
+		
+		if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
 			System.exit(0);
 		}
 	}

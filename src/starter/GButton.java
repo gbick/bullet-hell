@@ -72,4 +72,12 @@ public class GButton extends GCompound {
 	public String getLabelText() {
 		return message.getLabel();
 	}
+	
+	public void setLabelText(String newText) {
+		message.setLabel(newText);
+		sizeLabelFont(message, rect.getWidth() - BUFFER, getHeight() - BUFFER);
+		double centerX = rect.getWidth() / 2 - message.getWidth() / 2;
+		double centerY = rect.getHeight() / 2 + message.getAscent() / 4;
+		add(message, centerX, centerY);
+	}
 }

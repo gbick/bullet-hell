@@ -1,4 +1,5 @@
 package starter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -7,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import acm.graphics.GImage;
+import acm.graphics.GLabel;
 import acm.graphics.GObject;
 
 public class FileSelectPop extends GraphicsPane {
@@ -17,8 +19,15 @@ public class FileSelectPop extends GraphicsPane {
 	GButton file1;
 	GButton file2;
 	GButton file3;
+	GObject sel;
+	GButton newFile;
+	GLabel instructions;
 	String display;
+	int charNum = 0;
+	int num;
+	boolean confirmed = true;
 	
+	ArrayList<Character> id = new ArrayList<Character>();
 	File save;
 	Scanner scan;
 	
@@ -28,6 +37,10 @@ public class FileSelectPop extends GraphicsPane {
 		this.program = app;
 		//TODO Declare object properties here
 		frame = new GButton("", program.getWidth()/4, program.getHeight()/4, program.getWidth()/2, program.getHeight()/2);
+		instructions = new GLabel("Please enter a 3-character ID: ", 0, 0);
+		id.add('_');
+		id.add('_');
+		id.add('_');
 		//=====
 	}
 	public void checkSaves() {
@@ -77,6 +90,11 @@ public class FileSelectPop extends GraphicsPane {
 		program.remove(file1);
 		program.remove(file2);
 		program.remove(file3);
+		program.remove(instructions);
+		if(!confirmed) {		
+			program.remove(newFile);
+			confirmed = true;
+		}
 		//=====
 	}
 
@@ -89,8 +107,11 @@ public class FileSelectPop extends GraphicsPane {
 			program.delPop();
 			return;
 		}
-		GObject sel = program.getElementAt(e.getX(), e.getY());
-		int num = 0;
+		if(!confirmed) {
+			return;
+		}
+		sel = program.getElementAt(e.getX(), e.getY());
+		num = 0;
 		if(sel == file1) {
 			num = 1;
 		}
@@ -102,22 +123,71 @@ public class FileSelectPop extends GraphicsPane {
 		}
 		if(sel == file1 || sel == file2 || sel == file3) {
 			if(((GButton) sel).getLabelText() == "Empty") {
-				//New file
-				File newSave = new File("data\\saves\\save" + num + ".txt");
-				try {
-					newSave.createNewFile();
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				program.delPop();
-				program.switchToSel();
+				
+				//Prompt for ID
+				newFile  = (GButton) sel;
+				program.remove(newFile);
+				((GButton) sel).setLabelText("_ _ _");
+				instructions.setLocation(newFile.getX() + 10, newFile.getY() + 10);
+				program.add(newFile);
+				program.add(instructions);
+				
+				//Wait for ID
+				confirmed = false;
 			}
 			else {
 				//Load existing file
 				program.delPop();
 				program.switchToSel();
 			}
+		}
+	}
+	
+	@Override
+	public void keyPressed(KeyEvent e) {
+		if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+			program.remove(instructions);
+			program.delPop();
+			return;
+		}
+		
+		//Listening for ID input
+		if(!confirmed) {
+			if(charNum != 0 && e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
+				id.set(charNum - 1, '_');
+				charNum--;
+			}
+			else if(charNum < 3 && !e.isActionKey() && e.getKeyChar() != KeyEvent.CHAR_UNDEFINED &&
+					e.getKeyCode() != KeyEvent.VK_DELETE && e.getKeyCode() != KeyEvent.VK_ENTER){
+				id.set(charNum, e.getKeyChar());
+				charNum++;
+			}
+			else {
+				if(charNum == 3 && e.getKeyCode() == KeyEvent.VK_ENTER) {
+					program.delPop();
+					charNum = 0;
+					id.set(0, '_');
+					id.set(1,  '_');
+					id.set(2, '_');
+					confirmed = true;
+					program.switchToSel();
+					
+					//New file
+					File newSave = new File("data\\saves\\save" + num + ".txt");
+					try {
+						newSave.createNewFile();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					return;
+				}
+			}
+			newFile.setLabelText(id.get(0) + " " + id.get(1) + " " + id.get(2));
+			program.remove(instructions);
+			program.remove(newFile);
+			program.add(newFile);
+			program.add(instructions);
 		}
 	}
 }
