@@ -1,11 +1,15 @@
 package starter;
 
 public abstract class Path {
-	private MovementEquation movementEquation;
+	private MovementEquation movement;
 	private double direction; // slope of movement direction for bullet
 	
+	public void setMovementEquation(MovementEquation movement) {
+		this.movement = movement;
+	}
+	
 	public void setDirection() {
-		switch(movementEquation) {
+		switch(movement) {
 			case STRAIGHT:
 				direction = 0;
 				break;
