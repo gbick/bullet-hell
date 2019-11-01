@@ -14,6 +14,7 @@ public class MainApplication extends GraphicsApplication {
 	private FileSelectPop load;
 	private InstructPop controls;
 	private ExitPop exitPop;
+	private PausePop pausePop;
 	private int count;
 
 	public void init() {
@@ -27,6 +28,7 @@ public class MainApplication extends GraphicsApplication {
 		load = new FileSelectPop(this);
 		controls = new InstructPop(this);
 		exitPop = new ExitPop(this);
+		pausePop = new PausePop(this);
 		switchToMenu();
 	}
 
@@ -54,6 +56,10 @@ public class MainApplication extends GraphicsApplication {
 	}
 	public void addExitPop() {
 		addPop(exitPop);
+	}
+	
+	public void addPausePop() {
+		addPop(pausePop);
 	}
 
 	private void playRandomSound() {
