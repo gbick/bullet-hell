@@ -81,7 +81,7 @@ public class GameScreen extends GraphicsPane{
 	{
 		if(e.getKeyCode() == KeyEvent.VK_ESCAPE)
 		{
-			//add pausePop
+			program.addPausePop();
 		}
 	}
 	
