@@ -15,6 +15,7 @@ public class MainApplication extends GraphicsApplication {
 	private InstructPop controls;
 	private ExitPop exitPop;
 	private int count;
+	
 
 	public void init() {
 		setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
