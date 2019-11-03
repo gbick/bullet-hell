@@ -27,55 +27,15 @@ public class LevelSelectPane extends GraphicsPane {
 	private GLabel title;
 	private ArrayList<GButton> levels;
 	private ArrayList<Integer> lockedStatus;
+	private int unlocked;
 	
 	// private GImage ship = new GImage("sprites//player//ship1.png", 0, 0);
-	
-	File file = new File("../media/data/unlockedLevels.txt");
 	Scanner scan;
 	//=====
 
 	public LevelSelectPane(MainApplication app) {
 		this.program = app;
 		//TODO Declare object properties here
-		//Read level unlocks
-		lockedStatus = new ArrayList<Integer>();
-		try {
-			scan = new Scanner(file);
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		while (scan.hasNextLine()) {
-				lockedStatus.add(scan.nextInt());
-		} 
-		
-		
-		//Set up number of levels for display
-		levels = new ArrayList<GButton>();
-		int spaceBetween = ((program.getWidth() - (MARGIN * 2) - (LEVEL_BUTTON_SIZE * NUM_LEVELS)) / NUM_LEVELS);
-		GButton temp;
-		for(int i = 0; i < NUM_LEVELS; i++) {
-			if(i == 0) {
-				if(lockedStatus.get(i) == 0) {					
-					temp = new GButton("Level " + (i + 1), MARGIN, LEVEL_GRID_HEIGHT, LEVEL_BUTTON_SIZE, LEVEL_BUTTON_SIZE);
-				}
-				else {
-					temp = new GButton("Level " + (i + 1), MARGIN, LEVEL_GRID_HEIGHT, LEVEL_BUTTON_SIZE, LEVEL_BUTTON_SIZE, Color.GRAY);
-				}
-			}
-			else {
-				if(lockedStatus.get(i) == 0) {
-				temp = new GButton("Level " + (i + 1), MARGIN + (spaceBetween * i) + (LEVEL_BUTTON_SIZE * i), LEVEL_GRID_HEIGHT, 
-						LEVEL_BUTTON_SIZE, LEVEL_BUTTON_SIZE);
-				}
-				else {
-				temp = new GButton("Level " + (i + 1), MARGIN + (spaceBetween * i) + (LEVEL_BUTTON_SIZE * i), LEVEL_GRID_HEIGHT, 
-						LEVEL_BUTTON_SIZE, LEVEL_BUTTON_SIZE, Color.GRAY);
-				}
-			}
-			levels.add(temp);
-		}
 		
 		title = new GLabel("Choose a level", program.getWidth()/2 - 80, 50);
 		title.setFont("Arial-25");
@@ -87,6 +47,45 @@ public class LevelSelectPane extends GraphicsPane {
 		startButton.setFillColor(Color.MAGENTA);
 		//=====
 	}
+	
+	public void scanLevelStatus() {
+		//Read level unlocks
+		lockedStatus = new ArrayList<Integer>();
+		try {
+			scan = new Scanner(program.getSave());
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return;
+		}
+		
+		scan.nextLine();
+		scan.skip("Unlocked Levels: ");
+		unlocked = scan.nextInt() - 1;
+		scan.close();
+		
+		
+		//Set up number of levels for display
+		levels = new ArrayList<GButton>();
+		int spaceBetween = ((program.getWidth() - (MARGIN * 2) - (LEVEL_BUTTON_SIZE * NUM_LEVELS)) / NUM_LEVELS);
+		GButton temp;
+		for(int i = 0; i < NUM_LEVELS; i++) {
+			if(i == 0) {				
+				temp = new GButton("Level " + (i + 1), MARGIN, LEVEL_GRID_HEIGHT, LEVEL_BUTTON_SIZE, LEVEL_BUTTON_SIZE);
+			}
+			else {
+				if(unlocked >= i) {
+				temp = new GButton("Level " + (i + 1), MARGIN + (spaceBetween * i) + (LEVEL_BUTTON_SIZE * i), LEVEL_GRID_HEIGHT, 
+						LEVEL_BUTTON_SIZE, LEVEL_BUTTON_SIZE);
+				}
+				else {
+				temp = new GButton("Level " + (i + 1), MARGIN + (spaceBetween * i) + (LEVEL_BUTTON_SIZE * i), LEVEL_GRID_HEIGHT, 
+						LEVEL_BUTTON_SIZE, LEVEL_BUTTON_SIZE, Color.GRAY);
+				}
+			}
+			levels.add(temp);
+		}
+	}
 
 	@Override
 	public void showContents() {
@@ -96,6 +95,7 @@ public class LevelSelectPane extends GraphicsPane {
 		program.add(title);
 		
 		//Add grid of levels
+		scanLevelStatus();
 		for(int i = 0; i < levels.size(); i++) {
 			program.add(levels.get(i));
 		}

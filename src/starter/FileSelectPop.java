@@ -75,7 +75,6 @@ public class FileSelectPop extends GraphicsPane {
 				program.delPop();
 				charNum = 0;
 				confirmed = true;
-				program.switchToSel();
 				
 				try {
 					saves.get(num - 1).createNewFile();
@@ -96,6 +95,7 @@ public class FileSelectPop extends GraphicsPane {
 		        id.set(1,  '_');
 		        id.set(2, '_');
 		        program.setSave(saves.get(num-1));
+		        program.switchToSel();
 				return;
 			}
 		}
@@ -136,7 +136,12 @@ public class FileSelectPop extends GraphicsPane {
 			}
 			if(display != "Empty") {
 				scan.skip("ID: ");
-				display = scan.next();
+				if(scan.hasNext("Unlocked")) {
+					display = "   ";
+				}
+				else {				
+					display = scan.next();
+				}
 			}
 			switch (i) {
 			case 1:
