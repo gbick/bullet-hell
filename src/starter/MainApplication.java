@@ -9,6 +9,7 @@ public class MainApplication extends GraphicsApplication {
 	private MenuPane menu;
 	private LeaderboardPane lead;
 	private LevelSelectPane sel;
+	private GameScreen game;
 	
 	//Popups
 	private FileSelectPop load;
@@ -24,6 +25,7 @@ public class MainApplication extends GraphicsApplication {
 		menu = new MenuPane(this);
 		lead = new LeaderboardPane(this);
 		sel = new LevelSelectPane(this);
+		game = new GameScreen(this);
 		load = new FileSelectPop(this);
 		controls = new InstructPop(this);
 		exitPop = new ExitPop(this);
@@ -39,6 +41,9 @@ public class MainApplication extends GraphicsApplication {
 	}
 	public void switchToSel() {
 		switchToScreen(sel);
+	}
+	public void switchToGame() {
+		switchToScreen(game);
 	}
 	
 	public void delPop() {

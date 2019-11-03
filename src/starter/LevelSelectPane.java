@@ -125,6 +125,9 @@ public class LevelSelectPane extends GraphicsPane {
 			if(clicked == menuButton) {
 				program.switchToMenu();
 			}
+			if(clicked == startButton) {
+				program.switchToGame();
+			}
 		}
 	}
 }
