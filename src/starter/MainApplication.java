@@ -22,6 +22,7 @@ public class MainApplication extends GraphicsApplication {
 	private int count;
 	
 	private File currentSave;
+	private int currentLevel;
 
 	public void init() {
 		setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -45,6 +46,14 @@ public class MainApplication extends GraphicsApplication {
 	
 	public File getSave() {
 		return currentSave;
+	}
+	
+	public void setLevel(int level) {
+		currentLevel = level;
+	}
+	
+	public int getLevel() {
+		return currentLevel;
 	}
 
 	public void switchToMenu() {

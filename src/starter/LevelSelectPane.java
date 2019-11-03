@@ -28,8 +28,8 @@ public class LevelSelectPane extends GraphicsPane {
 	private ArrayList<GButton> levels;
 	private ArrayList<Integer> lockedStatus;
 	private int unlocked;
+	private int level = 0;
 	
-	// private GImage ship = new GImage("sprites//player//ship1.png", 0, 0);
 	Scanner scan;
 	//=====
 
@@ -125,8 +125,22 @@ public class LevelSelectPane extends GraphicsPane {
 			if(clicked == menuButton) {
 				program.switchToMenu();
 			}
-			if(clicked == startButton) {
+			if(clicked == startButton && level != 0) {
+				program.setLevel(level);
 				program.switchToGame();
+			}
+			for(int i = 0; i < levels.size(); i++) {
+				if(clicked == levels.get(i) && unlocked >= i && level != i + 1) {
+					if(level != 0) {	
+						levels.get(level - 1).setFillColor(Color.WHITE);
+						program.remove(levels.get(level - 1));
+						program.add(levels.get(level - 1));
+					}
+					level = i + 1;
+					levels.get(i).setFillColor(Color.LIGHT_GRAY);
+					program.remove(levels.get(level - 1));
+					program.add(levels.get(level - 1));
+				}
 			}
 		}
 	}
