@@ -9,11 +9,13 @@ public class MainApplication extends GraphicsApplication {
 	private MenuPane menu;
 	private LeaderboardPane lead;
 	private LevelSelectPane sel;
+	private GameScreen game;
 	
 	//Popups
 	private FileSelectPop load;
 	private InstructPop controls;
 	private ExitPop exitPop;
+	private PausePop pausePop;
 	private int count;
 	
 
@@ -25,9 +27,11 @@ public class MainApplication extends GraphicsApplication {
 		menu = new MenuPane(this);
 		lead = new LeaderboardPane(this);
 		sel = new LevelSelectPane(this);
+		game = new GameScreen(this);
 		load = new FileSelectPop(this);
 		controls = new InstructPop(this);
 		exitPop = new ExitPop(this);
+		pausePop = new PausePop(this);
 		switchToMenu();
 	}
 
@@ -40,6 +44,9 @@ public class MainApplication extends GraphicsApplication {
 	}
 	public void switchToSel() {
 		switchToScreen(sel);
+	}
+	public void switchToGame() {
+		switchToScreen(game);
 	}
 	
 	public void delPop() {
@@ -55,6 +62,10 @@ public class MainApplication extends GraphicsApplication {
 	}
 	public void addExitPop() {
 		addPop(exitPop);
+	}
+	
+	public void addPausePop() {
+		addPop(pausePop);
 	}
 
 	private void playRandomSound() {

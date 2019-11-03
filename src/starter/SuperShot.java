@@ -6,9 +6,19 @@ public class SuperShot implements Bullet{
 	private Path bulletPattern;
 	private int damage;
 	private GImage sprite;
+	private MainApplication program;
 	
-	public void spawn() {}
-	public void despawn() {}
-	public void start() {}
-	public void stop() {}
+	public SuperShot(int damage, Path bulletPattern) {
+		this.damage = damage;
+		this.bulletPattern = bulletPattern;
+	}
+	
+	@Override
+	public void spawn() {
+		program.add(sprite);
+	}
+	@Override
+	public void despawn() {
+		program.remove(sprite);
+	}
 }
