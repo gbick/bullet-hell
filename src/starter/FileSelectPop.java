@@ -4,6 +4,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -73,9 +74,6 @@ public class FileSelectPop extends GraphicsPane {
 			if(charNum == 3 && e.getKeyCode() == KeyEvent.VK_ENTER) {
 				program.delPop();
 				charNum = 0;
-				id.set(0, '_');
-				id.set(1,  '_');
-				id.set(2, '_');
 				confirmed = true;
 				program.switchToSel();
 				
@@ -85,6 +83,19 @@ public class FileSelectPop extends GraphicsPane {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
+		        try {
+		            FileWriter writer = new FileWriter(saves.get(num-1), true);
+		            writer.write("ID: " + id.get(0) + id.get(1) + id.get(2));
+		            writer.write("\r\n");
+		            writer.write("Unlocked Levels: 1");
+		            writer.close();
+		        } catch (IOException e2) {
+		            e2.printStackTrace();
+		        }
+		        id.set(0, '_');
+		        id.set(1,  '_');
+		        id.set(2, '_');
+		        program.setSave(saves.get(num-1));
 				return;
 			}
 		}
@@ -117,11 +128,15 @@ public class FileSelectPop extends GraphicsPane {
 		for(int i = 1; i <= 3; i++) {
 			save = new File("../media/data/saves/save" + (i) + ".txt");
 			saves.add(save);
-			display = "Save " + i;
+			display = "";
 			try {
 				scan = new Scanner(save);
 			} catch (FileNotFoundException e) {
 				display = "Empty";
+			}
+			if(display != "Empty") {
+				scan.skip("ID: ");
+				display = scan.next();
 			}
 			switch (i) {
 			case 1:
@@ -254,6 +269,7 @@ public class FileSelectPop extends GraphicsPane {
 			}
 			else {
 				//Load existing file
+				program.setSave(saves.get(num - 1));
 				program.delPop();
 				program.switchToSel();
 			}

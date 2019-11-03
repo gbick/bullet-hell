@@ -1,4 +1,7 @@
 package starter;
+
+import java.io.File;
+
 public class MainApplication extends GraphicsApplication {
 	public static final int WINDOW_WIDTH = 650;
 	public static final int WINDOW_HEIGHT = 650;
@@ -18,6 +21,7 @@ public class MainApplication extends GraphicsApplication {
 	private PausePop pausePop;
 	private int count;
 	
+	private File currentSave;
 
 	public void init() {
 		setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -33,6 +37,14 @@ public class MainApplication extends GraphicsApplication {
 		exitPop = new ExitPop(this);
 		pausePop = new PausePop(this);
 		switchToMenu();
+	}
+	
+	public void setSave(File save) {
+		currentSave = save;
+	}
+	
+	public File getSave() {
+		return currentSave;
 	}
 
 	public void switchToMenu() {
