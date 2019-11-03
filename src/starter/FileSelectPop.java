@@ -196,16 +196,6 @@ public class FileSelectPop extends GraphicsPane {
 	//Don't forget your @Override!
 	@Override
 	public void mousePressed(MouseEvent e) {
-		//Click outside of window
-		if(e.getX() < frame.getX() || e.getX() > frame.getX() + frame.getWidth() || 
-				e.getY() < frame.getY() || e.getY() > frame.getY() + frame.getHeight()) {
-			program.delPop();
-			return;
-		}
-		//Do nothing if already waiting for new file ID
-		if(!confirmed) {
-			return;
-		}
 		if(!delConfirmed) {
 			if(program.getElementAt(e.getX(), e.getY()) == yes) {
 				deleteSave(sel);
@@ -222,6 +212,16 @@ public class FileSelectPop extends GraphicsPane {
 			program.remove(no);
 			delConfirmed = true;
 			program.addPopFileSelect();
+			return;
+		}
+		//Click outside of window
+		if(e.getX() < frame.getX() || e.getX() > frame.getX() + frame.getWidth() || 
+				e.getY() < frame.getY() || e.getY() > frame.getY() + frame.getHeight()) {
+			program.delPop();
+			return;
+		}
+		//Do nothing if already waiting for new file ID
+		if(!confirmed) {
 			return;
 		}
 		//set sel to current selected object
