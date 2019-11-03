@@ -49,7 +49,7 @@ public class PausePop extends GraphicsPane {
 		GObject obj = program.getElementAt(e.getX(), e.getY());
 		if(obj == quit)
 		{
-			System.exit(0);
+			program.addExitPop();
 		}
 		else if(obj == resume)
 		{

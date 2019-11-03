@@ -79,10 +79,15 @@ public class GameScreen extends GraphicsPane{
 	
 	public void keyPressed(KeyEvent e)
 	{
-		if(e.getKeyCode() == KeyEvent.VK_ESCAPE)
+		if(e.getKeyCode() == KeyEvent.VK_ESCAPE || e.getKeyCode() == KeyEvent.VK_P)
 		{
 			program.addPausePop();
 		}
+		if(e.getKeyCode() == KeyEvent.VK_SPACE)
+		{
+			//add SuperShot methods
+		}
+		
 	}
 	
 }
