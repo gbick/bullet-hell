@@ -3,6 +3,8 @@ package starter;
 import java.awt.Color;
 
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
@@ -12,7 +14,7 @@ import acm.graphics.GObject;
 import acm.graphics.GRect;
 import acm.graphics.GRoundRect;
 
-public class GameScreen extends GraphicsPane{
+public class GameScreen extends GraphicsPane implements ActionListener {
 
 	private MainApplication program;
 	
@@ -63,6 +65,9 @@ public class GameScreen extends GraphicsPane{
 		healthBar.setFillColor(Color.MAGENTA); // TODO figure out why this isn't working?
 		gameSection.setFillColor(Color.RED); // Or this?
 		
+		playerShip = new GImage("../media/sprites/player/ship1.png", 250, 543); // TODO refactor
+		program.gameTimer.setInitialDelay(3000);
+		
 	}
 	
 	@Override
@@ -80,6 +85,8 @@ public class GameScreen extends GraphicsPane{
 		//program.add(bossBar);
 		program.add(healthBar);
 		program.add(superBar);
+		program.add(playerShip);
+		program.gameTimer.start();
 	}
 
 	@Override
@@ -94,6 +101,7 @@ public class GameScreen extends GraphicsPane{
 		if(e.getKeyCode() == KeyEvent.VK_ESCAPE || e.getKeyCode() == KeyEvent.VK_P)
 		{
 			program.addPausePop();
+			program.gameTimer.stop();
 		}
 		if(e.getKeyCode() == KeyEvent.VK_SPACE)
 		{
@@ -108,6 +116,11 @@ public class GameScreen extends GraphicsPane{
 			program.getCurPop().mousePressed(e);
 			return;
 		}
+	}
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		
 	}
 	
 }
