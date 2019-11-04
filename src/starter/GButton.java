@@ -80,4 +80,7 @@ public class GButton extends GCompound {
 		double centerY = rect.getHeight() / 2 + message.getAscent() / 4;
 		add(message, centerX, centerY);
 	}
+	public void setEdgeColor(Color col) {
+		rect.setColor(col);
+	}
 }

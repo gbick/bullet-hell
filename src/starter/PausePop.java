@@ -1,5 +1,6 @@
 package starter;
 
+import java.awt.Color;
 import java.awt.event.MouseEvent;
 
 import acm.graphics.GLabel;
@@ -16,13 +17,18 @@ public class PausePop extends GraphicsPane {
 	public PausePop(MainApplication app)
 	{
 		this.program = app;
-		frame = new GButton("", program.getWidth()/4, program.getHeight()/4, program.getWidth()/2, program.getHeight()/2);
-		message = new GLabel("The game has been paused", frame.getX()  + frame.getWidth()/65, frame.getY()  + frame.getWidth()/65);
-		message.setFont("Arial-16");
+		frame = new GButton("", program.getWidth()/5, program.getHeight()/3, program.getWidth()/2, program.getHeight()*((double)4/13));
+		frame.setFillColor(Color.MAGENTA);
+		message = new GLabel("The game has been paused", frame.getX()  + frame.getWidth()/30, frame.getHeight()+60);
+		message.setFont("Arial-24");
 		quit = new GButton("Quit Game", frame.getX() + frame.getWidth()/65, frame.getY() + frame.getHeight()/3 + frame.getWidth()/65,
 				frame.getWidth() - ((frame.getWidth()/65) * 2), frame.getHeight()/3 - ((frame.getWidth()/65) * 2));
+		quit.setFillColor(Color.MAGENTA);
+		quit.setEdgeColor(Color.MAGENTA);
 		resume = new GButton("Resume Game", frame.getX() + frame.getWidth()/65, frame.getY() + ((frame.getHeight()/3) * 2) + frame.getWidth()/65,
 				frame.getWidth() - ((frame.getWidth()/65) * 2), frame.getHeight()/3 - ((frame.getWidth()/65) * 2));
+		resume.setFillColor(Color.MAGENTA);
+		resume.setEdgeColor(Color.MAGENTA);
 	}
 
 	@Override
