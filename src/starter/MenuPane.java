@@ -13,6 +13,7 @@ public class MenuPane extends GraphicsPane {
 	private MainApplication program; // you will use program to get access to
 										// all of the GraphicsProgram calls
 	private GImage title;
+	private GImage background;
 	private GButton start;
 	private GButton lead;
 	private GButton controls;
@@ -21,8 +22,10 @@ public class MenuPane extends GraphicsPane {
 	public MenuPane(MainApplication app) {
 		super();
 		program = app;
+		
+		background = new GImage("../media/sprites/screen_images/title_back.png", 0, 0);
+		
 		title = new GImage("../media/sprites/screen_images/title.png",program.getWidth()/5, 0);
-		program.add(title);
 		
 		start = new GButton("Start Game", program.getWidth()/2 - 100 , program.getHeight()/8 + 100, 200, 50);
 		start.setFillColor(Color.MAGENTA);
@@ -39,6 +42,8 @@ public class MenuPane extends GraphicsPane {
 
 	@Override
 	public void showContents() {
+		program.add(background);
+		program.add(title);
 		program.add(start);
 		program.add(lead);
 		program.add(controls);
@@ -53,6 +58,7 @@ public class MenuPane extends GraphicsPane {
 		program.remove(controls);
 		program.remove(exit);
 		program.remove(title);
+		program.remove(background);
 	}
 
 	@Override
