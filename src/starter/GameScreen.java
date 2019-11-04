@@ -10,6 +10,7 @@ import acm.graphics.GImage;
 import acm.graphics.GLabel;
 import acm.graphics.GObject;
 import acm.graphics.GRect;
+import acm.graphics.GRoundRect;
 
 public class GameScreen extends GraphicsPane{
 
@@ -29,6 +30,8 @@ public class GameScreen extends GraphicsPane{
 	private GLabel shotsLabel;
 	private GRect bossBarFrame;
 	private GRect bossBar;
+	private GRoundRect healthBar;
+	private GRoundRect superBar;
 	
 	public GameScreen(MainApplication app)
 	{
@@ -50,9 +53,15 @@ public class GameScreen extends GraphicsPane{
 		
 		shotsLabel = new GLabel("Shots: ", program.getWidth()-125, program.getHeight()/5);
 		
-		bossBarFrame = new GRect(program.getWidth()/30, program.getHeight()/30, GAME_SCREEN_WIDTH-50, 10);
+		//bossBarFrame = new GRect(program.getWidth()/30, program.getHeight()/30, GAME_SCREEN_WIDTH-50, 10);
 		
-		bossBar = new GRect(program.getWidth()/30, program.getHeight()/30, GAME_SCREEN_WIDTH-45, 8);
+		//bossBar = new GRect(program.getWidth()/30, program.getHeight()/30, GAME_SCREEN_WIDTH-45, 8);
+		
+		healthBar = new GRoundRect(90, 605, 400, 10); // TODO refactor for flexibility
+		
+		superBar = new GRoundRect(114, 630, 400, 10); // TODO refactor for flexibility
+		healthBar.setFillColor(Color.MAGENTA); // TODO figure out why this isn't working?
+		gameSection.setFillColor(Color.RED); // Or this?
 		
 	}
 	
@@ -67,8 +76,10 @@ public class GameScreen extends GraphicsPane{
 		program.add(pointsLabel);
 		program.add(killsLabel);
 		program.add(shotsLabel);
-		program.add(bossBarFrame);
-		program.add(bossBar);
+		//program.add(bossBarFrame);
+		//program.add(bossBar);
+		program.add(healthBar);
+		program.add(superBar);
 	}
 
 	@Override
