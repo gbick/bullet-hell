@@ -117,13 +117,23 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	}
 	
 	@Override
+	public void mouseMoved(MouseEvent e) {
+		if(e.getX() > gameSection.getX() && e.getX() + playerShip.getWidth() < gameSection.getX() + gameSection.getWidth()) {
+			playerShip.setLocation(e.getX() - playerShip.getWidth()/2, playerShip.getY());
+		}
+		if(e.getY() > gameSection.getY() && e.getY() + playerShip.getHeight() < gameSection.getY() + gameSection.getHeight()) {
+			playerShip.setLocation(playerShip.getX(), e.getY() - playerShip.getHeight()/2);
+		}
+	}
+	
+	@Override
 	public void mousePressed(MouseEvent e) {
 		if(program.getCurPop() != null) {
 			program.getCurPop().mousePressed(e);
 			return;
 		}
 		else {
-			BasicBullet temp = new BasicBullet(5);
+			BasicBullet temp = new BasicBullet(5, playerShip);
 			bullets.add(temp);
 			program.add(temp.bullet);
 		}

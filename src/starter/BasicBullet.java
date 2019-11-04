@@ -12,11 +12,11 @@ public class BasicBullet implements Bullet {
 	// TODO make a sprite for the Bullet
 	private MainApplication program;
 	
-	public BasicBullet(int damage) {
+	public BasicBullet(int damage, GImage shooter) {
 		this.damage = damage;
 		//bulletPattern.setMovementEquation(MovementEquation.STRAIGHT); TODO figure out what the bug is here
 		//bulletPattern.setDirection();
-		bullet = new GRoundRect(280, 530, 3, 7); // TODO will need to adjust to position of player's ship
+		bullet = new GRoundRect(shooter.getX() + shooter.getWidth()/2, shooter.getY(), 3, 7); // TODO will need to adjust to position of player's ship
 		bullet.setFillColor(Color.RED);
 	}
 		
