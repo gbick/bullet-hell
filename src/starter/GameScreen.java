@@ -7,6 +7,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+
+import javax.swing.Timer;
 
 import acm.graphics.GImage;
 import acm.graphics.GLabel;
@@ -34,6 +37,8 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	private GRect bossBar;
 	private GRoundRect healthBar;
 	private GRoundRect superBar;
+	private ArrayList<BasicBullet> bullets;
+	private Timer gameTimer;
 	
 	public GameScreen(MainApplication app)
 	{
@@ -66,7 +71,8 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		gameSection.setFillColor(Color.RED); // Or this?
 		
 		playerShip = new GImage("../media/sprites/player/ship1.png", 250, 543); // TODO refactor
-		program.gameTimer.setInitialDelay(3000);
+		gameTimer = new Timer(10, this);
+		bullets = new ArrayList<BasicBullet>();
 		
 	}
 	
@@ -86,7 +92,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		program.add(healthBar);
 		program.add(superBar);
 		program.add(playerShip);
-		program.gameTimer.start();
+		gameTimer.start();
 	}
 
 	@Override
@@ -101,7 +107,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		if(e.getKeyCode() == KeyEvent.VK_ESCAPE || e.getKeyCode() == KeyEvent.VK_P)
 		{
 			program.addPausePop();
-			program.gameTimer.stop();
+			gameTimer.stop();
 		}
 		if(e.getKeyCode() == KeyEvent.VK_SPACE)
 		{
@@ -116,11 +122,18 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 			program.getCurPop().mousePressed(e);
 			return;
 		}
+		else {
+			BasicBullet temp = new BasicBullet(5);
+			bullets.add(temp);
+			program.add(temp.bullet);
+		}
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
+		for(BasicBullet bullet : bullets) {
+			bullet.bullet.move(0, -10);
+		}
 	}
 	
 }

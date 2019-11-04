@@ -25,14 +25,14 @@ public class MainApplication extends GraphicsApplication {
 	
 	private File currentSave;
 	private int currentLevel;
-	public Timer gameTimer;
+	// public Timer gameTimer;
 
 	public void init() {
 		setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 	}
 
 	public void run() {
-		gameTimer = new Timer(100, this);
+		// gameTimer = new Timer(100, this);
 		menu = new MenuPane(this);
 		lead = new LeaderboardPane(this);
 		sel = new LevelSelectPane(this);
