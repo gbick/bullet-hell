@@ -97,7 +97,6 @@ public class MenuPane extends GraphicsPane {
 			program.getCurPop().keyPressed(e);
 			return;
 		}
-		
 		if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
 			System.exit(0);
 		}

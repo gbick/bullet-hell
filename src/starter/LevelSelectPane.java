@@ -26,7 +26,6 @@ public class LevelSelectPane extends GraphicsPane {
 	private GButton startButton;
 	private GLabel title;
 	private ArrayList<GButton> levels;
-	private ArrayList<Integer> lockedStatus;
 	private int unlocked;
 	private int level = 0;
 	
@@ -50,7 +49,6 @@ public class LevelSelectPane extends GraphicsPane {
 	
 	public void scanLevelStatus() {
 		//Read level unlocks
-		lockedStatus = new ArrayList<Integer>();
 		try {
 			scan = new Scanner(program.getSave());
 		} catch (FileNotFoundException e) {
@@ -123,6 +121,7 @@ public class LevelSelectPane extends GraphicsPane {
 		GObject clicked = program.getElementAt(e.getX(), e.getY());
 		if(clicked instanceof GButton) {
 			if(clicked == menuButton) {
+				level = 0;
 				program.switchToMenu();
 			}
 			if(clicked == startButton && level != 0) {
