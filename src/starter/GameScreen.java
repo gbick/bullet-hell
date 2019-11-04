@@ -14,8 +14,11 @@ import javax.swing.Timer;
 import acm.graphics.GImage;
 import acm.graphics.GLabel;
 import acm.graphics.GObject;
+import acm.graphics.GPoint;
+import acm.graphics.GPolygon;
 import acm.graphics.GRect;
 import acm.graphics.GRoundRect;
+import acm.util.RandomGenerator;
 
 public class GameScreen extends GraphicsPane implements ActionListener {
 
@@ -39,6 +42,9 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	private GRoundRect superBar;
 	private ArrayList<BasicBullet> bullets;
 	private Timer gameTimer;
+	private ArrayList<GRoundRect> enemies; // TODO rewrite this using the actual enemy class type
+	private int timerRuns;
+	private RandomGenerator random;
 	
 	public GameScreen(MainApplication app)
 	{
@@ -73,7 +79,9 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		playerShip = new GImage("../media/sprites/player/ship1.png", 250, 543); // TODO refactor
 		gameTimer = new Timer(10, this);
 		bullets = new ArrayList<BasicBullet>();
-		
+		enemies = new ArrayList<GRoundRect>();
+		timerRuns = 0;
+		random = RandomGenerator.getInstance();
 	}
 	
 	@Override
@@ -153,7 +161,41 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		for(BasicBullet bullet : bullets) {
+			if(program.getElementAt(bullet.bullet.getX() + bullet.bullet.getWidth() + 1, bullet.bullet.getY() + bullet.bullet.getHeight()/2) instanceof GRoundRect) {
+				enemies.remove(program.getElementAt(bullet.bullet.getX() + bullet.bullet.getWidth() + 1, bullet.bullet.getY() + bullet.bullet.getHeight()/2));
+				program.remove(program.getElementAt(bullet.bullet.getX() + bullet.bullet.getWidth() + 1, bullet.bullet.getY() + bullet.bullet.getHeight()/2));
+			}
 			bullet.bullet.move(0, -10);
+		}
+		timerRuns++;
+		if(timerRuns % 200 == 0) {
+//			GPoint[] temp = new GPoint[3];
+//			GPoint temp1 = new GPoint(random.nextDouble(0, GAME_SCREEN_WIDTH), 0);
+//			if(temp1.getX() > GAME_SCREEN_WIDTH/2) {
+//				GPoint temp2 = new GPoint(temp1.getX() - 10, 0);
+//				GPoint temp3 = new GPoint((temp1.getX() + temp2.getX() / 2), 10);
+//				temp[0] = temp1;
+//				temp[1] = temp2;
+//				temp[2] = temp3;
+//			}
+//			else {
+//				GPoint temp2 = new GPoint(temp1.getX() + 10, 0);
+//				GPoint temp3 = new GPoint((temp1.getX() + temp2.getX() / 2), 10);
+//				temp[0] = temp1;
+//				temp[1] = temp2;
+//				temp[2] = temp3;
+//			}
+			GRoundRect temp = new GRoundRect(random.nextDouble(0, GAME_SCREEN_WIDTH - 20), 0, 20, 20);
+			temp.setColor(Color.RED);		
+			temp.setFilled(true);
+			enemies.add(temp);
+			program.add(temp);
+			
+		}
+		if(timerRuns % 5 == 0) {
+			for(GRoundRect enemy : enemies) {
+				enemy.move(0, 10);
+			}
 		}
 	}
 	
