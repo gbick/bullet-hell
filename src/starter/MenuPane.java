@@ -14,10 +14,10 @@ public class MenuPane extends GraphicsPane {
 										// all of the GraphicsProgram calls
 	private GImage title;
 	private GImage background;
-	private GButton start;
-	private GButton lead;
-	private GButton controls;
-	private GButton exit;
+	private GImage start;
+	private GImage lead;
+	private GImage controls;
+	private GImage exit;
 
 	public MenuPane(MainApplication app) {
 		super();
@@ -27,17 +27,13 @@ public class MenuPane extends GraphicsPane {
 		
 		title = new GImage("../media/sprites/screen_images/title.png",program.getWidth()/5, 0);
 		
-		start = new GButton("Start Game", program.getWidth()/2 - 100 , program.getHeight()/8 + 100, 200, 50);
-		start.setFillColor(Color.MAGENTA);
+		start = new GImage("../media/sprites/screen_images/title_button_start.png", program.getWidth()/2 - 100 , program.getHeight()/8 + 100);
 		
-		lead = new GButton("Leaderboards", program.getWidth()/2 - 100,program.getHeight()/8 + 200 ,200,50);
-		lead.setFillColor(Color.MAGENTA);
+		lead = new GImage("../media/sprites/screen_images/title_button_leaderboards.png", program.getWidth()/2 - 100,program.getHeight()/8 + 200);
 		
-		controls = new GButton("Controls",program.getWidth()/2 - 100, program.getHeight()/8 + 300, 200, 50);
-		controls.setFillColor(Color.MAGENTA);
+		controls = new GImage("../media/sprites/screen_images/title_button_controls.png",program.getWidth()/2 - 100, program.getHeight()/8 + 300);
 		
-		exit = new GButton("Exit", program.getWidth()/2 - 100,program.getHeight()/8 + 400,200,50);
-		exit.setFillColor(Color.MAGENTA);	
+		exit = new GImage("../media/sprites/screen_images/title_button_exit.png", program.getWidth()/2 - 100,program.getHeight()/8 + 400);	
 	}
 
 	@Override
