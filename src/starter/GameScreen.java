@@ -41,7 +41,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	private GRoundRect healthBar;
 	private GRoundRect superBar;
 	private ArrayList<BasicBullet> bullets;
-	private Timer gameTimer;
+	//private Timer gameTimer;
 	private ArrayList<GRoundRect> enemies; // TODO rewrite this using the actual enemy class type
 	private int timerRuns;
 	private RandomGenerator random;
@@ -77,7 +77,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		gameSection.setFillColor(Color.RED); // Or this?
 		
 		playerShip = new GImage("../media/sprites/player/ship1.png", 250, 543); // TODO refactor
-		gameTimer = new Timer(10, this);
+		//gameTimer = new Timer(10, this);
 		bullets = new ArrayList<BasicBullet>();
 		enemies = new ArrayList<GRoundRect>();
 		timerRuns = 0;
@@ -100,7 +100,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		program.add(healthBar);
 		program.add(superBar);
 		program.add(playerShip);
-		gameTimer.start();
+		program.gameTimer.start();
 	}
 
 	@Override
@@ -115,7 +115,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		if(e.getKeyCode() == KeyEvent.VK_ESCAPE || e.getKeyCode() == KeyEvent.VK_P)
 		{
 			program.addPausePop();
-			gameTimer.stop();
+			program.gameTimer.stop();
 		}
 		if(e.getKeyCode() == KeyEvent.VK_SPACE)
 		{
@@ -192,7 +192,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 			program.add(temp);
 			
 		}
-		if(timerRuns % 5 == 0) {
+		if(timerRuns % 2 == 0) {
 			for(GRoundRect enemy : enemies) {
 				enemy.move(0, 10);
 			}

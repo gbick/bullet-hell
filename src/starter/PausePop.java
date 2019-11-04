@@ -60,6 +60,7 @@ public class PausePop extends GraphicsPane {
 		else if(obj == resume)
 		{
 			program.delPop();
+			program.gameTimer.restart();
 			// TODO will also need to resume the timer running in MainApplication as well
 			return;
 		}

@@ -1,6 +1,8 @@
 package starter;
 
 
+import java.awt.event.ActionEvent;
+
 /* File: GraphicsPane.java
  * -----------------------
  * Like you did with your own graphics programs, simply
@@ -60,6 +62,11 @@ public abstract class GraphicsPane implements Interfaceable {
 
 	@Override
 	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+	}
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 	}
 
