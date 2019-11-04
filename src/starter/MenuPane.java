@@ -5,13 +5,14 @@ import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
+import acm.graphics.GImage;
 import acm.graphics.GLabel;
 import acm.graphics.GObject;
 
 public class MenuPane extends GraphicsPane {
 	private MainApplication program; // you will use program to get access to
 										// all of the GraphicsProgram calls
-	private GLabel title;
+	private GImage title;
 	private GButton start;
 	private GButton lead;
 	private GButton controls;
@@ -20,8 +21,7 @@ public class MenuPane extends GraphicsPane {
 	public MenuPane(MainApplication app) {
 		super();
 		program = app;
-		title = new GLabel("Celestial Combat",program.getWidth()/5,program.getHeight()/6);
-		title.setFont("Arial-50");
+		title = new GImage("../media/sprites/screen_images/title.png",program.getWidth()/5, 0);
 		program.add(title);
 		
 		start = new GButton("Start Game", program.getWidth()/2 - 100 , program.getHeight()/8 + 100, 200, 50);
@@ -34,8 +34,7 @@ public class MenuPane extends GraphicsPane {
 		controls.setFillColor(Color.MAGENTA);
 		
 		exit = new GButton("Exit", program.getWidth()/2 - 100,program.getHeight()/8 + 400,200,50);
-		exit.setFillColor(Color.MAGENTA);
-		
+		exit.setFillColor(Color.MAGENTA);	
 	}
 
 	@Override
