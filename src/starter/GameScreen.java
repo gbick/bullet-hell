@@ -77,6 +77,7 @@ public class GameScreen extends GraphicsPane{
 		
 	}
 	
+	@Override
 	public void keyPressed(KeyEvent e)
 	{
 		if(e.getKeyCode() == KeyEvent.VK_ESCAPE || e.getKeyCode() == KeyEvent.VK_P)
@@ -88,6 +89,14 @@ public class GameScreen extends GraphicsPane{
 			//add SuperShot methods
 		}
 		
+	}
+	
+	@Override
+	public void mousePressed(MouseEvent e) {
+		if(program.getCurPop() != null) {
+			program.getCurPop().mousePressed(e);
+			return;
+		}
 	}
 	
 }
