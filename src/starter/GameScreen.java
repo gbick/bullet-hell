@@ -130,10 +130,11 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 			program.getCurPop().mouseMoved(e);
 			return;
 		} 
-		if(e.getX() > gameSection.getX() && e.getX() + playerShip.getWidth() < gameSection.getX() + gameSection.getWidth()) {
+		
+		if(e.getX() > gameSection.getX() && e.getX() + playerShip.getWidth()/2 < gameSection.getX() + gameSection.getWidth()) {
 			playerShip.setLocation(e.getX() - playerShip.getWidth()/2, playerShip.getY());
 		}
-		if(e.getY() > gameSection.getY() && e.getY() + playerShip.getHeight() < gameSection.getY() + gameSection.getHeight()) {
+		if(e.getY() > gameSection.getY() && e.getY() + playerShip.getHeight()/2 < gameSection.getY() + gameSection.getHeight()) {
 			playerShip.setLocation(playerShip.getX(), e.getY() - playerShip.getHeight()/2);
 		}
 	}
@@ -158,10 +159,10 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 			program.getCurPop().mouseDragged(e);
 			return;
 		}
-		if(e.getX() > gameSection.getX() && e.getX() + playerShip.getWidth() < gameSection.getX() + gameSection.getWidth()) {
+		if(e.getX() > gameSection.getX() && e.getX() + playerShip.getWidth()/2 < gameSection.getX() + gameSection.getWidth()) {
 			playerShip.setLocation(e.getX() - playerShip.getWidth()/2, playerShip.getY());
 		}
-		if(e.getY() > gameSection.getY() && e.getY() + playerShip.getHeight() < gameSection.getY() + gameSection.getHeight()) {
+		if(e.getY() > gameSection.getY() && e.getY() + playerShip.getHeight()/2 < gameSection.getY() + gameSection.getHeight()) {
 			playerShip.setLocation(playerShip.getX(), e.getY() - playerShip.getHeight()/2);
 		}
 	}
