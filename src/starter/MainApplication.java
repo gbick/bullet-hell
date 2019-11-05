@@ -25,6 +25,7 @@ public class MainApplication extends GraphicsApplication {
 	
 	private File currentSave;
 	private int currentLevel;
+	
 	// public Timer gameTimer;
 
 	public void init() {
