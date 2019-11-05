@@ -24,7 +24,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 
 	private MainApplication program;
 	
-	private GImage playerShip;
+	public GImage playerShip;
 	private final static int GAME_SCREEN_HEIGHT = 600;
 	private final static int GAME_SCREEN_WIDTH = 500 ;
 	private final static int GAME_SCREEN_MARGIN = 10;
@@ -42,7 +42,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	private GRoundRect healthBar;
 	private GRoundRect superBar;
 	private ArrayList<BasicBullet> bullets;
-	private Timer gameTimer;
+	//private Timer gameTimer;
 	private ArrayList<GRoundRect> enemies; // TODO rewrite this using the actual enemy class type
 	private int timerRuns;
 	private RandomGenerator random;
@@ -78,7 +78,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		gameSection.setFillColor(Color.RED); // Or this?
 		
 		playerShip = new GImage("../media/sprites/player/ship1.png", 250, 543); // TODO refactor
-		gameTimer = new Timer(10, this);
+		//gameTimer = new Timer(10, this);
 		bullets = new ArrayList<BasicBullet>();
 		enemies = new ArrayList<GRoundRect>();
 		timerRuns = 0;
@@ -101,7 +101,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		program.add(healthBar);
 		program.add(superBar);
 		program.add(playerShip);
-		gameTimer.start();
+		program.gameTimer.start();
 	}
 
 	@Override
@@ -115,7 +115,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		if(e.getKeyCode() == KeyEvent.VK_ESCAPE || e.getKeyCode() == KeyEvent.VK_P)
 		{
 			program.addPausePop();
-			gameTimer.stop();
+			program.gameTimer.stop();
 		}
 		if(e.getKeyCode() == KeyEvent.VK_SPACE)
 		{
@@ -165,6 +165,10 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	@Override
 	public void mouseDragged(MouseEvent e)
 	{
+		if(program.getCurPop() != null) {
+			program.getCurPop().mouseDragged(e);
+			return;
+		}
 		if(e.getX() > gameSection.getX() && e.getX() + playerShip.getWidth()/2 < gameSection.getX() + gameSection.getWidth()) {
 			playerShip.setLocation(e.getX() - playerShip.getWidth()/2, playerShip.getY());
 		}
@@ -207,7 +211,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 			program.add(temp);
 			
 		}
-		if(timerRuns % 5 == 0) {
+		if(timerRuns % 2 == 0) {
 			for(GRoundRect enemy : enemies) {
 				enemy.move(0, 10);
 			}

@@ -13,6 +13,7 @@ public class PausePop extends GraphicsPane {
 	GLabel message;
 	GButton quit;
 	GButton resume;
+	GButton resumeShip;
 	
 	public PausePop(MainApplication app)
 	{
@@ -59,8 +60,17 @@ public class PausePop extends GraphicsPane {
 		}
 		else if(obj == resume)
 		{
+			resumeShip = new GButton("Click on Ship to Resume", program.game.playerShip.getX() - 25, program.game.playerShip.getY() - 20, 120, 20);
+			program.remove(frame);
+			program.remove(message);
+			program.remove(quit);
+			program.remove(resume);
+			program.add(resumeShip);
+		}
+		if(obj == program.game.playerShip) {
+			program.gameTimer.restart();
 			program.delPop();
-			// TODO will also need to resume the timer running in MainApplication as well
+			program.remove(resumeShip);
 			return;
 		}
 		

@@ -1,12 +1,14 @@
 package starter;
 
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 import acm.program.GraphicsProgram;
 
-public abstract class GraphicsApplication extends GraphicsProgram {
+public abstract class GraphicsApplication extends GraphicsProgram implements ActionListener {
 	private GraphicsPane curScreen;
 	private GraphicsPane curPop = null;
 	
@@ -119,4 +121,12 @@ public abstract class GraphicsApplication extends GraphicsProgram {
 			curScreen.keyTyped(e);
 		}
 	}
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(curScreen != null) {
+			curScreen.actionPerformed(e);
+		}
+	}
+	
 }

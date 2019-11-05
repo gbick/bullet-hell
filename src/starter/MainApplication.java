@@ -14,7 +14,7 @@ public class MainApplication extends GraphicsApplication {
 	private MenuPane menu;
 	private LeaderboardPane lead;
 	private LevelSelectPane sel;
-	private GameScreen game;
+	public GameScreen game;
 	
 	//Popups
 	private FileSelectPop load;
@@ -25,15 +25,14 @@ public class MainApplication extends GraphicsApplication {
 	
 	private File currentSave;
 	private int currentLevel;
-	
-	// public Timer gameTimer;
+	public Timer gameTimer;
 
 	public void init() {
 		setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 	}
 
 	public void run() {
-		// gameTimer = new Timer(100, this);
+		gameTimer = new Timer(10, this);
 		menu = new MenuPane(this);
 		lead = new LeaderboardPane(this);
 		sel = new LevelSelectPane(this);
