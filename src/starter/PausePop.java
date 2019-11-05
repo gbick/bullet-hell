@@ -48,7 +48,6 @@ public class PausePop extends GraphicsPane {
 		program.remove(message);
 		program.remove(quit);
 		program.remove(resume);
-		program.remove(resumeShip);
 		
 	}
 	
@@ -71,6 +70,7 @@ public class PausePop extends GraphicsPane {
 		if(obj == program.game.playerShip) {
 			program.gameTimer.restart();
 			program.delPop();
+			program.remove(resumeShip);
 			return;
 		}
 		
