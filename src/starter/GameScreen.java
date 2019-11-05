@@ -24,7 +24,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 
 	private MainApplication program;
 	
-	private GImage playerShip;
+	public GImage playerShip;
 	private final static int GAME_SCREEN_HEIGHT = 600;
 	private final static int GAME_SCREEN_WIDTH = 500 ;
 	
@@ -126,6 +126,10 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	
 	@Override
 	public void mouseMoved(MouseEvent e) {
+		if(program.getCurPop() != null) {
+			program.getCurPop().mouseMoved(e);
+			return;
+		} 
 		if(e.getX() > gameSection.getX() && e.getX() + playerShip.getWidth() < gameSection.getX() + gameSection.getWidth()) {
 			playerShip.setLocation(e.getX() - playerShip.getWidth()/2, playerShip.getY());
 		}
@@ -150,6 +154,10 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	@Override
 	public void mouseDragged(MouseEvent e)
 	{
+		if(program.getCurPop() != null) {
+			program.getCurPop().mouseDragged(e);
+			return;
+		}
 		if(e.getX() > gameSection.getX() && e.getX() + playerShip.getWidth() < gameSection.getX() + gameSection.getWidth()) {
 			playerShip.setLocation(e.getX() - playerShip.getWidth()/2, playerShip.getY());
 		}

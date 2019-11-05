@@ -14,7 +14,7 @@ public class MainApplication extends GraphicsApplication {
 	private MenuPane menu;
 	private LeaderboardPane lead;
 	private LevelSelectPane sel;
-	private GameScreen game;
+	public GameScreen game;
 	
 	//Popups
 	private FileSelectPop load;
