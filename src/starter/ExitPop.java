@@ -58,6 +58,9 @@ public class ExitPop extends GraphicsPane {
 		else if(obj == no)
 		{
 			program.delPop();
+			if(!program.gameTimer.isRunning()) {
+				program.gameTimer.restart();
+			}
 			return;
 		}
 		
