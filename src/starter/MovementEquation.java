@@ -1,5 +1,5 @@
 package starter;
 
 public enum MovementEquation {
-	STRAIGHT, WAVE, DIAGONAL
+	STRAIGHT, WAVE, DIAGONAL, SEEK
 }

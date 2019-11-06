@@ -1,5 +1,6 @@
 package starter;
 
+import acm.graphics.GImage;
 import acm.graphics.GRect;
 import acm.graphics.GRoundRect;
 import javafx.util.Pair;
@@ -9,11 +10,19 @@ public class Path {
 	private double direction; // slope of movement direction for bullet
 	private Pair<Double, Double> coords;
 	private GRect object;
+	private GImage target;
 	
 	public Path(GRect enemy, MovementEquation movementType) {
 		object = enemy;
 		movement = movementType;
 		coords = new Pair<Double, Double>(enemy.getX(), enemy.getY());
+	}
+	
+	public Path(GRect enemy, MovementEquation movementType, GImage headTowards) {
+		object = enemy;
+		movement = movementType;
+		coords = new Pair<Double, Double>(enemy.getX(), enemy.getY());
+		target = headTowards;
 	}
 	
 	public Pair<Double, Double> moveNextTick() {
@@ -26,6 +35,29 @@ public class Path {
 			break;
 		case WAVE:
 			coords = new Pair<Double, Double>(object.getX() + (Math.sin(object.getY() * 0.1) * 5),object.getY() + 1);
+			break;
+		case SEEK:
+			if(target != null) {
+				Pair<Double, Double> temp = new Pair<Double, Double>(object.getX(), object.getY());
+				//If target is to the right/left of object
+				if((target.getX() + target.getWidth()/2) > coords.getKey() + object.getWidth()/2) {
+					temp = new Pair<Double, Double>(temp.getKey() + 1, temp.getValue());
+				}
+				else if((target.getX() + target.getWidth()/2) < coords.getKey() + object.getWidth()/2){
+					temp = new Pair<Double, Double>(temp.getKey() - 1, temp.getValue());
+				}
+				//If target is above/below object
+				if((target.getY() + target.getHeight()/2) > coords.getValue() + object.getHeight()/2) {
+					temp = new Pair<Double, Double>(temp.getKey(), temp.getValue() + 1);
+				}
+				else if((target.getY() + target.getHeight()/2) < coords.getValue() + object.getHeight()/2) {
+					temp = new Pair<Double, Double>(temp.getKey(), temp.getValue() - 1);
+				}
+				coords = temp;
+			}
+			else {
+				coords = new Pair<Double, Double>(object.getX(), object.getY());	
+			}
 			break;
 		default:
 			break;
