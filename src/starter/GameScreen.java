@@ -19,6 +19,7 @@ import acm.graphics.GPolygon;
 import acm.graphics.GRect;
 import acm.graphics.GRoundRect;
 import acm.util.RandomGenerator;
+import javafx.util.Pair;
 
 public class GameScreen extends GraphicsPane implements ActionListener {
 
@@ -43,7 +44,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	private GRoundRect superBar;
 	private ArrayList<BasicBullet> bullets;
 	//private Timer gameTimer;
-	private ArrayList<GRoundRect> enemies; // TODO rewrite this using the actual enemy class type
+	private ArrayList<Fighter> enemies; // TODO rewrite this using the actual enemy class type
 	private int timerRuns;
 	private RandomGenerator random;
 	
@@ -80,7 +81,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		playerShip = new GImage("../media/sprites/player/ship1.png", 250, 543); // TODO refactor
 		//gameTimer = new Timer(10, this);
 		bullets = new ArrayList<BasicBullet>();
-		enemies = new ArrayList<GRoundRect>();
+		enemies = new ArrayList<Fighter>();
 		timerRuns = 0;
 		random = RandomGenerator.getInstance();
 	}
@@ -163,8 +164,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	}
 	
 	@Override
-	public void mouseDragged(MouseEvent e)
-	{
+	public void mouseDragged(MouseEvent e) {
 		if(program.getCurPop() != null) {
 			program.getCurPop().mouseDragged(e);
 			return;
@@ -204,16 +204,15 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 //				temp[1] = temp2;
 //				temp[2] = temp3;
 //			}
-			GRoundRect temp = new GRoundRect(random.nextDouble(0, GAME_SCREEN_WIDTH - 20), 0, 20, 20);
-			temp.setColor(Color.RED);		
-			temp.setFilled(true);
+			Fighter temp = new Fighter(random.nextDouble(0, GAME_SCREEN_WIDTH - 20), 0, MovementEquation.WAVE);
 			enemies.add(temp);
-			program.add(temp);
+			program.add(temp.getSprite());
 			
 		}
 		if(timerRuns % 2 == 0) {
-			for(GRoundRect enemy : enemies) {
-				enemy.move(0, 10);
+			for(Fighter enemy : enemies) {
+				Pair<Double, Double> next = enemy.getNextLoc();
+				enemy.getSprite().setLocation(next.getKey(), next.getValue());
 			}
 		}
 	}

@@ -21,4 +21,10 @@ public class SuperShot implements Bullet{
 	public void despawn() {
 		program.remove(sprite);
 	}
+
+	@Override
+	public double getDamage() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }
