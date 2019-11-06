@@ -8,6 +8,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 
 import javax.swing.Timer;
 
@@ -17,6 +19,7 @@ import acm.graphics.GObject;
 import acm.graphics.GPoint;
 import acm.graphics.GPolygon;
 import acm.graphics.GRect;
+import acm.graphics.GRectangle;
 import acm.graphics.GRoundRect;
 import acm.util.RandomGenerator;
 import javafx.util.Pair;
@@ -108,7 +111,30 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	@Override
 	public void hideContents() {
 		// TODO Auto-generated method stub
+		program.remove(gameSection);
+		program.remove(healthBarLabel);
+		program.remove(superShotLabel);
+		program.remove(livesLabel);
+		program.remove(statsLabel);
+		program.remove(pointsLabel);
+		program.remove(killsLabel);
+		program.remove(shotsLabel);
+		//program.add(bossBarFrame);
+		//program.add(bossBar);
+		program.remove(healthBar);
+		program.remove(superBar);
+		program.remove(playerShip);
 		
+		/*
+		for(GRoundRect i: enemies.keySet())
+		{
+			program.remove(i);
+		}
+		for(BasicBullet i: bullets)
+		{
+			//add remove function for BasicBullet
+		}
+		*/
 	}
 	
 	@Override
@@ -126,26 +152,30 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	}
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		if(e.getX() - playerShip.getWidth()/2 > gameSection.getX() && e.getX() + playerShip.getWidth()/2 < gameSection.getX() + gameSection.getWidth()) {
-			playerShip.setLocation(e.getX() - playerShip.getWidth()/2, playerShip.getY());
-		}
-		else {
-			if(e.getX() > gameSection.getX() + gameSection.getWidth()) {				
-				playerShip.setLocation((gameSection.getX() + gameSection.getWidth()) - playerShip.getWidth(), playerShip.getY());
+		
+		if(program.getCurPop() == null)
+		{
+			if(e.getX() - playerShip.getWidth()/2 > gameSection.getX() && e.getX() + playerShip.getWidth()/2 < gameSection.getX() + gameSection.getWidth()) {
+				playerShip.setLocation(e.getX() - playerShip.getWidth()/2, playerShip.getY());
 			}
-			else if(e.getX() < gameSection.getX()){
-				playerShip.setLocation(gameSection.getX(), playerShip.getY());
+			else {
+				if(e.getX() > gameSection.getX() + gameSection.getWidth()) {				
+					playerShip.setLocation((gameSection.getX() + gameSection.getWidth()) - playerShip.getWidth(), playerShip.getY());
+				}
+				else if(e.getX() < gameSection.getX()){
+					playerShip.setLocation(gameSection.getX(), playerShip.getY());
+				}
 			}
-		}
-		if(e.getY() - playerShip.getHeight()/2 > gameSection.getY() && e.getY() + playerShip.getHeight()/2 < gameSection.getY() + gameSection.getHeight()) {
-			playerShip.setLocation(playerShip.getX(), e.getY() - playerShip.getHeight()/2);
-		}
-		else {
-			if(e.getY() > gameSection.getY() + gameSection.getHeight()) {
-				playerShip.setLocation(playerShip.getX(), (gameSection.getY() + gameSection.getHeight()) - playerShip.getHeight());
+			if(e.getY() - playerShip.getHeight()/2 > gameSection.getY() && e.getY() + playerShip.getHeight()/2 < gameSection.getY() + gameSection.getHeight()) {
+				playerShip.setLocation(playerShip.getX(), e.getY() - playerShip.getHeight()/2);
 			}
-			else if(e.getY() < gameSection.getY()) {
-				playerShip.setLocation(playerShip.getX(), gameSection.getY());
+			else {
+				if(e.getY() > gameSection.getY() + gameSection.getHeight()) {
+					playerShip.setLocation(playerShip.getX(), (gameSection.getY() + gameSection.getHeight()) - playerShip.getHeight());
+				}
+				else if(e.getY() < gameSection.getY()) {
+					playerShip.setLocation(playerShip.getX(), gameSection.getY());
+				}
 			}
 		}
 	}
@@ -179,12 +209,18 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		ArrayList<BasicBullet> bulletsToRemove = new ArrayList<BasicBullet>();
 		for(BasicBullet bullet : bullets) {
 			if(program.getElementAt(bullet.bullet.getX() + bullet.bullet.getWidth() + 1, bullet.bullet.getY() + bullet.bullet.getHeight()/2) instanceof GRoundRect) {
 				enemies.remove(program.getElementAt(bullet.bullet.getX() + bullet.bullet.getWidth() + 1, bullet.bullet.getY() + bullet.bullet.getHeight()/2));
 				program.remove(program.getElementAt(bullet.bullet.getX() + bullet.bullet.getWidth() + 1, bullet.bullet.getY() + bullet.bullet.getHeight()/2));
+				bulletsToRemove.add(bullet);
 			}
 			bullet.bullet.move(0, -10);
+		}
+		bullets.removeAll(bulletsToRemove);
+		for(BasicBullet bullet : bulletsToRemove) {
+			program.remove(bullet.bullet);
 		}
 		timerRuns++;
 		if(timerRuns % 200 == 0) {
