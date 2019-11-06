@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 
 import javax.swing.Timer;
@@ -18,8 +19,10 @@ import acm.graphics.GObject;
 import acm.graphics.GPoint;
 import acm.graphics.GPolygon;
 import acm.graphics.GRect;
+import acm.graphics.GRectangle;
 import acm.graphics.GRoundRect;
 import acm.util.RandomGenerator;
+import javafx.util.Pair;
 
 public class GameScreen extends GraphicsPane implements ActionListener {
 
@@ -43,7 +46,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	private GRoundRect superBar;
 	private ArrayList<BasicBullet> bullets;
 	//private Timer gameTimer;
-	private ArrayList<GRoundRect> enemies; // TODO rewrite this using the actual enemy class type
+	private HashMap<GRoundRect, GRectangle> enemies; // TODO rewrite this using the actual enemy class type
 	private int timerRuns;
 	private RandomGenerator random;
 	
@@ -80,7 +83,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		playerShip = new GImage("../media/sprites/player/ship1.png", 250, 543); // TODO refactor
 		//gameTimer = new Timer(10, this);
 		bullets = new ArrayList<BasicBullet>();
-		enemies = new ArrayList<GRoundRect>();
+		enemies = new HashMap<GRoundRect, GRectangle>();
 		timerRuns = 0;
 		random = RandomGenerator.getInstance();
 	}
@@ -188,20 +191,28 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 			GRoundRect temp = new GRoundRect(random.nextDouble(0, GAME_SCREEN_WIDTH - 20), 0, 20, 20);
 			temp.setColor(Color.RED);		
 			temp.setFilled(true);
-			enemies.add(temp);
+			GRectangle bounds = temp.getBounds();
+			enemies.put(temp, bounds);
 			program.add(temp);
 			
 		}
 		if(timerRuns % 2 == 0) {
 			ArrayList<GRoundRect> toRemove = new ArrayList<GRoundRect>();
-			for(GRoundRect enemy : enemies) {
+			for(GRoundRect enemy : enemies.keySet()) {
 				enemy.move(0, 10);
 				if(enemy.getY() + enemy.getHeight() > GAME_SCREEN_HEIGHT) {
 					toRemove.add(enemy);
 				}
 			}
-			enemies.removeAll(toRemove);
+			for(HashMap.Entry<GRoundRect, GRectangle> enemy : enemies.entrySet()) {
+				for(BasicBullet bullet : bullets) {
+					if(enemy.getValue().contains(bullet.bullet.getX(), bullet.bullet.getY())) {
+						toRemove.add(enemy.getKey());
+					}
+				}
+			}
 			for(GRoundRect enemy : toRemove) {
+				enemies.remove(enemy);
 				program.remove(enemy);
 			}
 		}
