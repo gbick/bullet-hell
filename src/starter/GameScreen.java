@@ -27,6 +27,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	public GImage playerShip;
 	private final static int GAME_SCREEN_HEIGHT = 600;
 	private final static int GAME_SCREEN_WIDTH = 500 ;
+	private final static int GAME_SCREEN_MARGIN = 10;
 	
 	private GRect gameSection;
 	private GLabel healthBarLabel;
@@ -50,7 +51,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	{
 		this.program = app;
 		
-		gameSection = new GRect(GAME_SCREEN_WIDTH, GAME_SCREEN_HEIGHT);
+		gameSection = new GRect(GAME_SCREEN_MARGIN, GAME_SCREEN_MARGIN, GAME_SCREEN_WIDTH, GAME_SCREEN_HEIGHT);
 		
 		healthBarLabel = new GLabel("Health:", 50, program.getHeight()-35);
 		
@@ -131,8 +132,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	}
 	
 	@Override
-	public void keyPressed(KeyEvent e)
-	{
+	public void keyPressed(KeyEvent e){
 		if(e.getKeyCode() == KeyEvent.VK_ESCAPE || e.getKeyCode() == KeyEvent.VK_P)
 		{
 			program.addPausePop();
@@ -144,19 +144,29 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		}
 		
 	}
-	
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		if(program.getCurPop() != null) {
-			program.getCurPop().mouseMoved(e);
-			return;
-		} 
-		
-		if(e.getX() > gameSection.getX() && e.getX() + playerShip.getWidth()/2 < gameSection.getX() + gameSection.getWidth()) {
+		if(e.getX() - playerShip.getWidth()/2 > gameSection.getX() && e.getX() + playerShip.getWidth()/2 < gameSection.getX() + gameSection.getWidth()) {
 			playerShip.setLocation(e.getX() - playerShip.getWidth()/2, playerShip.getY());
 		}
-		if(e.getY() > gameSection.getY() && e.getY() + playerShip.getHeight()/2 < gameSection.getY() + gameSection.getHeight()) {
+		else {
+			if(e.getX() > gameSection.getX() + gameSection.getWidth()) {				
+				playerShip.setLocation((gameSection.getX() + gameSection.getWidth()) - playerShip.getWidth(), playerShip.getY());
+			}
+			else if(e.getX() < gameSection.getX()){
+				playerShip.setLocation(gameSection.getX(), playerShip.getY());
+			}
+		}
+		if(e.getY() - playerShip.getHeight()/2 > gameSection.getY() && e.getY() + playerShip.getHeight()/2 < gameSection.getY() + gameSection.getHeight()) {
 			playerShip.setLocation(playerShip.getX(), e.getY() - playerShip.getHeight()/2);
+		}
+		else {
+			if(e.getY() > gameSection.getY() + gameSection.getHeight()) {
+				playerShip.setLocation(playerShip.getX(), (gameSection.getY() + gameSection.getHeight()) - playerShip.getHeight());
+			}
+			else if(e.getY() < gameSection.getY()) {
+				playerShip.setLocation(playerShip.getX(), gameSection.getY());
+			}
 		}
 	}
 	
