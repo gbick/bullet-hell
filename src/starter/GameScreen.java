@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.swing.Timer;
 
@@ -176,6 +177,9 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 			}
 			bullet.bullet.move(0, -10);
 		}
+//		for(GRoundRect enemy : enemies) {
+//			
+//		}
 		timerRuns++;
 		if(timerRuns % 200 == 0) {
 //			GPoint[] temp = new GPoint[3];
@@ -202,8 +206,16 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 			
 		}
 		if(timerRuns % 2 == 0) {
+			ArrayList<GRoundRect> toRemove = new ArrayList<GRoundRect>();
 			for(GRoundRect enemy : enemies) {
 				enemy.move(0, 10);
+				if(enemy.getY() + enemy.getHeight() > GAME_SCREEN_HEIGHT) {
+					toRemove.add(enemy);
+				}
+			}
+			enemies.removeAll(toRemove);
+			for(GRoundRect enemy : toRemove) {
+				program.remove(enemy);
 			}
 		}
 	}
