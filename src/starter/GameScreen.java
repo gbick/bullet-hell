@@ -146,26 +146,30 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	}
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		if(e.getX() - playerShip.getWidth()/2 > gameSection.getX() && e.getX() + playerShip.getWidth()/2 < gameSection.getX() + gameSection.getWidth()) {
-			playerShip.setLocation(e.getX() - playerShip.getWidth()/2, playerShip.getY());
-		}
-		else {
-			if(e.getX() > gameSection.getX() + gameSection.getWidth()) {				
-				playerShip.setLocation((gameSection.getX() + gameSection.getWidth()) - playerShip.getWidth(), playerShip.getY());
+		
+		if(program.getCurPop() == null)
+		{
+			if(e.getX() - playerShip.getWidth()/2 > gameSection.getX() && e.getX() + playerShip.getWidth()/2 < gameSection.getX() + gameSection.getWidth()) {
+				playerShip.setLocation(e.getX() - playerShip.getWidth()/2, playerShip.getY());
 			}
-			else if(e.getX() < gameSection.getX()){
-				playerShip.setLocation(gameSection.getX(), playerShip.getY());
+			else {
+				if(e.getX() > gameSection.getX() + gameSection.getWidth()) {				
+					playerShip.setLocation((gameSection.getX() + gameSection.getWidth()) - playerShip.getWidth(), playerShip.getY());
+				}
+				else if(e.getX() < gameSection.getX()){
+					playerShip.setLocation(gameSection.getX(), playerShip.getY());
+				}
 			}
-		}
-		if(e.getY() - playerShip.getHeight()/2 > gameSection.getY() && e.getY() + playerShip.getHeight()/2 < gameSection.getY() + gameSection.getHeight()) {
-			playerShip.setLocation(playerShip.getX(), e.getY() - playerShip.getHeight()/2);
-		}
-		else {
-			if(e.getY() > gameSection.getY() + gameSection.getHeight()) {
-				playerShip.setLocation(playerShip.getX(), (gameSection.getY() + gameSection.getHeight()) - playerShip.getHeight());
+			if(e.getY() - playerShip.getHeight()/2 > gameSection.getY() && e.getY() + playerShip.getHeight()/2 < gameSection.getY() + gameSection.getHeight()) {
+				playerShip.setLocation(playerShip.getX(), e.getY() - playerShip.getHeight()/2);
 			}
-			else if(e.getY() < gameSection.getY()) {
-				playerShip.setLocation(playerShip.getX(), gameSection.getY());
+			else {
+				if(e.getY() > gameSection.getY() + gameSection.getHeight()) {
+					playerShip.setLocation(playerShip.getX(), (gameSection.getY() + gameSection.getHeight()) - playerShip.getHeight());
+				}
+				else if(e.getY() < gameSection.getY()) {
+					playerShip.setLocation(playerShip.getX(), gameSection.getY());
+				}
 			}
 		}
 	}

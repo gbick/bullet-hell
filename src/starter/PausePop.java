@@ -55,10 +55,8 @@ public class PausePop extends GraphicsPane {
 	@Override
 	public void mousePressed(MouseEvent e) {
 		GObject obj = program.getElementAt(e.getX(), e.getY());
-		if(obj == returnToMenu)
-		{	
-			program.remove(resumeShip);
-			
+		if(obj == returnToMenu)	
+		{
 			program.delPop();
 			program.addRtMPop();
 		}
