@@ -106,7 +106,28 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	@Override
 	public void hideContents() {
 		// TODO Auto-generated method stub
+		program.remove(gameSection);
+		program.remove(healthBarLabel);
+		program.remove(superShotLabel);
+		program.remove(livesLabel);
+		program.remove(statsLabel);
+		program.remove(pointsLabel);
+		program.remove(killsLabel);
+		program.remove(shotsLabel);
+		//program.add(bossBarFrame);
+		//program.add(bossBar);
+		program.remove(healthBar);
+		program.remove(superBar);
+		program.remove(playerShip);
 		
+		for(GRoundRect i: enemies)
+		{
+			program.remove(i);
+		}
+		for(BasicBullet i: bullets)
+		{
+			//add remove function for BasicBullet
+		}
 	}
 	
 	@Override

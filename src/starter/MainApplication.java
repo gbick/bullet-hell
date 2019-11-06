@@ -21,6 +21,7 @@ public class MainApplication extends GraphicsApplication {
 	private InstructPop controls;
 	private ExitPop exitPop;
 	private PausePop pausePop;
+	private ReturnToMenuPop RtMPop;
 	private int count;
 	
 	private File currentSave;
@@ -41,6 +42,7 @@ public class MainApplication extends GraphicsApplication {
 		controls = new InstructPop(this);
 		exitPop = new ExitPop(this);
 		pausePop = new PausePop(this);
+		RtMPop = new ReturnToMenuPop(this);
 		switchToMenu();
 	}
 	
@@ -91,6 +93,9 @@ public class MainApplication extends GraphicsApplication {
 	
 	public void addPausePop() {
 		addPop(pausePop);
+	}
+	public void addRtMPop() {
+		addPop(RtMPop);
 	}
 
 	private void playRandomSound() {

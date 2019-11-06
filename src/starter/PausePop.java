@@ -11,7 +11,7 @@ public class PausePop extends GraphicsPane {
 	
 	GButton frame;
 	GLabel message;
-	GButton quit;
+	GButton returnToMenu;
 	GButton resume;
 	GButton resumeShip;
 	
@@ -22,10 +22,10 @@ public class PausePop extends GraphicsPane {
 		frame.setFillColor(Color.MAGENTA);
 		message = new GLabel("The game has been paused", frame.getX()  + frame.getWidth()/30, frame.getHeight()+60);
 		message.setFont("Arial-24");
-		quit = new GButton("Quit Game", frame.getX() + frame.getWidth()/65, frame.getY() + frame.getHeight()/3 + frame.getWidth()/65,
+		returnToMenu = new GButton("Return to Main Menu", frame.getX() + frame.getWidth()/65, frame.getY() + frame.getHeight()/3 + frame.getWidth()/65,
 				frame.getWidth() - ((frame.getWidth()/65) * 2), frame.getHeight()/3 - ((frame.getWidth()/65) * 2));
-		quit.setFillColor(Color.MAGENTA);
-		quit.setEdgeColor(Color.MAGENTA);
+		returnToMenu.setFillColor(Color.MAGENTA);
+		returnToMenu.setEdgeColor(Color.MAGENTA);
 		resume = new GButton("Resume Game", frame.getX() + frame.getWidth()/65, frame.getY() + ((frame.getHeight()/3) * 2) + frame.getWidth()/65,
 				frame.getWidth() - ((frame.getWidth()/65) * 2), frame.getHeight()/3 - ((frame.getWidth()/65) * 2));
 		resume.setFillColor(Color.MAGENTA);
@@ -37,7 +37,7 @@ public class PausePop extends GraphicsPane {
 		// TODO Auto-generated method stub
 		program.add(frame);
 		program.add(message);
-		program.add(quit);
+		program.add(returnToMenu);
 		program.add(resume);
 	}
 
@@ -46,7 +46,7 @@ public class PausePop extends GraphicsPane {
 		// TODO Auto-generated method stub
 		program.remove(frame);
 		program.remove(message);
-		program.remove(quit);
+		program.remove(returnToMenu);
 		program.remove(resume);
 		program.remove(resumeShip);
 		
@@ -55,16 +55,19 @@ public class PausePop extends GraphicsPane {
 	@Override
 	public void mousePressed(MouseEvent e) {
 		GObject obj = program.getElementAt(e.getX(), e.getY());
-		if(obj == quit)
-		{
-			program.addExitPop();
+		if(obj == returnToMenu)
+		{	
+			program.remove(resumeShip);
+			
+			program.delPop();
+			program.addRtMPop();
 		}
 		else if(obj == resume)
 		{
 			resumeShip = new GButton("Click on Ship to Resume", program.game.playerShip.getX() - 25, program.game.playerShip.getY() - 20, 120, 20);
 			program.remove(frame);
 			program.remove(message);
-			program.remove(quit);
+			program.remove(returnToMenu);
 			program.remove(resume);
 			program.add(resumeShip);
 		}
