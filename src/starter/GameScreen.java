@@ -246,7 +246,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 				program.add(temp.getSprite());
 			}
 			else {
-				Fighter temp = new Fighter(random.nextDouble(0, GAME_SCREEN_WIDTH - 20), 0, MovementEquation.WAVE);
+				Fighter temp = new Fighter(random.nextDouble(0, GAME_SCREEN_WIDTH - 20), 0, MovementEquation.CIRCLE);
 				enemies.add(temp);
 				program.add(temp.getSprite());
 			}

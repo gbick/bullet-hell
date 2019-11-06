@@ -9,8 +9,10 @@ public class Path {
 	private MovementEquation movement;
 	private double direction; // slope of movement direction for bullet
 	private Pair<Double, Double> coords;
+	private Pair<Double, Double> center;
 	private GRect object;
 	private GImage target;
+	private double num = 0;
 	
 	public Path(GRect enemy, MovementEquation movementType) {
 		object = enemy;
@@ -58,6 +60,18 @@ public class Path {
 			else {
 				coords = new Pair<Double, Double>(object.getX(), object.getY());	
 			}
+			break;
+		case CIRCLE:
+			if(center == null) {
+				center = new Pair<Double, Double>(object.getX(), object.getY());
+			}
+			if(num == 360) {
+				num = 0;
+			}
+			center = new Pair<Double, Double>(center.getKey(), center.getValue() + 1);
+			coords = new Pair<Double, Double>((Math.cos(num) * 30) + center.getKey(), (Math.sin(num) * 30) + center.getValue());
+			num += 0.1;
+			
 			break;
 		default:
 			break;
