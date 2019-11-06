@@ -170,34 +170,21 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		ArrayList<BasicBullet> bulletsToRemove = new ArrayList<BasicBullet>();
 		for(BasicBullet bullet : bullets) {
 			if(program.getElementAt(bullet.bullet.getX() + bullet.bullet.getWidth() + 1, bullet.bullet.getY() + bullet.bullet.getHeight()/2) instanceof GRoundRect) {
 				enemies.remove(program.getElementAt(bullet.bullet.getX() + bullet.bullet.getWidth() + 1, bullet.bullet.getY() + bullet.bullet.getHeight()/2));
 				program.remove(program.getElementAt(bullet.bullet.getX() + bullet.bullet.getWidth() + 1, bullet.bullet.getY() + bullet.bullet.getHeight()/2));
+				bulletsToRemove.add(bullet);
 			}
 			bullet.bullet.move(0, -10);
 		}
-//		for(GRoundRect enemy : enemies) {
-//			
-//		}
+		bullets.removeAll(bulletsToRemove);
+		for(BasicBullet bullet : bulletsToRemove) {
+			program.remove(bullet.bullet);
+		}
 		timerRuns++;
 		if(timerRuns % 200 == 0) {
-//			GPoint[] temp = new GPoint[3];
-//			GPoint temp1 = new GPoint(random.nextDouble(0, GAME_SCREEN_WIDTH), 0);
-//			if(temp1.getX() > GAME_SCREEN_WIDTH/2) {
-//				GPoint temp2 = new GPoint(temp1.getX() - 10, 0);
-//				GPoint temp3 = new GPoint((temp1.getX() + temp2.getX() / 2), 10);
-//				temp[0] = temp1;
-//				temp[1] = temp2;
-//				temp[2] = temp3;
-//			}
-//			else {
-//				GPoint temp2 = new GPoint(temp1.getX() + 10, 0);
-//				GPoint temp3 = new GPoint((temp1.getX() + temp2.getX() / 2), 10);
-//				temp[0] = temp1;
-//				temp[1] = temp2;
-//				temp[2] = temp3;
-//			}
 			GRoundRect temp = new GRoundRect(random.nextDouble(0, GAME_SCREEN_WIDTH - 20), 0, 20, 20);
 			temp.setColor(Color.RED);		
 			temp.setFilled(true);
