@@ -40,6 +40,7 @@ public class PausePop extends GraphicsPane {
 		program.add(returnToMenu);
 		program.add(resume);
 	}
+	
 
 	@Override
 	public void hideContents() {
