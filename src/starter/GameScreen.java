@@ -49,6 +49,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	//private Timer gameTimer;
 	private ArrayList<Fighter> enemies; // TODO rewrite this using the actual enemy class type
 	private int timerRuns;
+	private int kills = 0, shot = 0;
 	private RandomGenerator random;
 	
 	public GameScreen(MainApplication app)
@@ -190,6 +191,8 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 			BasicBullet temp = new BasicBullet(5, playerShip);
 			bullets.add(temp);
 			program.add(temp.bullet);
+			shot++;
+			shotsLabel.setLabel("Shots: " + shot);
 		}
 	}
 	
@@ -211,10 +214,13 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		ArrayList<BasicBullet> bulletsToRemove = new ArrayList<BasicBullet>();
 		for(BasicBullet bullet : bullets) {
-			if(program.getElementAt(bullet.bullet.getX() + bullet.bullet.getWidth() + 1, bullet.bullet.getY() + bullet.bullet.getHeight()/2) instanceof GRoundRect) {
-				enemies.remove(program.getElementAt(bullet.bullet.getX() + bullet.bullet.getWidth() + 1, bullet.bullet.getY() + bullet.bullet.getHeight()/2));
-				program.remove(program.getElementAt(bullet.bullet.getX() + bullet.bullet.getWidth() + 1, bullet.bullet.getY() + bullet.bullet.getHeight()/2));
-				bulletsToRemove.add(bullet);
+			if(program.getElementAt(bullet.bullet.getX() + bullet.bullet.getWidth() + 1, bullet.bullet.getY() + bullet.bullet.getHeight()/2) instanceof GRect) {
+				if(program.getElementAt(bullet.bullet.getX() + bullet.bullet.getWidth() + 1, bullet.bullet.getY() + bullet.bullet.getHeight()/2) != gameSection) {		
+					enemies.remove(program.getElementAt(bullet.bullet.getX() + bullet.bullet.getWidth() + 1, bullet.bullet.getY() + bullet.bullet.getHeight()/2));
+					program.remove(program.getElementAt(bullet.bullet.getX() + bullet.bullet.getWidth() + 1, bullet.bullet.getY() + bullet.bullet.getHeight()/2));
+					bulletsToRemove.add(bullet);
+					kills++;
+				}
 			}
 			bullet.bullet.move(0, -10);
 		}
@@ -222,8 +228,9 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		for(BasicBullet bullet : bulletsToRemove) {
 			program.remove(bullet.bullet);
 		}
+		killsLabel.setLabel("Kills : " + kills);
 		timerRuns++;
-		if(timerRuns % 200 == 0) {
+		if(timerRuns % 20 == 0) {
 //			GPoint[] temp = new GPoint[3];
 //			GPoint temp1 = new GPoint(random.nextDouble(0, GAME_SCREEN_WIDTH), 0);
 //			if(temp1.getX() > GAME_SCREEN_WIDTH/2) {
