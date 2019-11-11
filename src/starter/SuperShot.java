@@ -14,7 +14,7 @@ public class SuperShot implements Bullet{
 	private GRect sprite;
 	public SuperShot(int damage, Path bulletPattern) {
 		this.damage = damage;
-		//this.bulletPattern = bulletPattern;
+		bulletPattern = new Path(sprite, MovementEquation.STRAIGHT, 20, true);
 		sprite = new GRect(100, program.getHeight());
 		sprite.setFillColor(Color.BLUE);
 	}

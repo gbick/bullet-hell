@@ -154,9 +154,9 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 				return;
 			}
 			else {
-				//SuperShot temp = new SuperShot(50,Path);
-				//superShot.add(temp);
-				//program.add(temp.sprite);
+				SuperShot temp = new SuperShot(50,MovementEquation.STRAIGHT);
+				superShot.add(temp);
+				program.add(temp.getSprite());
 				shot++;
 				shotsLabel.setLabel("Shots: " + shot);
 			}

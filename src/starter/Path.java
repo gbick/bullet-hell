@@ -10,25 +10,17 @@ public class Path {
 	private double direction; // slope of movement direction for bullet
 	private Pair<Double, Double> coords;
 	private Pair<Double, Double> center;
-	private GRect object; //TODO change to GImage for sprites when implemented
+	private GRect object;
 	private GImage target;
 	private double num = 0;
-	private double tick = 1; //1 = down, -1 = up
 	
-	public Path(GRect enemy, MovementEquation movementType, double speed,  boolean dir) {
-		if(dir) {
-			tick = speed;
-		}
-		else {
-			tick = -1 * speed;
-		}
+	public Path(GRect enemy, MovementEquation movementType) {
 		object = enemy;
 		movement = movementType;
 		coords = new Pair<Double, Double>(enemy.getX(), enemy.getY());
 	}
 	
 	public Path(GRect enemy, MovementEquation movementType, GImage headTowards) {
-		//For seeking shots only
 		object = enemy;
 		movement = movementType;
 		coords = new Pair<Double, Double>(enemy.getX(), enemy.getY());
@@ -38,13 +30,13 @@ public class Path {
 	public Pair<Double, Double> moveNextTick() {
 		switch(movement) {
 		case STRAIGHT:
-			coords = new Pair<Double, Double>(coords.getKey(), object.getY() + tick);
+			coords = new Pair<Double, Double>(coords.getKey(), object.getY() + 1);
 			break;
 		case DIAGONAL:
-			coords = new Pair<Double, Double>(object.getX() + tick, object.getY() + tick);
+			coords = new Pair<Double, Double>(object.getX() + 1, object.getY() + 1);
 			break;
 		case WAVE:
-			coords = new Pair<Double, Double>(object.getX() + tick * (Math.sin(object.getY() * 0.1) * 5),object.getY() + 1);
+			coords = new Pair<Double, Double>(object.getX() + (Math.sin(object.getY() * 0.1) * 5),object.getY() + 1);
 			break;
 		case SEEK:
 			if(target != null) {
@@ -76,7 +68,7 @@ public class Path {
 			if(num == 360) {
 				num = 0;
 			}
-			center = new Pair<Double, Double>(center.getKey(), center.getValue() + tick);
+			center = new Pair<Double, Double>(center.getKey(), center.getValue() + 1);
 			coords = new Pair<Double, Double>((Math.cos(num) * 30) + center.getKey(), (Math.sin(num) * 30) + center.getValue());
 			num += 0.1;
 			
