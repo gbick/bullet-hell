@@ -9,4 +9,5 @@ public interface Bullet {
 	public double getSpeed();
 	public double getDamage();
 	public boolean getDirection();
+	public boolean checkEnemyBullet();
 }

@@ -214,7 +214,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 			return;
 		}
 		else {
-			BasicBullet temp = new BasicBullet(5, playerShip, 10, false);
+			BasicBullet temp = new BasicBullet(5, playerShip, 10, false, false);
 			bullets.add(temp);
 			program.add(temp.bullet);
 			shot++;
@@ -255,6 +255,9 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 						}
 					}
 					kills++;
+			}
+			if(temp instanceof GImage && bullet.checkEnemyBullet()) {
+				bulletsToRemove.add(bullet);
 			}
 			//Movement
 			Pair<Double, Double> next = bullet.getNextLoc();
@@ -316,7 +319,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 			double rand = random.nextDouble(0,4);
 			if(rand < 1 && rand > 0) {				
 				Fighter enemyShip = new Fighter(random.nextDouble(0, GAME_SCREEN_WIDTH - 20), 0, MovementEquation.SEEK, playerShip);
-				BasicBullet shot = new BasicBullet(5, enemyShip.getSprite(), 2, true);
+				BasicBullet shot = new BasicBullet(5, enemyShip.getSprite(), 2, true, true);
 				Shooter temp = new Shooter(enemyShip, shot, 50);
 				enemies.add(temp);
 				temp.getSprite().setFillColor(Color.RED);
@@ -330,7 +333,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 			}
 			else if(rand > 2 && rand < 3) {
 				Fighter enemyShip = new Fighter(random.nextDouble(0, GAME_SCREEN_WIDTH - 20), 0 , MovementEquation.STRAIGHT);
-				WaveBullet shot = new WaveBullet(5, enemyShip.getSprite(), 2, true);
+				WaveBullet shot = new WaveBullet(5, enemyShip.getSprite(), 2, true, true);
 				Shooter temp = new Shooter(enemyShip, shot, 50);
 				enemies.add(temp);
 				program.add(temp.getSprite());

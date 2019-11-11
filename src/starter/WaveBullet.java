@@ -24,8 +24,9 @@ public class WaveBullet implements Bullet {
 	public GOval bullet; // will change this when we have sprites for bullets
 	// TODO make a sprite for the Bullet
 	private boolean direction; //True: down, False: up
+	private boolean enemyBullet; // True: belongs to enemy, False: belongs to player
 	
-	public WaveBullet(double damage, GObject shooter, double speed, boolean dir) {
+	public WaveBullet(double damage, GObject shooter, double speed, boolean dir, boolean enemyBullet) {
 		if(dir) {			
 			bullet = new GOval(shooter.getX() + shooter.getWidth()/2, shooter.getY() + shooter.getHeight(), 3, 3);
 		}
@@ -38,6 +39,7 @@ public class WaveBullet implements Bullet {
 		this.damage = damage;
 		this.speed = speed;
 		bulletPattern = new Path(bullet, MovementEquation.WAVE, this.speed, dir);
+		this.enemyBullet = enemyBullet;
 	}
 	
 	@Override
@@ -63,6 +65,10 @@ public class WaveBullet implements Bullet {
 	@Override
 	public GOval getSprite() {
 		return bullet;
+	}
+	@Override
+	public boolean checkEnemyBullet() {
+		return enemyBullet;
 	}
 
 
