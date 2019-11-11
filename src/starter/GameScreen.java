@@ -52,6 +52,9 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	private int timerRuns;
 	private int kills = 0, shot = 0;
 	private RandomGenerator random;
+	private int health = 100;
+	private GLabel healthLabel;
+	private GRoundRect insideHealthBar;
 	
 	public GameScreen(MainApplication app)
 	{
@@ -73,16 +76,22 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		
 		shotsLabel = new GLabel("Shots: ", program.getWidth()-125, program.getHeight()/5);
 		
+		healthLabel = new GLabel("HP: ", program.getWidth()-125, program.getHeight()/4);
+		
 		//bossBarFrame = new GRect(program.getWidth()/30, program.getHeight()/30, GAME_SCREEN_WIDTH-50, 10);
 		
 		//bossBar = new GRect(program.getWidth()/30, program.getHeight()/30, GAME_SCREEN_WIDTH-45, 8);
 		
 		healthBar = new GRoundRect(90, gameSection.getY() + gameSection.getHeight() + 5, 400, 10); // TODO refactor for flexibility
+		insideHealthBar = new GRoundRect(90, gameSection.getY() + gameSection.getHeight() + 5, 400, 10);
 		
 		superBar = new GRoundRect(90, gameSection.getY() + gameSection.getHeight() + 25, 400, 10); // TODO refactor for flexibility
 		healthBar.setColor(Color.BLACK);
 		healthBar.setFillColor(Color.RED);
-		healthBar.setFilled(true);
+		healthBar.setFilled(false);
+		insideHealthBar.setColor(Color.BLACK);
+		insideHealthBar.setFillColor(Color.RED);
+		insideHealthBar.setFilled(true);
 		gameSection.setColor(Color.BLACK);
 		gameSection.setFilled(true);
 		playerShip = new GImage("../media/sprites/player/ship1.png", 250, 543); // TODO refactor
@@ -96,7 +105,9 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	
 	@Override
 	public void showContents() {
-		
+		if(program.gameLost) {
+			resetGame();
+		}
 		program.add(gameSection);
 		program.add(healthBarLabel);
 		program.add(superShotLabel);
@@ -105,9 +116,11 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		program.add(pointsLabel);
 		program.add(killsLabel);
 		program.add(shotsLabel);
+		program.add(healthLabel);
 		//program.add(bossBarFrame);
 		//program.add(bossBar);
 		program.add(healthBar);
+		program.add(insideHealthBar);
 		program.add(superBar);
 		program.add(playerShip);
 		program.gameTimer.start();
@@ -124,9 +137,11 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		program.remove(pointsLabel);
 		program.remove(killsLabel);
 		program.remove(shotsLabel);
+		program.remove(healthLabel);
 		//program.add(bossBarFrame);
 		//program.add(bossBar);
 		program.remove(healthBar);
+		program.remove(insideHealthBar);
 		program.remove(superBar);
 		program.remove(playerShip);
 		
@@ -142,6 +157,12 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 				program.remove(bullet.getSprite());
 			}
 			bullets.removeAll(bullets);
+		}
+		if(superShot.size() > 0) {
+			for(SuperShot shot : superShot) {
+				program.remove(shot.getSprite());
+			}
+			superShot.removeAll(superShot);
 		}
 		/*
 		 *
@@ -169,13 +190,13 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 				e.consume();
 				return;
 			}
-			else {
-				SuperShot temp = new SuperShot(50, playerShip, 10, false);
-				superShot.add(temp);
-				program.add(temp.getSprite());
-				shot++;
-				shotsLabel.setLabel("Shots: " + shot);
-			}
+//			else {
+//				SuperShot temp = new SuperShot(50, playerShip, 10, false);
+//				superShot.add(temp);
+//				program.add(temp.getSprite());
+//				shot++;
+//				shotsLabel.setLabel("Shots: " + shot);
+//			}
 		}
 		
 	}
@@ -240,6 +261,12 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		if(health <= 0) {
+			program.gameLost = true;
+			program.addLosePop();
+			program.gameTimer.stop();
+		}
+		
 		/*
 		 * Movement / Updating
 		 */
@@ -262,6 +289,45 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 			}
 			if(temp instanceof GImage && bullet.checkEnemyBullet()) {
 				bulletsToRemove.add(bullet);
+				if(health > 0) {
+					health--;
+					if(health <= 0) {
+						program.remove(insideHealthBar);
+						healthLabel.setLabel("HP: " + 0);
+						for(Bullet remove : bullets) {
+							bulletsToRemove.add(remove);
+						}
+						for(Obstacle remove : enemies) {
+							obstaclesToRemove.add(remove);
+						}
+						program.gameLost = true;
+						program.addLosePop();
+						program.gameTimer.stop();
+						//break;
+						
+					}
+					else {
+						if (health <= 0) {
+							healthLabel.setLabel("HP: " + 0);
+							for(Bullet remove : bullets) {
+								bulletsToRemove.add(remove);
+							}
+							for(Obstacle remove : enemies) {
+								obstaclesToRemove.add(remove);
+							}
+							program.gameLost = true;
+							program.addLosePop();
+							program.gameTimer.stop();
+							//break;
+						}
+						else {
+							healthLabel.setLabel("HP: " + health);
+						}
+							program.remove(insideHealthBar);
+							insideHealthBar.setSize(insideHealthBar.getWidth()-4, 10);
+							program.add(insideHealthBar);
+					}
+				}
 			}
 			//Movement
 			Pair<Double, Double> next = bullet.getNextLoc();
@@ -315,6 +381,33 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 			GObject temp = program.getElementAt(enemy.getSprite().getX() + enemy.getSprite().getWidth() + 1, enemy.getSprite().getY() + enemy.getSprite().getHeight()/2);
 			if (temp instanceof GImage) {
 				obstaclesToRemove.add(enemy);
+				if(health > 0) {
+					health -= 5;
+					healthLabel.setLabel("HP: " + health);
+					if(health <= 0) {
+						program.remove(insideHealthBar);
+						healthLabel.setLabel("HP: " + 0);
+						program.addLosePop();
+						program.gameTimer.stop();
+						// break;
+					}
+					else {
+						if (health <= 0) {
+							healthLabel.setLabel("HP: " + 0);
+							program.gameLost = true;
+							program.addLosePop();
+							program.gameTimer.stop();
+							// break;
+						}
+						else {
+							healthLabel.setLabel("HP: " + health);
+						}
+						program.remove(insideHealthBar);
+						insideHealthBar.setSize(insideHealthBar.getWidth()-20, 10);
+						program.add(insideHealthBar);
+					}
+					
+				}
 			}
 			else if(enemy.getSprite().getY() + enemy.getSprite().getHeight() > gameSection.getHeight() + gameSection.getY()) {
 				obstaclesToRemove.add(enemy);
@@ -364,6 +457,22 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 			}
 			
 		}
+	}
+	public void resetGame() {
+		health = 100;
+		program.remove(playerShip);
+		program.delPop();
+		program.gameTimer.restart();
+		insideHealthBar.setSize(400,10);
+		for(Bullet bullet : bullets) {
+			program.remove(bullet.getSprite());
+		}
+		bullets.removeAll(bullets);
+		for(Obstacle enemy : enemies) {
+			program.remove(enemy.getSprite());
+		}
+		enemies.removeAll(enemies);
+		program.gameLost = false;
 	}
 	
 }

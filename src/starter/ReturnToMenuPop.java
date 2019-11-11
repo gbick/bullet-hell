@@ -62,7 +62,12 @@ public class ReturnToMenuPop extends GraphicsPane {
 		else if(obj == no)
 		{
 			program.delPop();
-			program.addPausePop();
+			if(!program.gameLost) {
+				program.addPausePop();
+			}
+			else {
+				program.addLosePop();
+			}
 			return;
 		}
 		

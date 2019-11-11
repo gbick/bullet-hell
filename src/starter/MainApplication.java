@@ -22,11 +22,13 @@ public class MainApplication extends GraphicsApplication {
 	private ExitPop exitPop;
 	private PausePop pausePop;
 	private ReturnToMenuPop RtMPop;
+	private LosePop losePop;
 	private int count;
 	
 	private File currentSave;
 	private int currentLevel;
 	public Timer gameTimer;
+	public boolean gameLost;
 
 	public void init() {
 		setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -43,6 +45,8 @@ public class MainApplication extends GraphicsApplication {
 		exitPop = new ExitPop(this);
 		pausePop = new PausePop(this);
 		RtMPop = new ReturnToMenuPop(this);
+		losePop = new LosePop(this);
+		gameLost = false;
 		switchToMenu();
 	}
 	
@@ -96,6 +100,10 @@ public class MainApplication extends GraphicsApplication {
 	}
 	public void addRtMPop() {
 		addPop(RtMPop);
+	}
+	
+	public void addLosePop() {
+		addPop(losePop);
 	}
 
 	private void playRandomSound() {
