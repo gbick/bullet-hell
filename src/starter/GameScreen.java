@@ -263,6 +263,25 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 			Pair<Double, Double> next = bullet.getNextLoc();
 			bullet.getSprite().setLocation(next.getKey(), next.getValue());
 		}
+		for(SuperShot superShots : superShot)
+		{
+			GObject temp = program.getElementAt(superShots.getSprite().getX() + superShots.getSprite().getWidth()+1,superShots.getSprite().getY() + superShots.getSprite().getHeight()/2);
+			if(temp instanceof GRect)
+			{
+				if(temp != gameSection)
+				{
+					superShotToRemove.add(superShots);
+					for(Obstacle obstacle : enemies)
+					{
+						if(temp==obstacle.getSprite())
+						{
+							obstaclesToRemove.add(obstacle);
+						}
+					}
+					kills++;
+				}
+			}
+		}
 		
 		//Removal
 		bullets.removeAll(bulletsToRemove);
@@ -272,6 +291,12 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		enemies.removeAll(obstaclesToRemove);
 		for(Obstacle obstacle : obstaclesToRemove) {
 			program.remove(obstacle.getSprite());
+		}
+		
+		superShot.removeAll(superShotToRemove);
+		for(SuperShot superShots : superShot)
+		{
+			program.remove(superShots.getSprite());
 		}
 		//OBSTACLES
 		for(Obstacle enemy : enemies) {
