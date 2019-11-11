@@ -64,6 +64,10 @@ public class BasicBullet implements Bullet {
 	public GOval getSprite() {
 		return bullet;
 	}
+	
+	public GOval getBullet() {
+		return bullet;
+	}
 
 
 }
