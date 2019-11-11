@@ -4,6 +4,7 @@ import java.awt.Color;
 
 import acm.graphics.GImage;
 import acm.graphics.GRect;
+import javafx.util.Pair;
 
 /*
  * Basic bullet for enemies to fire. 
@@ -22,13 +23,18 @@ public class BasicBullet implements Bullet {
 	private MainApplication program;
 	private boolean direction; //True: down, False: up
 	
-	public BasicBullet(int damage, GImage shooter, boolean dir) {
+	public BasicBullet(int damage, GImage shooter, double speed, boolean dir) {
 		bullet = new GRect(shooter.getX() + shooter.getWidth()/2, shooter.getY(), 3, 10);
 		bullet.setFillColor(Color.RED);
 		bullet.setFilled(true);
 		direction = dir;
 		this.damage = damage;
-		bulletPattern = new Path(bullet, MovementEquation.STRAIGHT);
+		bulletPattern = new Path(bullet, MovementEquation.STRAIGHT, speed, dir);
+	}
+	
+	@Override
+	public Pair<Double, Double> getNextLoc() {
+		return bulletPattern.moveNextTick();
 	}
 	
 	@Override
@@ -40,17 +46,11 @@ public class BasicBullet implements Bullet {
 	public boolean getDirection() {
 		return direction;
 	}
-		
-	@Override
-	public void spawn() {
-		// TODO Auto-generated method stub
-		program.add(bullet);
-	}
 
 	@Override
-	public void despawn() {
-		// TODO Auto-generated method stub
-		program.remove(bullet);
+	public GRect getSprite() {
+		return bullet;
 	}
+
 
 }

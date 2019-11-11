@@ -188,7 +188,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 			return;
 		}
 		else {
-			BasicBullet temp = new BasicBullet(5, playerShip, false);
+			BasicBullet temp = new BasicBullet(5, playerShip, 10, false);
 			bullets.add(temp);
 			program.add(temp.bullet);
 			shot++;
@@ -212,8 +212,13 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		/*
+		 * Movement / Updating
+		 */
+		//BULLETS
 		ArrayList<BasicBullet> bulletsToRemove = new ArrayList<BasicBullet>();
 		for(BasicBullet bullet : bullets) {
+			//Despawning
 			if(program.getElementAt(bullet.bullet.getX() + bullet.bullet.getWidth() + 1, bullet.bullet.getY() + bullet.bullet.getHeight()/2) instanceof GRect) {
 				if(program.getElementAt(bullet.bullet.getX() + bullet.bullet.getWidth() + 1, bullet.bullet.getY() + bullet.bullet.getHeight()/2) != gameSection) {		
 					enemies.remove(program.getElementAt(bullet.bullet.getX() + bullet.bullet.getWidth() + 1, bullet.bullet.getY() + bullet.bullet.getHeight()/2));
@@ -222,15 +227,26 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 					kills++;
 				}
 			}
-			bullet.bullet.move(0, -10);
+			//Movement
+			Pair<Double, Double> next = bullet.getNextLoc();
+			bullet.getSprite().setLocation(next.getKey(), next.getValue());
 		}
 		bullets.removeAll(bulletsToRemove);
 		for(BasicBullet bullet : bulletsToRemove) {
 			program.remove(bullet.bullet);
 		}
+		//OBSTACLES
+		for(Obstacle enemy : enemies) {
+			Pair<Double, Double> next = enemy.getNextLoc();
+			enemy.getSprite().setLocation(next.getKey(), next.getValue());
+		}
 		killsLabel.setLabel("Kills : " + kills);
 		timerRuns++;
-		if(timerRuns % 20 == 0) {
+		
+		/*
+		 * Random spawning
+		 */
+		if(timerRuns % 200 == 0) {
 //			GPoint[] temp = new GPoint[3];
 //			GPoint temp1 = new GPoint(random.nextDouble(0, GAME_SCREEN_WIDTH), 0);
 //			if(temp1.getX() > GAME_SCREEN_WIDTH/2) {
@@ -265,12 +281,6 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 				program.add(temp.getSprite());
 			}
 			
-		}
-		if(timerRuns % 2 == 0) {
-			for(Fighter enemy : enemies) {
-				Pair<Double, Double> next = enemy.getNextLoc();
-				enemy.getSprite().setLocation(next.getKey(), next.getValue());
-			}
 		}
 	}
 	

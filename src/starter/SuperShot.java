@@ -1,6 +1,8 @@
 package starter;
 
 import acm.graphics.GImage;
+import acm.graphics.GRect;
+import javafx.util.Pair;
 
 public class SuperShot implements Bullet{
 	private Path bulletPattern;
@@ -11,15 +13,6 @@ public class SuperShot implements Bullet{
 	public SuperShot(int damage, Path bulletPattern) {
 		this.damage = damage;
 		this.bulletPattern = bulletPattern;
-	}
-	
-	@Override
-	public void spawn() {
-		program.add(sprite);
-	}
-	@Override
-	public void despawn() {
-		program.remove(sprite);
 	}
 
 	@Override
@@ -32,5 +25,17 @@ public class SuperShot implements Bullet{
 	public boolean getDirection() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public GRect getSprite() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Pair<Double, Double> getNextLoc() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
