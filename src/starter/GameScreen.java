@@ -170,7 +170,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 				return;
 			}
 			else {
-				SuperShot temp = new SuperShot(50, playerShip, 50, false);
+				SuperShot temp = new SuperShot(50, playerShip, 10, false);
 				superShot.add(temp);
 				program.add(temp.getSprite());
 				shot++;

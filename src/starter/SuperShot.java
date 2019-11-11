@@ -21,12 +21,12 @@ public class SuperShot implements Bullet{
 	{
 		if(dir)
 		{
-			sprite = new GOval(shooter.getX() + shooter.getY()/2, shooter.getY() + shooter.getHeight(), 10, program.getHeight());
+			sprite = new GOval(shooter.getX() + shooter.getY()/2, shooter.getY() + shooter.getHeight(), 25, 200);
 			
 		}
 		else
 		{
-			sprite = new GOval(shooter.getX() + shooter.getWidth()/2, shooter.getY(), 10, 200);
+			sprite = new GOval(shooter.getX() + shooter.getWidth()/2, shooter.getY(), 25, 200);
 		}
 		sprite.setFillColor(Color.BLUE);
 		sprite.setFilled(true);
