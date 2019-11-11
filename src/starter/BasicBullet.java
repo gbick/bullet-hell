@@ -24,8 +24,9 @@ public class BasicBullet implements Bullet {
 	public GOval bullet; // will change this when we have sprites for bullets
 	// TODO make a sprite for the Bullet
 	private boolean direction; //True: down, False: up
+	private boolean enemyBullet; // True: belongs to enemy, False: belongs to player
 	
-	public BasicBullet(double damage, GObject shooter, double speed, boolean dir) {
+	public BasicBullet(double damage, GObject shooter, double speed, boolean dir, boolean enemyBullet) {
 		if(dir) {			
 			bullet = new GOval(shooter.getX() + shooter.getWidth()/2, shooter.getY() + shooter.getHeight(), 3, 10);
 		}
@@ -38,6 +39,7 @@ public class BasicBullet implements Bullet {
 		this.damage = damage;
 		this.speed = speed;
 		bulletPattern = new Path(bullet, MovementEquation.STRAIGHT, this.speed, dir);
+		this.enemyBullet = enemyBullet;
 	}
 	
 	@Override
@@ -68,6 +70,8 @@ public class BasicBullet implements Bullet {
 	public GOval getBullet() {
 		return bullet;
 	}
-
-
+	@Override
+	public boolean checkEnemyBullet() {
+		return enemyBullet;
+	}
 }

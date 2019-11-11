@@ -65,4 +65,7 @@ public class SuperShot implements Bullet{
 		// TODO Auto-generated method stub
 		return speed;
 	}
+	public boolean checkEnemyBullet() {
+		return false;
+	}
 }

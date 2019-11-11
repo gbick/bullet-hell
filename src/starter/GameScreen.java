@@ -80,9 +80,11 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		healthBar = new GRoundRect(90, gameSection.getY() + gameSection.getHeight() + 5, 400, 10); // TODO refactor for flexibility
 		
 		superBar = new GRoundRect(90, gameSection.getY() + gameSection.getHeight() + 25, 400, 10); // TODO refactor for flexibility
-		healthBar.setFillColor(Color.RED); // TODO figure out why this isn't working?
-		gameSection.setFillColor(Color.RED); // Or this?
-		
+		healthBar.setColor(Color.BLACK);
+		healthBar.setFillColor(Color.RED);
+		healthBar.setFilled(true);
+		gameSection.setColor(Color.BLACK);
+		gameSection.setFilled(true);
 		playerShip = new GImage("../media/sprites/player/ship1.png", 250, 543); // TODO refactor
 		//gameTimer = new Timer(10, this);
 		bullets = new ArrayList<Bullet>();
@@ -214,7 +216,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 			return;
 		}
 		else {
-			BasicBullet temp = new BasicBullet(5, playerShip, 10, false);
+			BasicBullet temp = new BasicBullet(5, playerShip, 10, false, false);
 			bullets.add(temp);
 			program.add(temp.bullet);
 			shot++;
@@ -248,16 +250,18 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		for(Bullet bullet : bullets) {
 			//Despawning
 			GObject temp = program.getElementAt(bullet.getSprite().getX() + bullet.getSprite().getWidth() + 1, bullet.getSprite().getY() + bullet.getSprite().getHeight()/2);
-			if(temp instanceof GRect) {
-				if(temp != gameSection) {
+			if(temp instanceof GRect && temp != gameSection) {
 					bulletsToRemove.add(bullet);
 					for(Obstacle obstacle : enemies) {
-						if(temp == obstacle.getSprite()) {
+						if(temp == obstacle.getSprite() && !bullet.checkEnemyBullet()) {
 							obstaclesToRemove.add(obstacle);
+							kills++;
 						}
 					}
-					kills++;
-				}
+					
+			}
+			if(temp instanceof GImage && bullet.checkEnemyBullet()) {
+				bulletsToRemove.add(bullet);
 			}
 			//Movement
 			Pair<Double, Double> next = bullet.getNextLoc();
@@ -308,8 +312,19 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 					program.add(temp.getSprite());
 				}
 			}
+			GObject temp = program.getElementAt(enemy.getSprite().getX() + enemy.getSprite().getWidth() + 1, enemy.getSprite().getY() + enemy.getSprite().getHeight()/2);
+			if (temp instanceof GImage) {
+				obstaclesToRemove.add(enemy);
+			}
+			else if(enemy.getSprite().getY() + enemy.getSprite().getHeight() > gameSection.getHeight() + gameSection.getY()) {
+				obstaclesToRemove.add(enemy);
+			}
 			Pair<Double, Double> next = enemy.getNextLoc();
 			enemy.getSprite().setLocation(next.getKey(), next.getValue());
+		}
+		enemies.removeAll(obstaclesToRemove);
+		for(Obstacle obstacle : obstaclesToRemove) {
+			program.remove(obstacle.getSprite());
 		}
 		killsLabel.setLabel("Kills : " + kills);
 		timerRuns++;
@@ -318,40 +333,26 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		 * Random spawning
 		 */
 		if(timerRuns % 100 == 0) {
-//			GPoint[] temp = new GPoint[3];
-//			GPoint temp1 = new GPoint(random.nextDouble(0, GAME_SCREEN_WIDTH), 0);
-//			if(temp1.getX() > GAME_SCREEN_WIDTH/2) {
-//				GPoint temp2 = new GPoint(temp1.getX() - 10, 0);
-//				GPoint temp3 = new GPoint((temp1.getX() + temp2.getX() / 2), 10);
-//				temp[0] = temp1;
-//				temp[1] = temp2;
-//				temp[2] = temp3;
-//			}
-//			else {
-//				GPoint temp2 = new GPoint(temp1.getX() + 10, 0);
-//				GPoint temp3 = new GPoint((temp1.getX() + temp2.getX() / 2), 10);
-//				temp[0] = temp1;
-//				temp[1] = temp2;
-//				temp[2] = temp3;
-//			}
 			double rand = random.nextDouble(0,4);
 			if(rand < 1 && rand > 0) {				
 				Fighter enemyShip = new Fighter(random.nextDouble(0, GAME_SCREEN_WIDTH - 20), 0, MovementEquation.SEEK, playerShip);
-				BasicBullet shot = new BasicBullet(5, enemyShip.getSprite(), 2, true);
+				BasicBullet shot = new BasicBullet(5, enemyShip.getSprite(), 2, true, true);
 				Shooter temp = new Shooter(enemyShip, shot, 50);
 				enemies.add(temp);
+				temp.getSprite().setColor(Color.WHITE);
 				temp.getSprite().setFillColor(Color.RED);
 				program.add(temp.getSprite());
 			}
 			else if(rand > 1 && rand < 2) {
 				Fighter temp = new Fighter(random.nextDouble(0, GAME_SCREEN_WIDTH - 20), 0, MovementEquation.WAVE);
 				enemies.add(temp);
+				temp.getSprite().setColor(Color.WHITE);
 				temp.getSprite().setFillColor(Color.BLACK);
 				program.add(temp.getSprite());
 			}
 			else if(rand > 2 && rand < 3) {
 				Fighter enemyShip = new Fighter(random.nextDouble(0, GAME_SCREEN_WIDTH - 20), 0 , MovementEquation.STRAIGHT);
-				WaveBullet shot = new WaveBullet(5, enemyShip.getSprite(), 2, true);
+				WaveBullet shot = new WaveBullet(5, enemyShip.getSprite(), 2, true, true);
 				Shooter temp = new Shooter(enemyShip, shot, 50);
 				enemies.add(temp);
 				program.add(temp.getSprite());
