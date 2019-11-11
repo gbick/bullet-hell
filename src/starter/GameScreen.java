@@ -48,6 +48,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	private ArrayList<BasicBullet> bullets;
 	//private Timer gameTimer;
 	private ArrayList<Fighter> enemies; // TODO rewrite this using the actual enemy class type
+	private ArrayList<SuperShot> superShot;
 	private int timerRuns;
 	private int kills = 0, shot = 0;
 	private RandomGenerator random;
@@ -86,6 +87,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		//gameTimer = new Timer(10, this);
 		bullets = new ArrayList<BasicBullet>();
 		enemies = new ArrayList<Fighter>();
+		superShot = new ArrayList<SuperShot>();
 		timerRuns = 0;
 		random = RandomGenerator.getInstance();
 	}
@@ -147,7 +149,17 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		}
 		if(e.getKeyCode() == KeyEvent.VK_SPACE)
 		{
-			//add SuperShot methods
+			if(program.getCurPop() != null) {
+				e.consume();
+				return;
+			}
+			else {
+				//SuperShot temp = new SuperShot(50,MovementEquation.STRAIGHT);
+				//superShot.add(temp);
+				//program.add(temp.sprite);
+				shot++;
+				shotsLabel.setLabel("Shots: " + shot);
+			}
 		}
 		
 	}
