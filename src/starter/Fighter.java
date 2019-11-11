@@ -47,8 +47,7 @@ public class Fighter implements Obstacle {
 	
 	@Override
 	public void despawn() {
-		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override

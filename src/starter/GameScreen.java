@@ -126,7 +126,21 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		program.remove(superBar);
 		program.remove(playerShip);
 		
+		if (enemies.size() > 0) {
+			for(Fighter enemy : enemies) {
+				program.remove(enemy.getSprite());
+			}
+			enemies.removeAll(enemies);
+		}
+		
+		if(bullets.size() > 0) {
+			for(BasicBullet bullet : bullets) {
+				program.remove(bullet.getBullet());
+			}
+			bullets.removeAll(bullets);
+		}
 		/*
+		 *
 		for(GRoundRect i: enemies.keySet())
 		{
 			program.remove(i);

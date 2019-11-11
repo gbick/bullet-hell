@@ -36,5 +36,9 @@ public class BasicBullet implements Bullet {
 		// TODO Auto-generated method stub
 		program.remove(bullet);
 	}
+	
+	public GRoundRect getBullet() {
+		return bullet;
+	}
 
 }
