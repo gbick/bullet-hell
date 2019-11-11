@@ -15,6 +15,7 @@ public class Fighter implements Obstacle {
 	public Fighter(double x, double y, MovementEquation flightType) {
 		//sprite = new GImage("../media/sprites/player/ship1.png", x, y);
 		sprite = new GRect(x, y, 20, 20);
+		sprite.setColor(Color.WHITE);
 		sprite.setFillColor(Color.BLUE);
 		sprite.setFilled(true);
 		flightPath = new Path(sprite, flightType, 1, true);
@@ -24,6 +25,7 @@ public class Fighter implements Obstacle {
 	public Fighter(double x, double y, MovementEquation flightType, GImage target) {
 		//sprite = new GImage("../media/sprites/player/ship1.png", x, y);
 		sprite = new GRect(x, y, 20, 20);
+		sprite.setColor(Color.WHITE);
 		sprite.setFillColor(Color.RED);
 		sprite.setFilled(true);
 		flightPath = new Path(sprite, flightType, target);

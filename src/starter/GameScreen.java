@@ -80,9 +80,11 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		healthBar = new GRoundRect(90, gameSection.getY() + gameSection.getHeight() + 5, 400, 10); // TODO refactor for flexibility
 		
 		superBar = new GRoundRect(90, gameSection.getY() + gameSection.getHeight() + 25, 400, 10); // TODO refactor for flexibility
-		healthBar.setFillColor(Color.RED); // TODO figure out why this isn't working?
-		gameSection.setFillColor(Color.RED); // Or this?
-		
+		healthBar.setColor(Color.BLACK);
+		healthBar.setFillColor(Color.RED);
+		healthBar.setFilled(true);
+		gameSection.setColor(Color.BLACK);
+		gameSection.setFilled(true);
 		playerShip = new GImage("../media/sprites/player/ship1.png", 250, 543); // TODO refactor
 		//gameTimer = new Timer(10, this);
 		bullets = new ArrayList<Bullet>();
@@ -323,12 +325,14 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 				BasicBullet shot = new BasicBullet(5, enemyShip.getSprite(), 2, true, true);
 				Shooter temp = new Shooter(enemyShip, shot, 50);
 				enemies.add(temp);
+				temp.getSprite().setColor(Color.WHITE);
 				temp.getSprite().setFillColor(Color.RED);
 				program.add(temp.getSprite());
 			}
 			else if(rand > 1 && rand < 2) {
 				Fighter temp = new Fighter(random.nextDouble(0, GAME_SCREEN_WIDTH - 20), 0, MovementEquation.WAVE);
 				enemies.add(temp);
+				temp.getSprite().setColor(Color.WHITE);
 				temp.getSprite().setFillColor(Color.BLACK);
 				program.add(temp.getSprite());
 			}
