@@ -1,19 +1,24 @@
 package starter;
 
+import java.awt.Color;
+
 import acm.graphics.GImage;
 import acm.graphics.GOval;
+import javafx.util.Pair;
 import acm.graphics.GRect;
 import javafx.util.Pair;
 
 public class SuperShot implements Bullet{
 	private Path bulletPattern;
 	private int damage;
-	private GImage sprite;
+	//private GImage sprite;
 	private MainApplication program;
-	
+	private GOval sprite;
 	public SuperShot(int damage, Path bulletPattern) {
 		this.damage = damage;
-		this.bulletPattern = bulletPattern;
+		//this.bulletPattern = bulletPattern;
+		sprite = new GOval(100, program.getHeight());
+		sprite.setFillColor(Color.BLUE);
 	}
 
 	@Override
