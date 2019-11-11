@@ -27,4 +27,10 @@ public class SuperShot implements Bullet{
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+	@Override
+	public boolean getDirection() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

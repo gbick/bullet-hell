@@ -10,7 +10,7 @@ public class Path {
 	private double direction; // slope of movement direction for bullet
 	private Pair<Double, Double> coords;
 	private Pair<Double, Double> center;
-	private GRect object;
+	private GRect object; //TODO change to GImage for sprites when implemented
 	private GImage target;
 	private double num = 0;
 	
@@ -21,6 +21,7 @@ public class Path {
 	}
 	
 	public Path(GRect enemy, MovementEquation movementType, GImage headTowards) {
+		//For seeking shots only
 		object = enemy;
 		movement = movementType;
 		coords = new Pair<Double, Double>(enemy.getX(), enemy.getY());

@@ -188,7 +188,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 			return;
 		}
 		else {
-			BasicBullet temp = new BasicBullet(5, playerShip);
+			BasicBullet temp = new BasicBullet(5, playerShip, false);
 			bullets.add(temp);
 			program.add(temp.bullet);
 			shot++;
@@ -247,9 +247,16 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 //				temp[1] = temp2;
 //				temp[2] = temp3;
 //			}
-			if(random.nextDouble(0, 2) < 1) {				
+			double rand = random.nextDouble(0,3);
+			if(rand < 1 && rand > 0) {				
 				Fighter temp = new Fighter(random.nextDouble(0, GAME_SCREEN_WIDTH - 20), 0, MovementEquation.SEEK, playerShip);
 				enemies.add(temp);
+				program.add(temp.getSprite());
+			}
+			else if(rand > 1 && rand < 2) {
+				Fighter temp = new Fighter(random.nextDouble(0, GAME_SCREEN_WIDTH - 20), 0, MovementEquation.WAVE);
+				enemies.add(temp);
+				temp.getSprite().setFillColor(Color.BLACK);
 				program.add(temp.getSprite());
 			}
 			else {
