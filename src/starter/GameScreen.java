@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -41,6 +42,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	private GLabel pointsLabel;
 	private GLabel killsLabel;
 	private GLabel shotsLabel;
+	private GLabel accuracyLabel;
 	private GRect bossBarFrame;
 	private GRect bossBar;
 	private GRoundRect healthBar;
@@ -51,6 +53,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	private ArrayList<SuperShot> superShot;
 	private int timerRuns;
 	private int kills = 0, shot = 0;
+	double accuracy;
 	private RandomGenerator random;
 	private int health = 100;
 	private GLabel healthLabel;
@@ -68,13 +71,15 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		
 		livesLabel = new GLabel("Lives x", program.getWidth()-125, program.getHeight()-25);
 		
-		statsLabel = new GLabel("Stats: ", program.getWidth()-125, program.getHeight()/8);
+		statsLabel = new GLabel("Stats: ", program.getWidth()-125, GAME_SCREEN_MARGIN * 2);
 		
-		pointsLabel = new GLabel("Points: ", program.getWidth()-125, program.getHeight()/7);
+		pointsLabel = new GLabel("Points: 0", program.getWidth()-125,GAME_SCREEN_MARGIN * 4);
 		
-		killsLabel = new GLabel("Kills: ", program.getWidth()-125, program.getHeight()/6);
+		killsLabel = new GLabel("Kills: 0", program.getWidth()-125, GAME_SCREEN_MARGIN * 6);
 		
-		shotsLabel = new GLabel("Shots: ", program.getWidth()-125, program.getHeight()/5);
+		shotsLabel = new GLabel("Shots: 0", program.getWidth()-125, GAME_SCREEN_MARGIN * 8);
+		
+		accuracyLabel = new GLabel("Accuracy: 00.00%", program.getWidth()-125, GAME_SCREEN_MARGIN * 10);
 		
 		healthLabel = new GLabel("HP: ", program.getWidth()-125, program.getHeight()/4);
 		
@@ -117,6 +122,8 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		program.add(killsLabel);
 		program.add(shotsLabel);
 		program.add(healthLabel);
+
+		program.add(accuracyLabel);
 		//program.add(bossBarFrame);
 		//program.add(bossBar);
 		program.add(healthBar);
@@ -138,6 +145,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		program.remove(killsLabel);
 		program.remove(shotsLabel);
 		program.remove(healthLabel);
+		program.remove(accuracyLabel);
 		//program.add(bossBarFrame);
 		//program.add(bossBar);
 		program.remove(healthBar);
@@ -270,6 +278,13 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		/*
 		 * Movement / Updating
 		 */
+		//Update accuracy
+		if(shot > 0) {			
+			accuracy = ((double)kills / (double)shot) * 100;
+			DecimalFormat df = new DecimalFormat("#00.00");
+			String accuracyFormated = df.format(accuracy);
+			accuracyLabel.setLabel("Accuracy: " + accuracyFormated + "%");
+		}
 		//BULLETS
 		ArrayList<Bullet> bulletsToRemove = new ArrayList<Bullet>();
 		ArrayList<Obstacle> obstaclesToRemove = new ArrayList<Obstacle>();
@@ -446,7 +461,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 			else if(rand > 2 && rand < 3) {
 				Fighter enemyShip = new Fighter(random.nextDouble(0, GAME_SCREEN_WIDTH - 20), 0 , MovementEquation.STRAIGHT);
 				WaveBullet shot = new WaveBullet(5, enemyShip.getSprite(), 2, true, true);
-				Shooter temp = new Shooter(enemyShip, shot, 50);
+				Shooter temp = new Shooter(enemyShip, shot, 100);
 				enemies.add(temp);
 				program.add(temp.getSprite());
 			}

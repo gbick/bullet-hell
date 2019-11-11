@@ -28,10 +28,10 @@ public class WaveBullet implements Bullet {
 	
 	public WaveBullet(double damage, GObject shooter, double speed, boolean dir, boolean enemyBullet) {
 		if(dir) {			
-			bullet = new GOval(shooter.getX() + shooter.getWidth()/2, shooter.getY() + shooter.getHeight(), 3, 3);
+			bullet = new GOval(shooter.getX() + shooter.getWidth()/2, shooter.getY() + shooter.getHeight(), 3, 7);
 		}
 		else {			
-			bullet = new GOval(shooter.getX() + shooter.getWidth()/2, shooter.getY(), 3, 3);
+			bullet = new GOval(shooter.getX() + shooter.getWidth()/2, shooter.getY(), 3, 7);
 		}
 		bullet.setFillColor(Color.RED);
 		bullet.setFilled(true);
