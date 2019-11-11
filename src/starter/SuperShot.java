@@ -3,6 +3,8 @@ package starter;
 import java.awt.Color;
 
 import acm.graphics.GImage;
+import acm.graphics.GOval;
+import javafx.util.Pair;
 import acm.graphics.GRect;
 import javafx.util.Pair;
 
@@ -11,11 +13,11 @@ public class SuperShot implements Bullet{
 	private int damage;
 	//private GImage sprite;
 	private MainApplication program;
-	private GRect sprite;
+	private GOval sprite;
 	public SuperShot(int damage, Path bulletPattern) {
 		this.damage = damage;
-		bulletPattern = new Path(sprite, MovementEquation.STRAIGHT, 20, true);
-		sprite = new GRect(100, program.getHeight());
+		//this.bulletPattern = bulletPattern;
+		sprite = new GOval(100, program.getHeight());
 		sprite.setFillColor(Color.BLUE);
 	}
 
@@ -32,7 +34,7 @@ public class SuperShot implements Bullet{
 	}
 
 	@Override
-	public GRect getSprite() {
+	public GOval getSprite() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -41,5 +43,11 @@ public class SuperShot implements Bullet{
 	public Pair<Double, Double> getNextLoc() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public double getSpeed() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }
