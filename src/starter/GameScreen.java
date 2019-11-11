@@ -58,6 +58,8 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	private int health = 100;
 	private GLabel healthLabel;
 	private GRoundRect insideHealthBar;
+	private GLabel superLabel;
+	private double superShotPercent = 0;
 	
 	public GameScreen(MainApplication app)
 	{
@@ -82,6 +84,8 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		accuracyLabel = new GLabel("Accuracy: 00.00%", program.getWidth()-125, GAME_SCREEN_MARGIN * 10);
 		
 		healthLabel = new GLabel("HP: ", program.getWidth()-125, program.getHeight()/4);
+		
+		superLabel = new GLabel("Supershot: " + superShotPercent + "%", program.getWidth()-125, program.getHeight()/3);
 		
 		//bossBarFrame = new GRect(program.getWidth()/30, program.getHeight()/30, GAME_SCREEN_WIDTH-50, 10);
 		
@@ -122,7 +126,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		program.add(killsLabel);
 		program.add(shotsLabel);
 		program.add(healthLabel);
-
+		program.add(superLabel);
 		program.add(accuracyLabel);
 		//program.add(bossBarFrame);
 		//program.add(bossBar);
@@ -145,6 +149,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		program.remove(killsLabel);
 		program.remove(shotsLabel);
 		program.remove(healthLabel);
+		program.remove(superLabel);
 		program.remove(accuracyLabel);
 		//program.add(bossBarFrame);
 		//program.add(bossBar);
@@ -298,6 +303,10 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 						if(temp == obstacle.getSprite() && !bullet.checkEnemyBullet()) {
 							obstaclesToRemove.add(obstacle);
 							kills++;
+							if(superShotPercent < 100) {
+								superShotPercent += 2;
+								superLabel.setLabel("Supershot: " + superShotPercent + "%");
+							}
 						}
 					}
 					
@@ -364,6 +373,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 						}
 					}
 					kills++;
+					
 				}
 			}
 		}
@@ -475,6 +485,9 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	}
 	public void resetGame() {
 		health = 100;
+		healthLabel.setLabel("HP: " + health);
+		superShotPercent = 0;
+		superLabel.setLabel("Supershot: " + superShotPercent + "%");
 		program.remove(playerShip);
 		program.delPop();
 		program.gameTimer.restart();
