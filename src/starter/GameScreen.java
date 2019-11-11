@@ -154,7 +154,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 				return;
 			}
 			else {
-				SuperShot temp = new SuperShot(50,MovementEquation.STRAIGHT);
+				SuperShot temp = new SuperShot(50, playerShip, 50, false);
 				superShot.add(temp);
 				program.add(temp.getSprite());
 				shot++;
@@ -230,6 +230,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		//BULLETS
 		ArrayList<Bullet> bulletsToRemove = new ArrayList<Bullet>();
 		ArrayList<Obstacle> obstaclesToRemove = new ArrayList<Obstacle>();
+		ArrayList<SuperShot> superShotToRemove = new ArrayList<SuperShot>();
 		for(Bullet bullet : bullets) {
 			//Despawning
 			GObject temp = program.getElementAt(bullet.getSprite().getX() + bullet.getSprite().getWidth() + 1, bullet.getSprite().getY() + bullet.getSprite().getHeight()/2);
@@ -248,6 +249,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 			Pair<Double, Double> next = bullet.getNextLoc();
 			bullet.getSprite().setLocation(next.getKey(), next.getValue());
 		}
+		
 		//Removal
 		bullets.removeAll(bulletsToRemove);
 		for(Bullet bullet : bulletsToRemove) {

@@ -14,6 +14,7 @@ public class Path {
 	private GObject object; //TODO change to GImage for sprites when implemented
 	private GImage target;
 	private double num = 0;
+	private double tick = 1;
 
 	public Path(GObject enemy, MovementEquation movementType, double speed,  boolean dir) {
 		if(dir) {
