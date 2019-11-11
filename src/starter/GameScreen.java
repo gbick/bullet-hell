@@ -250,11 +250,12 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 			if(temp instanceof GRect && temp != gameSection) {
 					bulletsToRemove.add(bullet);
 					for(Obstacle obstacle : enemies) {
-						if(temp == obstacle.getSprite()) {
+						if(temp == obstacle.getSprite() && !bullet.checkEnemyBullet()) {
 							obstaclesToRemove.add(obstacle);
+							kills++;
 						}
 					}
-					kills++;
+					
 			}
 			if(temp instanceof GImage && bullet.checkEnemyBullet()) {
 				bulletsToRemove.add(bullet);
