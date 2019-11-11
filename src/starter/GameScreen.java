@@ -58,9 +58,9 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		
 		gameSection = new GRect(GAME_SCREEN_MARGIN, GAME_SCREEN_MARGIN, GAME_SCREEN_WIDTH, GAME_SCREEN_HEIGHT);
 		
-		healthBarLabel = new GLabel("Health:", 50, program.getHeight()-35);
+		healthBarLabel = new GLabel("Health:", 50, gameSection.getY() + gameSection.getHeight() + 15);
 		
-		superShotLabel = new GLabel("Super Shot:", 50, program.getHeight()-10);
+		superShotLabel = new GLabel("Super Shot:", 25, gameSection.getY() + gameSection.getHeight() + 35);
 		
 		livesLabel = new GLabel("Lives x", program.getWidth()-125, program.getHeight()-25);
 		
@@ -76,10 +76,10 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		
 		//bossBar = new GRect(program.getWidth()/30, program.getHeight()/30, GAME_SCREEN_WIDTH-45, 8);
 		
-		healthBar = new GRoundRect(90, 605, 400, 10); // TODO refactor for flexibility
+		healthBar = new GRoundRect(90, gameSection.getY() + gameSection.getHeight() + 5, 400, 10); // TODO refactor for flexibility
 		
-		superBar = new GRoundRect(114, 630, 400, 10); // TODO refactor for flexibility
-		healthBar.setFillColor(Color.MAGENTA); // TODO figure out why this isn't working?
+		superBar = new GRoundRect(90, gameSection.getY() + gameSection.getHeight() + 25, 400, 10); // TODO refactor for flexibility
+		healthBar.setFillColor(Color.RED); // TODO figure out why this isn't working?
 		gameSection.setFillColor(Color.RED); // Or this?
 		
 		playerShip = new GImage("../media/sprites/player/ship1.png", 250, 543); // TODO refactor
