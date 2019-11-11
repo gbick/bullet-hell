@@ -17,7 +17,7 @@ import javafx.util.Pair;
  * Path: Straight
  * Damage: 5.0
  */
-public class BasicBullet implements Bullet {
+public class WaveBullet implements Bullet {
 	private Path bulletPattern;
 	private double damage;
 	private double speed;
@@ -25,19 +25,19 @@ public class BasicBullet implements Bullet {
 	// TODO make a sprite for the Bullet
 	private boolean direction; //True: down, False: up
 	
-	public BasicBullet(double damage, GObject shooter, double speed, boolean dir) {
+	public WaveBullet(double damage, GObject shooter, double speed, boolean dir) {
 		if(dir) {			
-			bullet = new GOval(shooter.getX() + shooter.getWidth()/2, shooter.getY() + shooter.getHeight(), 3, 10);
+			bullet = new GOval(shooter.getX() + shooter.getWidth()/2, shooter.getY() + shooter.getHeight(), 3, 3);
 		}
 		else {			
-			bullet = new GOval(shooter.getX() + shooter.getWidth()/2, shooter.getY(), 3, 10);
+			bullet = new GOval(shooter.getX() + shooter.getWidth()/2, shooter.getY(), 3, 3);
 		}
 		bullet.setFillColor(Color.RED);
 		bullet.setFilled(true);
 		direction = dir;
 		this.damage = damage;
 		this.speed = speed;
-		bulletPattern = new Path(bullet, MovementEquation.STRAIGHT, this.speed, dir);
+		bulletPattern = new Path(bullet, MovementEquation.WAVE, this.speed, dir);
 	}
 	
 	@Override

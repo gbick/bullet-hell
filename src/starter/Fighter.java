@@ -39,6 +39,11 @@ public class Fighter implements Obstacle {
 	public GRect getSprite() {
 		return sprite;
 	}
+	
+	@Override 
+	public Path getPath() {
+		return flightPath;
+	}
 
 	@Override
 	public void hit(Bullet bullet) {

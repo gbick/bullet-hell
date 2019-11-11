@@ -1,6 +1,7 @@
 package starter;
 
 import acm.graphics.GImage;
+import acm.graphics.GObject;
 import acm.graphics.GRect;
 import acm.graphics.GRoundRect;
 import javafx.util.Pair;
@@ -10,12 +11,12 @@ public class Path {
 	private double direction; // slope of movement direction for bullet
 	private Pair<Double, Double> coords;
 	private Pair<Double, Double> center;
-	private GRect object; //TODO change to GImage for sprites when implemented
+	private GObject object; //TODO change to GImage for sprites when implemented
 	private GImage target;
 	private double num = 0;
 	private double tick = 1; //1 = down, -1 = up
 	
-	public Path(GRect enemy, MovementEquation movementType, double speed,  boolean dir) {
+	public Path(GObject enemy, MovementEquation movementType, double speed,  boolean dir) {
 		if(dir) {
 			tick = speed;
 		}
@@ -27,7 +28,7 @@ public class Path {
 		coords = new Pair<Double, Double>(enemy.getX(), enemy.getY());
 	}
 	
-	public Path(GRect enemy, MovementEquation movementType, GImage headTowards) {
+	public Path(GObject enemy, MovementEquation movementType, GImage headTowards) {
 		//For seeking shots only
 		object = enemy;
 		movement = movementType;
@@ -38,13 +39,13 @@ public class Path {
 	public Pair<Double, Double> moveNextTick() {
 		switch(movement) {
 		case STRAIGHT:
-			coords = new Pair<Double, Double>(coords.getKey(), object.getY() + tick);
+			coords = new Pair<Double, Double>(object.getX(), object.getY() + tick);
 			break;
 		case DIAGONAL:
 			coords = new Pair<Double, Double>(object.getX() + tick, object.getY() + tick);
 			break;
 		case WAVE:
-			coords = new Pair<Double, Double>(object.getX() + tick * (Math.sin(object.getY() * 0.1) * 5),object.getY() + 1);
+			coords = new Pair<Double, Double>(object.getX() + tick * (Math.sin(object.getY() * 0.1) * 2),object.getY() + tick);
 			break;
 		case SEEK:
 			if(target != null) {

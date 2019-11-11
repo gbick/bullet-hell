@@ -1,6 +1,7 @@
 package starter;
 
 import acm.graphics.GImage;
+import acm.graphics.GOval;
 import acm.graphics.GRect;
 import javafx.util.Pair;
 
@@ -28,7 +29,7 @@ public class SuperShot implements Bullet{
 	}
 
 	@Override
-	public GRect getSprite() {
+	public GOval getSprite() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -37,5 +38,11 @@ public class SuperShot implements Bullet{
 	public Pair<Double, Double> getNextLoc() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public double getSpeed() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }
