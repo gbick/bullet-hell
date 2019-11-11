@@ -60,6 +60,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	private GRoundRect insideHealthBar;
 	private GLabel superLabel;
 	private double superShotPercent = 0;
+	private GRoundRect insideSuperBar;
 	
 	public GameScreen(MainApplication app)
 	{
@@ -95,6 +96,10 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		insideHealthBar = new GRoundRect(90, gameSection.getY() + gameSection.getHeight() + 5, 400, 10);
 		
 		superBar = new GRoundRect(90, gameSection.getY() + gameSection.getHeight() + 25, 400, 10); // TODO refactor for flexibility
+		insideSuperBar = new GRoundRect(90, gameSection.getY() + gameSection.getHeight() + 25, 0, 10);
+		insideSuperBar.setColor(Color.BLACK);
+		insideSuperBar.setFillColor(Color.BLUE);
+		insideSuperBar.setFilled(true);
 		healthBar.setColor(Color.BLACK);
 		healthBar.setFillColor(Color.RED);
 		healthBar.setFilled(false);
@@ -133,6 +138,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		program.add(healthBar);
 		program.add(insideHealthBar);
 		program.add(superBar);
+		program.add(insideSuperBar);
 		program.add(playerShip);
 		program.gameTimer.start();
 	}
@@ -156,6 +162,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		program.remove(healthBar);
 		program.remove(insideHealthBar);
 		program.remove(superBar);
+		program.remove(insideSuperBar);
 		program.remove(playerShip);
 		
 		if (enemies.size() > 0) {
@@ -306,6 +313,9 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 							if(superShotPercent < 100) {
 								superShotPercent += 2;
 								superLabel.setLabel("Supershot: " + superShotPercent + "%");
+								program.remove(insideSuperBar);
+								insideSuperBar.setSize(insideSuperBar.getWidth()+8, 10);
+								program.add(insideSuperBar);
 							}
 						}
 					}
