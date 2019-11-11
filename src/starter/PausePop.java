@@ -14,6 +14,7 @@ public class PausePop extends GraphicsPane {
 	GButton returnToMenu;
 	GButton resume;
 	GButton resumeShip;
+	private boolean resumeCheck = false;
 	
 	public PausePop(MainApplication app)
 	{
@@ -49,6 +50,9 @@ public class PausePop extends GraphicsPane {
 		program.remove(message);
 		program.remove(returnToMenu);
 		program.remove(resume);
+		if(resumeCheck) {
+			program.remove(resumeShip);
+		}
 		
 	}
 	
@@ -68,6 +72,7 @@ public class PausePop extends GraphicsPane {
 			program.remove(returnToMenu);
 			program.remove(resume);
 			program.add(resumeShip);
+			resumeCheck = true;
 		}
 		if(obj == program.game.playerShip) {
 			program.gameTimer.restart();

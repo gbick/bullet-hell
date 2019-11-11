@@ -289,6 +289,9 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 			if (temp instanceof GImage) {
 				obstaclesToRemove.add(enemy);
 			}
+			else if(enemy.getSprite().getY() + enemy.getSprite().getHeight() > gameSection.getHeight() + gameSection.getY()) {
+				obstaclesToRemove.add(enemy);
+			}
 			Pair<Double, Double> next = enemy.getNextLoc();
 			enemy.getSprite().setLocation(next.getKey(), next.getValue());
 		}
@@ -303,22 +306,6 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		 * Random spawning
 		 */
 		if(timerRuns % 100 == 0) {
-//			GPoint[] temp = new GPoint[3];
-//			GPoint temp1 = new GPoint(random.nextDouble(0, GAME_SCREEN_WIDTH), 0);
-//			if(temp1.getX() > GAME_SCREEN_WIDTH/2) {
-//				GPoint temp2 = new GPoint(temp1.getX() - 10, 0);
-//				GPoint temp3 = new GPoint((temp1.getX() + temp2.getX() / 2), 10);
-//				temp[0] = temp1;
-//				temp[1] = temp2;
-//				temp[2] = temp3;
-//			}
-//			else {
-//				GPoint temp2 = new GPoint(temp1.getX() + 10, 0);
-//				GPoint temp3 = new GPoint((temp1.getX() + temp2.getX() / 2), 10);
-//				temp[0] = temp1;
-//				temp[1] = temp2;
-//				temp[2] = temp3;
-//			}
 			double rand = random.nextDouble(0,4);
 			if(rand < 1 && rand > 0) {				
 				Fighter enemyShip = new Fighter(random.nextDouble(0, GAME_SCREEN_WIDTH - 20), 0, MovementEquation.SEEK, playerShip);
