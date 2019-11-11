@@ -247,8 +247,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		for(Bullet bullet : bullets) {
 			//Despawning
 			GObject temp = program.getElementAt(bullet.getSprite().getX() + bullet.getSprite().getWidth() + 1, bullet.getSprite().getY() + bullet.getSprite().getHeight()/2);
-			if(temp instanceof GRect) {
-				if(temp != gameSection) {
+			if(temp instanceof GRect && temp != gameSection) {
 					bulletsToRemove.add(bullet);
 					for(Obstacle obstacle : enemies) {
 						if(temp == obstacle.getSprite()) {
@@ -256,7 +255,6 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 						}
 					}
 					kills++;
-				}
 			}
 			//Movement
 			Pair<Double, Double> next = bullet.getNextLoc();
@@ -281,8 +279,16 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 					program.add(temp.getSprite());
 				}
 			}
+			GObject temp = program.getElementAt(enemy.getSprite().getX() + enemy.getSprite().getWidth() + 1, enemy.getSprite().getY() + enemy.getSprite().getHeight()/2);
+			if (temp instanceof GImage) {
+				obstaclesToRemove.add(enemy);
+			}
 			Pair<Double, Double> next = enemy.getNextLoc();
 			enemy.getSprite().setLocation(next.getKey(), next.getValue());
+		}
+		enemies.removeAll(obstaclesToRemove);
+		for(Obstacle obstacle : obstaclesToRemove) {
+			program.remove(obstacle.getSprite());
 		}
 		killsLabel.setLabel("Kills : " + kills);
 		timerRuns++;
