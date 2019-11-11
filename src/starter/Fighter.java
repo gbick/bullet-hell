@@ -17,7 +17,7 @@ public class Fighter implements Obstacle {
 		sprite = new GRect(x, y, 20, 20);
 		sprite.setFillColor(Color.BLUE);
 		sprite.setFilled(true);
-		flightPath = new Path(sprite, flightType);
+		flightPath = new Path(sprite, flightType, 1, true);
 		health = 5.0;
 	}
 	
@@ -30,36 +30,19 @@ public class Fighter implements Obstacle {
 		health = 5.0;
 	}
 	
+	@Override
 	public Pair<Double, Double> getNextLoc() {
 		return flightPath.moveNextTick();
 	}
 	
+	@Override
 	public GRect getSprite() {
 		return sprite;
 	}
-
 	
-	@Override
-	public void spawn() {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	@Override
-	public void despawn() {
-		
-	}
-
-	@Override
-	public void start() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void stop() {
-		// TODO Auto-generated method stub
-
+	@Override 
+	public Path getPath() {
+		return flightPath;
 	}
 
 	@Override

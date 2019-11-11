@@ -1,9 +1,11 @@
 package starter;
 
+import acm.graphics.GRect;
+import javafx.util.Pair;
+
 public interface Obstacle {
-	public void spawn();
-	public void despawn();
-	public void start();
-	public void stop();
+	public GRect getSprite();
+	public Path getPath();
+	public Pair<Double, Double> getNextLoc();
 	public void hit(Bullet bullet);
 }
