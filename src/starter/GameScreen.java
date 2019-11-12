@@ -199,32 +199,33 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	
 	@Override
 	public void keyPressed(KeyEvent e){
-		if(e.getKeyCode() == KeyEvent.VK_ESCAPE || e.getKeyCode() == KeyEvent.VK_P)
-		{
+		if(e.getKeyCode() == KeyEvent.VK_ESCAPE || e.getKeyCode() == KeyEvent.VK_P) {
 			program.addPausePop();
 			program.gameTimer.stop();
 		}
-		if(e.getKeyCode() == KeyEvent.VK_SPACE)
-		{
+		if(e.getKeyCode() == KeyEvent.VK_SPACE) {
 			if(program.getCurPop() != null) {
 				e.consume();
 				return;
 			}
-//			else {
-//				SuperShot temp = new SuperShot(50, playerShip, 10, false);
-//				superShot.add(temp);
-//				program.add(temp.getSprite());
-//				shot++;
-//				shotsLabel.setLabel("Shots: " + shot);
-//			}
+			else if (superShotPercent >= 100) {
+				SuperShot temp = new SuperShot(50, playerShip, 10, false);
+				bullets.add(temp);
+				program.add(temp.getSprite());
+				shot++;
+				shotsLabel.setLabel("Shots: " + shot);
+				superShotPercent = 0;
+				program.remove(insideSuperBar);
+				insideSuperBar.setSize(insideSuperBar.getWidth()+8, 10);
+				program.add(insideSuperBar);
+			}
 		}
 		
 	}
 	@Override
 	public void mouseMoved(MouseEvent e) {
 		
-		if(program.getCurPop() == null)
-		{
+		if(program.getCurPop() == null) {
 			if(e.getX() - playerShip.getWidth()/2 > gameSection.getX() && e.getX() + playerShip.getWidth()/2 < gameSection.getX() + gameSection.getWidth()) {
 				playerShip.setLocation(e.getX() - playerShip.getWidth()/2, playerShip.getY());
 			}
@@ -232,7 +233,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 				if(e.getX() > gameSection.getX() + gameSection.getWidth()) {				
 					playerShip.setLocation((gameSection.getX() + gameSection.getWidth()) - playerShip.getWidth(), playerShip.getY());
 				}
-				else if(e.getX() < gameSection.getX()){
+				else if(e.getX() < gameSection.getX()) {
 					playerShip.setLocation(gameSection.getX(), playerShip.getY());
 				}
 			}
@@ -304,7 +305,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		for(Bullet bullet : bullets) {
 			//Despawning
 			GObject temp = program.getElementAt(bullet.getSprite().getX() + bullet.getSprite().getWidth() + 1, bullet.getSprite().getY() + bullet.getSprite().getHeight()/2);
-			if(temp instanceof GRect && temp != gameSection) {
+			if(temp instanceof GRect && !(temp instanceof GRoundRect) && temp != gameSection) {
 					bulletsToRemove.add(bullet);
 					for(Obstacle obstacle : enemies) {
 						if(temp == obstacle.getSprite() && !bullet.checkEnemyBullet()) {
@@ -319,7 +320,6 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 							}
 						}
 					}
-					
 			}
 			if(temp instanceof GImage && bullet.checkEnemyBullet()) {
 				bulletsToRemove.add(bullet);
@@ -367,26 +367,20 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 			Pair<Double, Double> next = bullet.getNextLoc();
 			bullet.getSprite().setLocation(next.getKey(), next.getValue());
 		}
-		for(SuperShot superShots : superShot)
-		{
-			GObject temp = program.getElementAt(superShots.getSprite().getX() + superShots.getSprite().getWidth()+1,superShots.getSprite().getY() + superShots.getSprite().getHeight()/2);
-			if(temp instanceof GRect)
-			{
-				if(temp != gameSection)
-				{
-					superShotToRemove.add(superShots);
-					for(Obstacle obstacle : enemies)
-					{
-						if(temp==obstacle.getSprite())
-						{
-							obstaclesToRemove.add(obstacle);
-						}
-					}
-					kills++;
-					
-				}
-			}
-		}
+//		for(SuperShot superShots : superShot) {
+//			GObject temp = program.getElementAt(superShots.getSprite().getX() + superShots.getSprite().getWidth()+1,superShots.getSprite().getY() - superShots.getSprite().getHeight()/2);
+//			if(temp instanceof GRect && temp != gameSection) {
+//					superShotToRemove.add(superShots);
+//					for(Obstacle obstacle : enemies) {
+//						if(temp==obstacle.getSprite()) {
+//							obstaclesToRemove.add(obstacle);
+//						}
+//					}
+//					kills++;
+//			}
+//			Pair<Double, Double> next = superShots.getNextLoc();
+//			superShots.getSprite().setLocation(next.getKey(), next.getValue());
+//		}
 		
 		//Removal
 		bullets.removeAll(bulletsToRemove);
@@ -399,8 +393,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		}
 		
 		superShot.removeAll(superShotToRemove);
-		for(SuperShot superShots : superShot)
-		{
+		for(SuperShot superShots : superShot) {
 			program.remove(superShots.getSprite());
 		}
 		//OBSTACLES

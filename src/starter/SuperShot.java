@@ -9,7 +9,7 @@ import javafx.util.Pair;
 import acm.graphics.GRect;
 import javafx.util.Pair;
 
-public class SuperShot implements Bullet{
+public class SuperShot implements Bullet {
 	private Path bulletPattern;
 	private double damage;
 	private double speed;
@@ -17,16 +17,12 @@ public class SuperShot implements Bullet{
 	//private GImage sprite;
 	private MainApplication program;
 	private GOval sprite;
-	public SuperShot(double damage, GObject shooter, double speed, boolean dir) 
-	{
-		if(dir)
-		{
-			sprite = new GOval(shooter.getX() + shooter.getY()/2, shooter.getY() + shooter.getHeight(), 25, 200);
-			
+	public SuperShot(double damage, GObject shooter, double speed, boolean dir) {
+		if(dir) {
+			sprite = new GOval(shooter.getX() + shooter.getY()/2, shooter.getY() + shooter.getHeight(), 25, 200);	
 		}
-		else
-		{
-			sprite = new GOval(shooter.getX() + shooter.getWidth()/2, shooter.getY(), 25, 200);
+		else {
+			sprite = new GOval(shooter.getX() + shooter.getWidth()/2, shooter.getY(), 35, 200);
 		}
 		sprite.setFillColor(Color.BLUE);
 		sprite.setFilled(true);
