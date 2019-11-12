@@ -282,6 +282,17 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		
+		if(superShotPercent < 100)
+		{	
+			if(timerRuns % 100 == 0)
+			{
+				superShotPercent += 0.5;
+				superLabel.setLabel("Supershot: " + superShotPercent + "%");
+				insideSuperBar.setSize(insideSuperBar.getWidth()+2, 10);
+			}
+		}
+		
 		if(health <= 0) {
 			program.gameLost = true;
 			program.addLosePop();
@@ -302,7 +313,6 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		ArrayList<Bullet> bulletsToRemove = new ArrayList<Bullet>();
 		ArrayList<Obstacle> obstaclesToRemove = new ArrayList<Obstacle>();
 		ArrayList<SuperShot> superShotToRemove = new ArrayList<SuperShot>();
-		superShotPercent += 0.5;
 		for(Bullet bullet : bullets) {
 			//Despawning
 			GObject temp = program.getElementAt(bullet.getSprite().getX() + bullet.getSprite().getWidth() + 1, bullet.getSprite().getY() + bullet.getSprite().getHeight()/2);
