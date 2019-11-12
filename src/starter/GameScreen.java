@@ -61,6 +61,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	private GLabel superLabel;
 	private double superShotPercent = 0;
 	private GRoundRect insideSuperBar;
+	private boolean mouseDown = false;
 	
 	public GameScreen(MainApplication app)
 	{
@@ -258,12 +259,13 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 			return;
 		}
 		else {
-			BasicBullet temp = new BasicBullet(5, playerShip, 10, false, false);
-			bullets.add(temp);
-			program.add(temp.bullet);
-			shot++;
-			shotsLabel.setLabel("Shots: " + shot);
+			mouseDown = true;
 		}
+	}
+	
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		mouseDown = false;
 	}
 	
 	@Override
@@ -282,6 +284,13 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		if (mouseDown && timerRuns % 10 == 0) {
+			BasicBullet temp = new BasicBullet(5, playerShip, 10, false, false);
+			bullets.add(temp);
+			program.add(temp.bullet);
+			shot++;
+			shotsLabel.setLabel("Shots: " + shot);
+		}
 		if(health <= 0) {
 			program.gameLost = true;
 			program.addLosePop();
@@ -306,7 +315,11 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 			//Despawning
 			GObject temp = program.getElementAt(bullet.getSprite().getX() + bullet.getSprite().getWidth() + 1, bullet.getSprite().getY() + bullet.getSprite().getHeight()/2);
 			if(temp instanceof GRect && !(temp instanceof GRoundRect) && temp != gameSection) {
-					if (!(bullet instanceof SuperShot)){
+					if (!(bullet instanceof SuperShot || bullet.checkEnemyBullet())){
+						bulletsToRemove.add(bullet);
+					}
+					GPoint tempPoint = new GPoint(bullet.getSprite().getX(), bullet.getSprite().getY());
+					if (!(gameSection.contains(tempPoint))) {
 						bulletsToRemove.add(bullet);
 					}
 					for(Obstacle obstacle : enemies) {
