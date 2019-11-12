@@ -216,7 +216,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 				shotsLabel.setLabel("Shots: " + shot);
 				superShotPercent = 0;
 				program.remove(insideSuperBar);
-				insideSuperBar.setSize(0, 10);
+				insideSuperBar.setSize(insideSuperBar.getWidth()+8, 10);
 				program.add(insideSuperBar);
 			}
 		}
@@ -302,13 +302,12 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		ArrayList<Bullet> bulletsToRemove = new ArrayList<Bullet>();
 		ArrayList<Obstacle> obstaclesToRemove = new ArrayList<Obstacle>();
 		ArrayList<SuperShot> superShotToRemove = new ArrayList<SuperShot>();
+		superShotPercent += 0.5;
 		for(Bullet bullet : bullets) {
 			//Despawning
 			GObject temp = program.getElementAt(bullet.getSprite().getX() + bullet.getSprite().getWidth() + 1, bullet.getSprite().getY() + bullet.getSprite().getHeight()/2);
 			if(temp instanceof GRect && !(temp instanceof GRoundRect) && temp != gameSection) {
-					if (!(bullet instanceof SuperShot)){
-						bulletsToRemove.add(bullet);
-					}
+					bulletsToRemove.add(bullet);
 					for(Obstacle obstacle : enemies) {
 						if(temp == obstacle.getSprite() && !bullet.checkEnemyBullet()) {
 							obstaclesToRemove.add(obstacle);
