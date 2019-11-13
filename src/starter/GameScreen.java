@@ -217,7 +217,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 				shotsLabel.setLabel("Shots: " + shot);
 				superShotPercent = 0;
 				program.remove(insideSuperBar);
-				insideSuperBar.setSize(insideSuperBar.getWidth()+8, 10);
+				insideSuperBar.setSize(0, 10);
 				program.add(insideSuperBar);
 			}
 		}
@@ -438,7 +438,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 				}
 			}
 			GObject temp = program.getElementAt(enemy.getSprite().getX() + enemy.getSprite().getWidth() + 1, enemy.getSprite().getY() + enemy.getSprite().getHeight()/2);
-			if (temp instanceof GImage) {
+			if (temp == playerShip) {
 				obstaclesToRemove.add(enemy);
 				if(health > 0) {
 					health -= 5;
