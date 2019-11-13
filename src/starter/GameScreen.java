@@ -108,7 +108,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		insideHealthBar.setFilled(true);
 		gameSection.setColor(Color.BLACK);
 		gameSection.setFilled(true);
-		playerShip = new GImage("../media/sprites/player/ship1.png", 250, 543); // TODO refactor
+		playerShip = new GImage("../media/sprites/player/ship1_32x32.png", 250, 543); // TODO refactor
 		//gameTimer = new Timer(10, this);
 		bullets = new ArrayList<Bullet>();
 		enemies = new ArrayList<Obstacle>();
@@ -258,7 +258,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 			return;
 		}
 		else {
-			BasicBullet temp = new BasicBullet(5, playerShip, 10, false, false);
+			PlayerBullet temp = new PlayerBullet(5, playerShip, 10);
 			bullets.add(temp);
 			program.add(temp.bullet);
 			shot++;
@@ -457,7 +457,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 			double rand = random.nextDouble(0,4);
 			if(rand < 1 && rand > 0) {				
 				Fighter enemyShip = new Fighter(random.nextDouble(0, GAME_SCREEN_WIDTH - 20), 0, MovementEquation.SEEK, playerShip);
-				BasicBullet shot = new BasicBullet(5, enemyShip.getSprite(), 2, true, true);
+				BasicBullet shot = new BasicBullet(5, enemyShip.getSprite(), 2);
 				Shooter temp = new Shooter(enemyShip, shot, 50);
 				enemies.add(temp);
 				temp.getSprite().setColor(Color.WHITE);

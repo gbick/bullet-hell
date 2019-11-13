@@ -51,7 +51,7 @@ public class Shooter implements Obstacle {
 	
 	public Bullet getBulletType() {
 		if(shotType instanceof BasicBullet) {
-			BasicBullet temp = new BasicBullet(shotType.getDamage(), shotType.getSprite(), shotType.getSpeed(), shotType.getDirection(), shotType.checkEnemyBullet());
+			BasicBullet temp = new BasicBullet(shotType.getDamage(), shotType.getSprite(), shotType.getSpeed());
 			return temp;
 		}
 		else if(shotType instanceof WaveBullet) {

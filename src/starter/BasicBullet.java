@@ -12,8 +12,8 @@ import javafx.util.Pair;
  * Basic bullet for enemies to fire. 
  * 
  * Default values:
- * Sprite: Small circle
- * Direction: Relative to shooter
+ * Sprite: enemy_laser.png
+ * Direction: Downwards
  * Path: Straight
  * Damage: 5.0
  */
@@ -21,25 +21,15 @@ public class BasicBullet implements Bullet {
 	private Path bulletPattern;
 	private double damage;
 	private double speed;
-	public GOval bullet; // will change this when we have sprites for bullets
-	// TODO make a sprite for the Bullet
-	private boolean direction; //True: down, False: up
-	private boolean enemyBullet; // True: belongs to enemy, False: belongs to player
+	public GImage bullet;
+	private boolean direction = true; //True: down, False: up
+	private boolean enemyBullet = true; // True: belongs to enemy, False: belongs to player
 	
-	public BasicBullet(double damage, GObject shooter, double speed, boolean dir, boolean enemyBullet) {
-		if(dir) {			
-			bullet = new GOval(shooter.getX() + shooter.getWidth()/2, shooter.getY() + shooter.getHeight(), 3, 10);
-		}
-		else {			
-			bullet = new GOval(shooter.getX() + shooter.getWidth()/2, shooter.getY(), 3, 10);
-		}
-		bullet.setFillColor(Color.RED);
-		bullet.setFilled(true);
-		direction = dir;
+	public BasicBullet(double damage, GObject shooter, double speed) {		
+		bullet = new GImage("../sprites/obstacle/enemy_laser.png", shooter.getX() + shooter.getWidth()/2, shooter.getY() + shooter.getHeight());
 		this.damage = damage;
 		this.speed = speed;
-		bulletPattern = new Path(bullet, MovementEquation.STRAIGHT, this.speed, dir);
-		this.enemyBullet = enemyBullet;
+		bulletPattern = new Path(bullet, MovementEquation.STRAIGHT, this.speed, direction);
 	}
 	
 	@Override
@@ -63,11 +53,11 @@ public class BasicBullet implements Bullet {
 	}
 
 	@Override
-	public GOval getSprite() {
+	public GImage getSprite() {
 		return bullet;
 	}
 	
-	public GOval getBullet() {
+	public GImage getBullet() {
 		return bullet;
 	}
 	@Override
