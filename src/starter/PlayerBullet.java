@@ -12,27 +12,24 @@ import javafx.util.Pair;
  * Basic bullet for enemies to fire. 
  * 
  * Default values:
- * Sprite: Small circle
- * Direction: Relative to shooter
+ * Sprite: ship_laser.png
+ * Direction: Upwards
  * Path: Straight
  * Damage: 5.0
  */
-public class WaveBullet implements Bullet {
+public class PlayerBullet implements Bullet {
 	private Path bulletPattern;
 	private double damage;
 	private double speed;
-	public GImage bullet; // will change this when we have sprites for bullets
-	// TODO make a sprite for the Bullet
-	private boolean direction; //True: down, False: up
-	private boolean enemyBullet; // True: belongs to enemy, False: belongs to player
+	public GImage bullet;
+	private boolean direction = false; //True: down, False: up
+	private boolean enemyBullet = false; // True: belongs to enemy, False: belongs to player
 	
-	public WaveBullet(double damage, GObject shooter, double speed, boolean dir, boolean enemyBullet) {
-		bullet = new GImage("../sprites/obstacle/enemy_ball.png", shooter.getX() + shooter.getWidth()/2, shooter.getY() + shooter.getHeight());
-		direction = dir;
+	public PlayerBullet(double damage, GObject shooter, double speed) {		
+		bullet = new GImage("../sprites/player/ship_laser.png", shooter.getX() + shooter.getWidth()/2, shooter.getY());
 		this.damage = damage;
 		this.speed = speed;
-		bulletPattern = new Path(bullet, MovementEquation.WAVE, this.speed, dir);
-		this.enemyBullet = enemyBullet;
+		bulletPattern = new Path(bullet, MovementEquation.STRAIGHT, this.speed, direction);
 	}
 	
 	@Override
@@ -59,10 +56,12 @@ public class WaveBullet implements Bullet {
 	public GImage getSprite() {
 		return bullet;
 	}
+	
+	public GImage getBullet() {
+		return bullet;
+	}
 	@Override
 	public boolean checkEnemyBullet() {
 		return enemyBullet;
 	}
-
-
 }
