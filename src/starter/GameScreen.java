@@ -341,7 +341,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		 *   > Ship damaged
 		 *   > Movement
 		 *   > Removal from arrays
-		 *   - Obastacles
+		 *   - Obstacles
 		 *    > Shooting
 		 *    > Player collision
 		 *    > Removal from array
