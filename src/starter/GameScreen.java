@@ -48,7 +48,6 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	private GRoundRect healthBar;
 	private GRoundRect superBar;
 	private ArrayList<Bullet> bullets;
-	//private Timer gameTimer;
 	private ArrayList<Obstacle> enemies; // TODO rewrite this using the actual enemy class type
 	private ArrayList<SuperShot> superShot;
 	private int timerRuns;
@@ -207,17 +206,6 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 			}
 			superShot.removeAll(superShot);
 		}
-		/*
-		 *
-		for(GRoundRect i: enemies.keySet())
-		{
-			program.remove(i);
-		}
-		for(BasicBullet i: bullets)
-		{
-			//add remove function for BasicBullet
-		}
-		*/
 	}
 	
 	@Override
@@ -476,20 +464,6 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 			Pair<Double, Double> next = bullet.getNextLoc();
 			bullet.getSprite().setLocation(next.getKey(), next.getValue());
 		}
-//		for(SuperShot superShots : superShot) {
-//			GObject temp = program.getElementAt(superShots.getSprite().getX() + superShots.getSprite().getWidth()+1,superShots.getSprite().getY() - superShots.getSprite().getHeight()/2);
-//			if(temp instanceof GRect && temp != gameSection) {
-//					superShotToRemove.add(superShots);
-//					for(Obstacle obstacle : enemies) {
-//						if(temp==obstacle.getSprite()) {
-//							obstaclesToRemove.add(obstacle);
-//						}
-//					}
-//					kills++;
-//			}
-//			Pair<Double, Double> next = superShots.getNextLoc();
-//			superShots.getSprite().setLocation(next.getKey(), next.getValue());
-//		}
 		
 		//Removal from arrays
 		bullets.removeAll(bulletsToRemove);
