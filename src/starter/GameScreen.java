@@ -65,6 +65,12 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	
 	public GameScreen(MainApplication app)
 	{
+		/*
+		 * Set up Screen objects
+		 *  - Creation of on-screen objects
+		 */
+		
+		//Creation of on-screen objects
 		this.program = app;
 		
 		gameSection = new GRect(GAME_SCREEN_MARGIN, GAME_SCREEN_MARGIN, GAME_SCREEN_WIDTH, GAME_SCREEN_HEIGHT);
@@ -120,6 +126,10 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	
 	@Override
 	public void showContents() {
+		/*
+		 * Show screen contents
+		 */
+		
 		if(program.gameLost) {
 			resetGame();
 		}
@@ -146,7 +156,15 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 
 	@Override
 	public void hideContents() {
-		// TODO Auto-generated method stub
+		/*
+		 * Hide screen content (Leaving game screen entirely, reset everything!!)
+		 *  - Remove objects
+		 *  - Clear enemy array
+		 *  - Clear bullets array
+		 *  - Clear super shot array
+		 */
+		
+		//Remove objects
 		program.remove(gameSection);
 		program.remove(healthBarLabel);
 		program.remove(superShotLabel);
@@ -166,6 +184,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		program.remove(insideSuperBar);
 		program.remove(playerShip);
 		
+		//Clear enemy array
 		if (enemies.size() > 0) {
 			for(Obstacle enemy : enemies) {
 				program.remove(enemy.getSprite());
@@ -173,12 +192,15 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 			enemies.removeAll(enemies);
 		}
 		
+		//Clear bullets array
 		if(bullets.size() > 0) {
 			for(Bullet bullet : bullets) {
 				program.remove(bullet.getSprite());
 			}
 			bullets.removeAll(bullets);
 		}
+		
+		//Clear super shot array
 		if(superShot.size() > 0) {
 			for(SuperShot shot : superShot) {
 				program.remove(shot.getSprite());
@@ -200,10 +222,18 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	
 	@Override
 	public void keyPressed(KeyEvent e){
+		/*
+		 * Key pressed event
+		 *  -Pausing
+		 *  -Super shot
+		 */
+		
+		//Pausing
 		if(e.getKeyCode() == KeyEvent.VK_ESCAPE || e.getKeyCode() == KeyEvent.VK_P) {
 			program.addPausePop();
 			program.gameTimer.stop();
 		}
+		//Super shot
 		if(e.getKeyCode() == KeyEvent.VK_SPACE) {
 			if(program.getCurPop() != null) {
 				e.consume();
@@ -225,7 +255,12 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	}
 	@Override
 	public void mouseMoved(MouseEvent e) {
+		/*
+		 * Mouse movement event
+		 *  -Player Ship movement
+		 */
 		
+		//Player Ship movement
 		if(program.getCurPop() == null) {
 			if(e.getX() - playerShip.getWidth()/2 > gameSection.getX() && e.getX() + playerShip.getWidth()/2 < gameSection.getX() + gameSection.getWidth()) {
 				playerShip.setLocation(e.getX() - playerShip.getWidth()/2, playerShip.getY());
@@ -254,6 +289,12 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	
 	@Override
 	public void mousePressed(MouseEvent e) {
+		/*
+		 * Mouse pressed event
+		 *  -Player Ship shooting
+		 */
+		
+		//Ship shooting
 		if(program.getCurPop() != null) {
 			program.getCurPop().mousePressed(e);
 			return;
@@ -270,11 +311,23 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	
 	@Override
 	public void mouseReleased(MouseEvent e) {
+		/*
+		 * Mouse released event
+		 *  -Hold shooting
+		 */
+		
+		//Hold shooting
 		mouseDown = false;
 	}
 	
 	@Override
 	public void mouseDragged(MouseEvent e) {
+		/*
+		 * Mouse dragged event
+		 *  -Player Ship movement
+		 */
+		
+		//Player Ship movement
 		if(program.getCurPop() != null) {
 			program.getCurPop().mouseDragged(e);
 			return;
@@ -289,13 +342,35 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		/*
+		 * Action performed event (Triggered every iteration of the main game timer)
+		 *  - Rapid Fire
+		 *  - Super Shot
+		 *  - Check for loss
+		 *  - Update accuracy label
+		 *  - Bullets
+		 *   > Despawning
+		 *   > Ship damaged
+		 *   > Movement
+		 *   > Removal from arrays
+		 *   - Obastacles
+		 *    > Shooting
+		 *    > Player collision
+		 *    > Removal from array
+		 *   - Update label and timerRuns
+		 *   - Random Spawning
+		 */
+		
+		//Rapid Fire
 		if (mouseDown && timerRuns % 10 == 0) {
-			BasicBullet temp = new BasicBullet(5, playerShip, 10);
+			PlayerBullet temp = new PlayerBullet(5, playerShip, 10);
 			bullets.add(temp);
 			program.add(temp.bullet);
 			shot++;
 			shotsLabel.setLabel("Shots: " + shot);
 		}
+		
+		//Super Shot
 		if(superShotPercent < 100)
 		{	
 			if(timerRuns % 100 == 0)
@@ -305,22 +380,22 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 				insideSuperBar.setSize(insideSuperBar.getWidth()+2, 10);
 			}
 		}
+		
+		//Check for loss
 		if(health <= 0) {
 			program.gameLost = true;
 			program.addLosePop();
 			program.gameTimer.stop();
 		}
-		
-		/*
-		 * Movement / Updating
-		 */
-		//Update accuracy
+
+		//Update accuracy label
 		if(shot > 0) {			
 			accuracy = ((double)kills / (double)shot) * 100;
 			DecimalFormat df = new DecimalFormat("#00.00");
 			String accuracyFormated = df.format(accuracy);
 			accuracyLabel.setLabel("Accuracy: " + accuracyFormated + "%");
 		}
+		
 		//BULLETS
 		ArrayList<Bullet> bulletsToRemove = new ArrayList<Bullet>();
 		ArrayList<Obstacle> obstaclesToRemove = new ArrayList<Obstacle>();
@@ -352,6 +427,8 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 						}
 					}
 			}
+			
+			//Ship damaged
 			if(temp instanceof GImage && bullet.checkEnemyBullet()) {
 				bulletsToRemove.add(bullet);
 				if(health > 0) {
@@ -394,6 +471,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 					}
 				}
 			}
+			
 			//Movement
 			Pair<Double, Double> next = bullet.getNextLoc();
 			bullet.getSprite().setLocation(next.getKey(), next.getValue());
@@ -413,7 +491,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 //			superShots.getSprite().setLocation(next.getKey(), next.getValue());
 //		}
 		
-		//Removal
+		//Removal from arrays
 		bullets.removeAll(bulletsToRemove);
 		for(Bullet bullet : bulletsToRemove) {
 			program.remove(bullet.getSprite());
@@ -427,8 +505,10 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		for(SuperShot superShots : superShot) {
 			program.remove(superShots.getSprite());
 		}
+		
 		//OBSTACLES
 		for(Obstacle enemy : enemies) {
+			//Shooting
 			if(enemy instanceof Shooter) {
 				if(((Shooter) enemy).checkFireRate()) {
 					Bullet temp = ((Shooter) enemy).getBulletType();
@@ -438,6 +518,8 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 				}
 			}
 			GObject temp = program.getElementAt(enemy.getSprite().getX() + enemy.getSprite().getWidth() + 1, enemy.getSprite().getY() + enemy.getSprite().getHeight()/2);
+			
+			//Player collision
 			if (temp == playerShip) {
 				obstaclesToRemove.add(enemy);
 				if(health > 0) {
@@ -468,22 +550,26 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 					
 				}
 			}
+			
+			//Despawning
 			else if(enemy.getSprite().getY() + enemy.getSprite().getHeight() > gameSection.getHeight() + gameSection.getY()) {
 				obstaclesToRemove.add(enemy);
 			}
 			Pair<Double, Double> next = enemy.getNextLoc();
 			enemy.getSprite().setLocation(next.getKey(), next.getValue());
 		}
+		
+		//Remove from array
 		enemies.removeAll(obstaclesToRemove);
 		for(Obstacle obstacle : obstaclesToRemove) {
 			program.remove(obstacle.getSprite());
 		}
+		
+		//Update label and timerRuns
 		killsLabel.setLabel("Kills : " + kills);
 		timerRuns++;
 		
-		/*
-		 * Random spawning
-		 */
+		//Random Spawning
 		if(timerRuns % 100 == 0) {
 			double rand = random.nextDouble(0,4);
 			if(rand < 1 && rand > 0) {				
@@ -517,7 +603,14 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 			
 		}
 	}
+	
 	public void resetGame() {
+		/*
+		 * Reset game (Resets all stats and objects)
+		 *  - Reset to default values
+		 */
+		
+		//Reset to default values
 		health = 100;
 		healthLabel.setLabel("HP: " + health);
 		superShotPercent = 0;
