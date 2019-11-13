@@ -90,9 +90,9 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		
 		accuracyLabel = new GLabel("Accuracy: 00.00%", program.getWidth()-125, GAME_SCREEN_MARGIN * 10);
 		
-		healthLabel = new GLabel("HP: ", program.getWidth()-125, program.getHeight()/4);
+		healthLabel = new GLabel("HP: 100", program.getWidth()-125, program.getHeight()/4);
 		
-		superLabel = new GLabel("Supershot: " + superShotPercent + "%", program.getWidth()-125, program.getHeight()/3);
+		superLabel = new GLabel("Supershot: 0%" + superShotPercent + "%", program.getWidth()-125, program.getHeight()/3);
 		
 		//bossBarFrame = new GRect(program.getWidth()/30, program.getHeight()/30, GAME_SCREEN_WIDTH-50, 10);
 		
