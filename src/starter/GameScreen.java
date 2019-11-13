@@ -334,7 +334,8 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 					}
 					bulletsToRemove.add(bullet);
 					for(Obstacle obstacle : enemies) {
-						if(temp == obstacle.getSprite() && !bullet.checkEnemyBullet()) {
+//						if(temp == obstacle.getSprite() && !bullet.checkEnemyBullet()) { // earlier version, can change back if this doesn't work
+						if(obstacle.getSprite().contains(tempPoint) && !bullet.checkEnemyBullet()) {
 							obstaclesToRemove.add(obstacle);
 							kills++;
 							if(superShotPercent < 100) {
