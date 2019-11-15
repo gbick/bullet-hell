@@ -389,7 +389,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 						if(obstacle.getSprite().contains(tempPoint) && !bullet.checkEnemyBullet()) {
 							obstaclesToRemove.add(obstacle);
 							kills++;
-							if(superShotPercent < 100) {
+							if(superShotPercent <= 98) {
 								superShotPercent += 2;
 								superLabel.setLabel("Supershot: " + superShotPercent + "%");
 								insideSuperBar.setSize(insideSuperBar.getWidth()+8, 10);
