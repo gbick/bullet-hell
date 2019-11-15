@@ -372,6 +372,15 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		for(Bullet bullet : bullets) {
 			//Despawning
 			GObject temp = program.getElementAt(bullet.getSprite().getX() + bullet.getSprite().getWidth() + 1, bullet.getSprite().getY() + bullet.getSprite().getHeight()/2);
+			
+			try {
+				if(temp.getY() < gameSection.getY()) {
+					bulletsToRemove.add(bullet);
+				}
+			}
+			catch(NullPointerException f) {
+				bulletsToRemove.add(bullet);
+			}
 			if(temp instanceof GRect && !(temp instanceof GRoundRect) && temp != gameSection && !bullet.checkEnemyBullet()) {
 					GPoint tempPoint = new GPoint(bullet.getSprite().getX(), bullet.getSprite().getY());
 					bulletsToRemove.add(bullet);
@@ -390,7 +399,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 			}
 			
 			//Ship damaged
-			if(temp == playerShip && bullet.checkEnemyBullet()) {
+			else if(temp == playerShip && bullet.checkEnemyBullet()) {
 				bulletsToRemove.add(bullet);
 				if(health > 0) {
 					health--;
