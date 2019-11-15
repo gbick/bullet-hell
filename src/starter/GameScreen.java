@@ -410,10 +410,8 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 					program.addLosePop();
 					program.gameTimer.stop();
 				}
-				else {
-					healthLabel.setLabel("HP: " + health);
-					insideHealthBar.setSize(insideHealthBar.getWidth()-4, 10);
-				}
+				healthLabel.setLabel("HP: " + health);
+				insideHealthBar.setSize(insideHealthBar.getWidth()-4, 10);
 			}
 			
 			//Movement
