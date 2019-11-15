@@ -121,9 +121,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		 * Show screen contents
 		 */
 		
-		if(program.gameLost) {
-			resetGame();
-		}
+		resetGame();
 		program.add(gameSection);
 		program.add(healthBarLabel);
 		program.add(superShotLabel);
@@ -542,6 +540,10 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		insideHealthBar.setSize(400,10);
 		insideSuperBar.setSize(0, 10);
 		playerShip.setLocation(PLAYER_X, PLAYER_Y);
+		shot = 0;
+		kills = 0;
+		shotsLabel.setLabel("Shots: " + shot);
+		accuracyLabel.setLabel("Accuracy: 00.00%");
 		for(Bullet bullet : bullets) {
 			program.remove(bullet.getSprite());
 		}
