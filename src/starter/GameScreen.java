@@ -9,6 +9,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -33,7 +34,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	private final static int GAME_SCREEN_HEIGHT = 600;
 	private final static int GAME_SCREEN_WIDTH = 500 ;
 	private final static int GAME_SCREEN_MARGIN = 10;
-	private final static int LABEL_DIFFERENTIAL = 150;
+	private final static int LABEL_DIFFERENTIAL = 125;
 	private final static int BAR_LENGTH = 400;
 	private final static int BAR_X = 90;
 	private final static int SUPER_DIFFERENTIAL = 25;
@@ -54,7 +55,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	private GRoundRect healthBar;
 	private GRoundRect superBar;
 	private ArrayList<Bullet> bullets;
-	private ArrayList<Obstacle> enemies; // TODO rewrite this using the actual enemy class type
+	private ArrayList<Obstacle> enemies;
 	private ArrayList<SuperShot> superShot;
 	private int timerRuns;
 	private int kills = 0, shot = 0;
@@ -67,6 +68,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	private double superShotPercent = 0;
 	private GRoundRect insideSuperBar;
 	private boolean mouseDown = false;
+	private ArrayList<GRoundRect> bars;
 	
 	public GameScreen(MainApplication app)
 	{
@@ -79,43 +81,28 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		this.program = app;
 		
 		gameSection = new GRect(GAME_SCREEN_MARGIN, GAME_SCREEN_MARGIN, GAME_SCREEN_WIDTH, GAME_SCREEN_HEIGHT);
-		
 		healthBarLabel = new GLabel("Health:", 50, gameSection.getY() + gameSection.getHeight() + 15);
-		
 		superShotLabel = new GLabel("Super Shot:", 25, gameSection.getY() + gameSection.getHeight() + 35);
-		
 		livesLabel = new GLabel("Lives x", program.getWidth()-LABEL_DIFFERENTIAL, program.getHeight()-25);
-		
 		statsLabel = new GLabel("Stats: ", program.getWidth()-LABEL_DIFFERENTIAL, GAME_SCREEN_MARGIN * 2);
-		
 		pointsLabel = new GLabel("Points: 0", program.getWidth()-LABEL_DIFFERENTIAL,GAME_SCREEN_MARGIN * 4);
-		
 		killsLabel = new GLabel("Kills: 0", program.getWidth()-LABEL_DIFFERENTIAL, GAME_SCREEN_MARGIN * 6);
-		
 		shotsLabel = new GLabel("Shots: 0", program.getWidth()-LABEL_DIFFERENTIAL, GAME_SCREEN_MARGIN * 8);
-		
 		accuracyLabel = new GLabel("Accuracy: 00.00%", program.getWidth()-LABEL_DIFFERENTIAL, GAME_SCREEN_MARGIN * 10);
-		
 		healthLabel = new GLabel("HP: 100", program.getWidth()-LABEL_DIFFERENTIAL, program.getHeight()/4);
-		
 		superLabel = new GLabel("Supershot: 0%" + superShotPercent + "%", program.getWidth()-LABEL_DIFFERENTIAL, program.getHeight()/3);
-		
-		//bossBarFrame = new GRect(program.getWidth()/30, program.getHeight()/30, GAME_SCREEN_WIDTH-50, 10);
-		
-		//bossBar = new GRect(program.getWidth()/30, program.getHeight()/30, GAME_SCREEN_WIDTH-45, 8);
-		
 		healthBar = new GRoundRect(BAR_X, gameSection.getY() + gameSection.getHeight() + HEALTH_DIFFERENTIAL, BAR_LENGTH, BAR_WIDTH);
 		insideHealthBar = new GRoundRect(BAR_X, gameSection.getY() + gameSection.getHeight() + HEALTH_DIFFERENTIAL, BAR_LENGTH, BAR_WIDTH);
-		
 		superBar = new GRoundRect(BAR_X, gameSection.getY() + gameSection.getHeight() + SUPER_DIFFERENTIAL, BAR_LENGTH, BAR_WIDTH);
 		insideSuperBar = new GRoundRect(BAR_X, gameSection.getY() + gameSection.getHeight() + SUPER_DIFFERENTIAL, 0, BAR_WIDTH);
-		insideSuperBar.setColor(Color.BLACK);
+		bars = new ArrayList<GRoundRect>(Arrays.asList(insideSuperBar, insideHealthBar, healthBar));
+		for(GRoundRect bar : bars) {
+			bar.setColor(Color.BLACK);
+		}
 		insideSuperBar.setFillColor(Color.BLUE);
 		insideSuperBar.setFilled(true);
-		healthBar.setColor(Color.BLACK);
 		healthBar.setFillColor(Color.RED);
 		healthBar.setFilled(false);
-		insideHealthBar.setColor(Color.BLACK);
 		insideHealthBar.setFillColor(Color.RED);
 		insideHealthBar.setFilled(true);
 		gameSection.setColor(Color.BLACK);
@@ -178,8 +165,6 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		program.remove(healthLabel);
 		program.remove(superLabel);
 		program.remove(accuracyLabel);
-		//program.add(bossBarFrame);
-		//program.add(bossBar);
 		program.remove(healthBar);
 		program.remove(insideHealthBar);
 		program.remove(superBar);
@@ -237,9 +222,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 				shot++;
 				shotsLabel.setLabel("Shots: " + shot);
 				superShotPercent = 0;
-				program.remove(insideSuperBar);
 				insideSuperBar.setSize(0, 10);
-				program.add(insideSuperBar);
 			}
 		}
 		
@@ -412,55 +395,34 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 							if(superShotPercent < 100) {
 								superShotPercent += 2;
 								superLabel.setLabel("Supershot: " + superShotPercent + "%");
-								program.remove(insideSuperBar);
 								insideSuperBar.setSize(insideSuperBar.getWidth()+8, 10);
-								program.add(insideSuperBar);
 							}
 						}
 					}
 			}
 			
 			//Ship damaged
-			if(temp instanceof GImage && bullet.checkEnemyBullet()) {
+			if(temp == playerShip && bullet.checkEnemyBullet()) {
 				bulletsToRemove.add(bullet);
 				if(health > 0) {
 					health--;
-					if(health <= 0) {
-						program.remove(insideHealthBar);
-						healthLabel.setLabel("HP: " + 0);
-						for(Bullet remove : bullets) {
-							bulletsToRemove.add(remove);
-						}
-						for(Obstacle remove : enemies) {
-							obstaclesToRemove.add(remove);
-						}
-						program.gameLost = true;
-						program.addLosePop();
-						program.gameTimer.stop();
-						//break;
-						
+				}
+				else if (health <= 0) {
+					program.remove(insideHealthBar);
+					healthLabel.setLabel("HP: " + 0);
+					for(Bullet remove : bullets) {
+						bulletsToRemove.add(remove);
 					}
-					else {
-						if (health <= 0) {
-							healthLabel.setLabel("HP: " + 0);
-							for(Bullet remove : bullets) {
-								bulletsToRemove.add(remove);
-							}
-							for(Obstacle remove : enemies) {
-								obstaclesToRemove.add(remove);
-							}
-							program.gameLost = true;
-							program.addLosePop();
-							program.gameTimer.stop();
-							//break;
-						}
-						else {
-							healthLabel.setLabel("HP: " + health);
-						}
-							program.remove(insideHealthBar);
-							insideHealthBar.setSize(insideHealthBar.getWidth()-4, 10);
-							program.add(insideHealthBar);
+					for(Obstacle remove : enemies) {
+						obstaclesToRemove.add(remove);
 					}
+					program.gameLost = true;
+					program.addLosePop();
+					program.gameTimer.stop();
+				}
+				else {
+					healthLabel.setLabel("HP: " + health);
+					insideHealthBar.setSize(insideHealthBar.getWidth()-4, 10);
 				}
 			}
 			
@@ -597,6 +559,8 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		program.delPop();
 		program.gameTimer.restart();
 		insideHealthBar.setSize(400,10);
+		insideSuperBar.setSize(0, 10);
+		playerShip.setLocation(PLAYER_X, PLAYER_Y);
 		for(Bullet bullet : bullets) {
 			program.remove(bullet.getSprite());
 		}
