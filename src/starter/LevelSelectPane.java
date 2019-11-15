@@ -111,6 +111,7 @@ public class LevelSelectPane extends GraphicsPane {
 		for(int i = 0; i < levels.size(); i++) {
 			program.remove(levels.get(i));
 		}
+		level = 0;
 		//=====
 	}
 
