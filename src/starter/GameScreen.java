@@ -345,14 +345,11 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		}
 		
 		//Super Shot
-		if(superShotPercent < 100)
+		if(superShotPercent < 100 && timerRuns % 100 == 0)
 		{	
-			if(timerRuns % 100 == 0)
-			{
-				superShotPercent += 0.5;
-				superLabel.setLabel("Supershot: " + superShotPercent + "%");
-				insideSuperBar.setSize(insideSuperBar.getWidth()+2, 10);
-			}
+			superShotPercent += 0.5;
+			superLabel.setLabel("Supershot: " + superShotPercent + "%");
+			insideSuperBar.setSize(insideSuperBar.getWidth()+2, 10);
 		}
 		
 		//Check for loss
@@ -377,14 +374,8 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		for(Bullet bullet : bullets) {
 			//Despawning
 			GObject temp = program.getElementAt(bullet.getSprite().getX() + bullet.getSprite().getWidth() + 1, bullet.getSprite().getY() + bullet.getSprite().getHeight()/2);
-			if(temp instanceof GRect && !(temp instanceof GRoundRect) && temp != gameSection) {
-					if (!(bullet instanceof SuperShot || bullet.checkEnemyBullet())){
-						bulletsToRemove.add(bullet);
-					}
+			if(temp instanceof GRect && !(temp instanceof GRoundRect) && temp != gameSection && !bullet.checkEnemyBullet()) {
 					GPoint tempPoint = new GPoint(bullet.getSprite().getX(), bullet.getSprite().getY());
-					if (!(gameSection.contains(tempPoint))) {
-						bulletsToRemove.add(bullet);
-					}
 					bulletsToRemove.add(bullet);
 					for(Obstacle obstacle : enemies) {
 //						if(temp == obstacle.getSprite() && !bullet.checkEnemyBullet()) { // earlier version, can change back if this doesn't work
@@ -469,7 +460,6 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 						healthLabel.setLabel("HP: " + 0);
 						program.addLosePop();
 						program.gameTimer.stop();
-						// break;
 					}
 					else {
 						if (health <= 0) {
@@ -486,7 +476,6 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 						insideHealthBar.setSize(insideHealthBar.getWidth()-20, 10);
 						program.add(insideHealthBar);
 					}
-					
 				}
 			}
 			
