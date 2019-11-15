@@ -33,6 +33,14 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	private final static int GAME_SCREEN_HEIGHT = 600;
 	private final static int GAME_SCREEN_WIDTH = 500 ;
 	private final static int GAME_SCREEN_MARGIN = 10;
+	private final static int LABEL_DIFFERENTIAL = 150;
+	private final static int BAR_LENGTH = 400;
+	private final static int BAR_X = 90;
+	private final static int SUPER_DIFFERENTIAL = 25;
+	private final static int HEALTH_DIFFERENTIAL = 5;
+	private final static int BAR_WIDTH = 10;
+	private final static int PLAYER_X = 250;
+	private final static int PLAYER_Y = 543;
 	
 	private GRect gameSection;
 	private GLabel healthBarLabel;
@@ -43,8 +51,6 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	private GLabel killsLabel;
 	private GLabel shotsLabel;
 	private GLabel accuracyLabel;
-	private GRect bossBarFrame;
-	private GRect bossBar;
 	private GRoundRect healthBar;
 	private GRoundRect superBar;
 	private ArrayList<Bullet> bullets;
@@ -78,31 +84,31 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		
 		superShotLabel = new GLabel("Super Shot:", 25, gameSection.getY() + gameSection.getHeight() + 35);
 		
-		livesLabel = new GLabel("Lives x", program.getWidth()-125, program.getHeight()-25);
+		livesLabel = new GLabel("Lives x", program.getWidth()-LABEL_DIFFERENTIAL, program.getHeight()-25);
 		
-		statsLabel = new GLabel("Stats: ", program.getWidth()-125, GAME_SCREEN_MARGIN * 2);
+		statsLabel = new GLabel("Stats: ", program.getWidth()-LABEL_DIFFERENTIAL, GAME_SCREEN_MARGIN * 2);
 		
-		pointsLabel = new GLabel("Points: 0", program.getWidth()-125,GAME_SCREEN_MARGIN * 4);
+		pointsLabel = new GLabel("Points: 0", program.getWidth()-LABEL_DIFFERENTIAL,GAME_SCREEN_MARGIN * 4);
 		
-		killsLabel = new GLabel("Kills: 0", program.getWidth()-125, GAME_SCREEN_MARGIN * 6);
+		killsLabel = new GLabel("Kills: 0", program.getWidth()-LABEL_DIFFERENTIAL, GAME_SCREEN_MARGIN * 6);
 		
-		shotsLabel = new GLabel("Shots: 0", program.getWidth()-125, GAME_SCREEN_MARGIN * 8);
+		shotsLabel = new GLabel("Shots: 0", program.getWidth()-LABEL_DIFFERENTIAL, GAME_SCREEN_MARGIN * 8);
 		
-		accuracyLabel = new GLabel("Accuracy: 00.00%", program.getWidth()-125, GAME_SCREEN_MARGIN * 10);
+		accuracyLabel = new GLabel("Accuracy: 00.00%", program.getWidth()-LABEL_DIFFERENTIAL, GAME_SCREEN_MARGIN * 10);
 		
-		healthLabel = new GLabel("HP: 100", program.getWidth()-125, program.getHeight()/4);
+		healthLabel = new GLabel("HP: 100", program.getWidth()-LABEL_DIFFERENTIAL, program.getHeight()/4);
 		
-		superLabel = new GLabel("Supershot: 0%" + superShotPercent + "%", program.getWidth()-125, program.getHeight()/3);
+		superLabel = new GLabel("Supershot: 0%" + superShotPercent + "%", program.getWidth()-LABEL_DIFFERENTIAL, program.getHeight()/3);
 		
 		//bossBarFrame = new GRect(program.getWidth()/30, program.getHeight()/30, GAME_SCREEN_WIDTH-50, 10);
 		
 		//bossBar = new GRect(program.getWidth()/30, program.getHeight()/30, GAME_SCREEN_WIDTH-45, 8);
 		
-		healthBar = new GRoundRect(90, gameSection.getY() + gameSection.getHeight() + 5, 400, 10); // TODO refactor for flexibility
-		insideHealthBar = new GRoundRect(90, gameSection.getY() + gameSection.getHeight() + 5, 400, 10);
+		healthBar = new GRoundRect(BAR_X, gameSection.getY() + gameSection.getHeight() + HEALTH_DIFFERENTIAL, BAR_LENGTH, BAR_WIDTH);
+		insideHealthBar = new GRoundRect(BAR_X, gameSection.getY() + gameSection.getHeight() + HEALTH_DIFFERENTIAL, BAR_LENGTH, BAR_WIDTH);
 		
-		superBar = new GRoundRect(90, gameSection.getY() + gameSection.getHeight() + 25, 400, 10); // TODO refactor for flexibility
-		insideSuperBar = new GRoundRect(90, gameSection.getY() + gameSection.getHeight() + 25, 0, 10);
+		superBar = new GRoundRect(BAR_X, gameSection.getY() + gameSection.getHeight() + SUPER_DIFFERENTIAL, BAR_LENGTH, BAR_WIDTH);
+		insideSuperBar = new GRoundRect(BAR_X, gameSection.getY() + gameSection.getHeight() + SUPER_DIFFERENTIAL, 0, BAR_WIDTH);
 		insideSuperBar.setColor(Color.BLACK);
 		insideSuperBar.setFillColor(Color.BLUE);
 		insideSuperBar.setFilled(true);
@@ -114,8 +120,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		insideHealthBar.setFilled(true);
 		gameSection.setColor(Color.BLACK);
 		gameSection.setFilled(true);
-		playerShip = new GImage("../media/sprites/player/ship1_32x32.png", 250, 543); // TODO refactor
-		//gameTimer = new Timer(10, this);
+		playerShip = new GImage("../media/sprites/player/ship1_32x32.png", PLAYER_X, PLAYER_Y);
 		bullets = new ArrayList<Bullet>();
 		enemies = new ArrayList<Obstacle>();
 		superShot = new ArrayList<SuperShot>();
@@ -143,8 +148,6 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		program.add(healthLabel);
 		program.add(superLabel);
 		program.add(accuracyLabel);
-		//program.add(bossBarFrame);
-		//program.add(bossBar);
 		program.add(healthBar);
 		program.add(insideHealthBar);
 		program.add(superBar);
