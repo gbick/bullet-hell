@@ -10,6 +10,13 @@ import acm.graphics.GObject;
 public class InstructPop extends GraphicsPane {
 	
 	private MainApplication program;
+	private final static double FRAME_X_Y = 162.5;
+	private final static int FRAME_WIDTH_HEIGHT = 325;
+	private final static int LABELS_WIDTH = 315;
+	private final static double LABELS_HEIGHT = 98.33;
+	private final static double LABELS_X_Y = 167.5;
+	private final static double LABEL_2_Y = 275.83;
+	private final static double LABEL_3_Y = 384.17;
 	
 	GButton frame;
 	GButton label1;
@@ -19,13 +26,13 @@ public class InstructPop extends GraphicsPane {
 	public InstructPop(MainApplication app)
 	{
 		this.program = app;
-		frame = new GButton("", program.getWidth()/4, program.getHeight()/4, program.getWidth()/2, program.getHeight()/2);
-		label1 = new GButton("Mouse - Move Ship", frame.getX()  + frame.getWidth()/65, frame.getY()  + frame.getWidth()/65,
-				frame.getWidth() - ((frame.getWidth()/65) * 2), frame.getHeight()/3 - ((frame.getWidth()/65) * 2));
-		label2 = new GButton("Shoot - Left Click", frame.getX() + frame.getWidth()/65, frame.getY() + frame.getHeight()/3 + frame.getWidth()/65,
-				frame.getWidth() - ((frame.getWidth()/65) * 2), frame.getHeight()/3 - ((frame.getWidth()/65) * 2));
-		label3 = new GButton("Space - Super Shot", frame.getX() + frame.getWidth()/65, frame.getY() + ((frame.getHeight()/3) * 2) + frame.getWidth()/65,
-				frame.getWidth() - ((frame.getWidth()/65) * 2), frame.getHeight()/3 - ((frame.getWidth()/65) * 2));
+		frame = new GButton("", FRAME_X_Y, FRAME_X_Y, FRAME_WIDTH_HEIGHT, FRAME_WIDTH_HEIGHT);
+		
+		label1 = new GButton("Mouse - Move Ship", LABELS_X_Y, LABELS_X_Y, LABELS_WIDTH, LABELS_HEIGHT);
+		
+		label2 = new GButton("Shoot - Left Click", LABELS_X_Y, LABEL_2_Y, LABELS_WIDTH, LABELS_HEIGHT);
+		
+		label3 = new GButton("Space - Super Shot", LABELS_X_Y, LABEL_3_Y, LABELS_WIDTH, LABELS_HEIGHT);
 	}
 
 	@Override
