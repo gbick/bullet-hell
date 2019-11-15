@@ -35,6 +35,13 @@ public class FileSelectPop extends GraphicsPane {
 	int num;
 	boolean confirmed = true;
 	boolean delConfirmed = true;
+	private final static double FRAME_X_Y = 162.5;
+	private final static int FRAME_WIDTH_HEIGHT = 325;
+	private final static int DELETE_YES_NO_WIDTH = 315;
+	private final static double DELETE_YES_NO_HEIGHT = 98.33;
+	private final static double DELETE_YES_NO_X_Y = 167.5;
+	private final static double YES_Y = 275.83;
+	private final static double NO_Y = 384.17;
 	
 	ArrayList<Character> id = new ArrayList<Character>();
 	ArrayList<File> saves = new ArrayList<File>();
@@ -46,14 +53,14 @@ public class FileSelectPop extends GraphicsPane {
 	public FileSelectPop(MainApplication app) {
 		this.program = app;
 		//TODO Declare object properties here
-		frame = new GButton("", program.getWidth()/4, program.getHeight()/4, program.getWidth()/2, program.getHeight()/2);
+		frame = new GButton("", FRAME_X_Y, FRAME_X_Y, FRAME_WIDTH_HEIGHT, FRAME_WIDTH_HEIGHT);
 		instructions = new GLabel("Please enter a 3-character ID: ", 0, 0);
-		delete = new GButton("Do you want to delete this file?", frame.getX() + frame.getWidth()/65, frame.getY()  + frame.getWidth()/65,
-				frame.getWidth() - ((frame.getWidth()/65) * 2), frame.getHeight()/3 - ((frame.getWidth()/65) * 2));
-		yes = new GButton("Yes", frame.getX() + frame.getWidth()/65, frame.getY() + frame.getHeight()/3 + frame.getWidth()/65,
-				frame.getWidth() - ((frame.getWidth()/65) * 2), frame.getHeight()/3 - ((frame.getWidth()/65) * 2), Color.GREEN);
-		no = new GButton("No",  frame.getX() + frame.getWidth()/65, frame.getY() + ((frame.getHeight()/3) * 2) + frame.getWidth()/65,
-				frame.getWidth() - ((frame.getWidth()/65) * 2), frame.getHeight()/3 - ((frame.getWidth()/65) * 2), Color.RED);
+		
+		delete = new GButton("Do you want to delete this file?", DELETE_YES_NO_X_Y, DELETE_YES_NO_X_Y, DELETE_YES_NO_WIDTH, DELETE_YES_NO_HEIGHT);
+		
+		yes = new GButton("Yes", DELETE_YES_NO_X_Y, YES_Y, DELETE_YES_NO_WIDTH, DELETE_YES_NO_HEIGHT, Color.GREEN);
+		
+		no = new GButton("No",  DELETE_YES_NO_X_Y, NO_Y, DELETE_YES_NO_WIDTH, DELETE_YES_NO_HEIGHT, Color.RED);
 		id.add('_');
 		id.add('_');
 		id.add('_');

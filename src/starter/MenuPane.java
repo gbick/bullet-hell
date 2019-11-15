@@ -18,6 +18,8 @@ public class MenuPane extends GraphicsPane {
 	private GImage lead;
 	private GImage controls;
 	private GImage exit;
+	private final static int BUTTON_X = 325;
+	private final static double BUTTON_Y = 81.25;
 
 	public MenuPane(MainApplication app) {
 		super();
@@ -27,13 +29,13 @@ public class MenuPane extends GraphicsPane {
 		
 		title = new GImage("../media/sprites/screen_images/title.png",program.getWidth()/5, 0);
 		
-		start = new GImage("../media/sprites/screen_images/title_button_start.png", program.getWidth()/2 - 100 , program.getHeight()/8 + 100);
+		start = new GImage("../media/sprites/screen_images/title_button_start.png", BUTTON_X - 100 , BUTTON_Y + 100);
 		
-		lead = new GImage("../media/sprites/screen_images/title_button_leaderboards.png", program.getWidth()/2 - 100,program.getHeight()/8 + 200);
+		lead = new GImage("../media/sprites/screen_images/title_button_leaderboards.png", BUTTON_X - 100, BUTTON_Y + 200);
 		
-		controls = new GImage("../media/sprites/screen_images/title_button_controls.png",program.getWidth()/2 - 100, program.getHeight()/8 + 300);
+		controls = new GImage("../media/sprites/screen_images/title_button_controls.png",BUTTON_X - 100, BUTTON_Y + 300);
 		
-		exit = new GImage("../media/sprites/screen_images/title_button_exit.png", program.getWidth()/2 - 100,program.getHeight()/8 + 400);	
+		exit = new GImage("../media/sprites/screen_images/title_button_exit.png", BUTTON_X - 100, BUTTON_Y + 400);	
 	}
 
 	@Override
