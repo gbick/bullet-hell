@@ -378,7 +378,6 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 			//Despawning
 			GObject temp = program.getElementAt(bullet.getSprite().getX() + bullet.getSprite().getWidth() + 1, bullet.getSprite().getY() + bullet.getSprite().getHeight()/2);
 			if(temp instanceof GRect && !(temp instanceof GRoundRect) && temp != gameSection) {
-
 					if (!(bullet instanceof SuperShot || bullet.checkEnemyBullet())){
 						bulletsToRemove.add(bullet);
 					}
@@ -512,34 +511,29 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		//Random Spawning
 		if(timerRuns % 100 == 0) {
 			double rand = random.nextDouble(0,4);
+			Obstacle temp;
 			if(rand < 1 && rand > 0) {				
 				Fighter enemyShip = new Fighter(random.nextDouble(0, GAME_SCREEN_WIDTH - 20), 0, MovementEquation.SEEK, playerShip);
 				BasicBullet shot = new BasicBullet(5, enemyShip.getSprite(), 2);
-				Shooter temp = new Shooter(enemyShip, shot, 50);
-				enemies.add(temp);
+				temp = new Shooter(enemyShip, shot, 50);
 				temp.getSprite().setColor(Color.WHITE);
 				temp.getSprite().setFillColor(Color.RED);
-				program.add(temp.getSprite());
 			}
 			else if(rand > 1 && rand < 2) {
-				Fighter temp = new Fighter(random.nextDouble(0, GAME_SCREEN_WIDTH - 20), 0, MovementEquation.WAVE);
-				enemies.add(temp);
+				temp = new Fighter(random.nextDouble(0, GAME_SCREEN_WIDTH - 20), 0, MovementEquation.WAVE);
 				temp.getSprite().setColor(Color.WHITE);
 				temp.getSprite().setFillColor(Color.BLACK);
-				program.add(temp.getSprite());
 			}
 			else if(rand > 2 && rand < 3) {
 				Fighter enemyShip = new Fighter(random.nextDouble(0, GAME_SCREEN_WIDTH - 20), 0 , MovementEquation.STRAIGHT);
 				WaveBullet shot = new WaveBullet(5, enemyShip.getSprite(), 2, true, true);
-				Shooter temp = new Shooter(enemyShip, shot, 100);
-				enemies.add(temp);
-				program.add(temp.getSprite());
+				temp = new Shooter(enemyShip, shot, 100);
 			}
 			else {
-				Fighter temp = new Fighter(random.nextDouble(0, GAME_SCREEN_WIDTH - 20), 0, MovementEquation.CIRCLE);
-				enemies.add(temp);
-				program.add(temp.getSprite());
+				temp = new Fighter(random.nextDouble(0, GAME_SCREEN_WIDTH - 20), 0, MovementEquation.CIRCLE);
 			}
+			enemies.add(temp);
+			program.add(temp.getSprite());
 			
 		}
 	}
