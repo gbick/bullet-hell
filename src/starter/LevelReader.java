@@ -3,6 +3,7 @@ package starter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 /*
@@ -16,23 +17,29 @@ public class LevelReader {
 	
 	LevelReader(int levelNum) {
 		level = levelNum;
-		levelSequence = new File("../media/data/levels/level" + levelNum + ".txt");
-		do {
-			try(Scanner scanner = new Scanner(levelSequence)){
-				break;
-			}
-			catch(FileNotFoundException e) {
-				try {
-					levelSequence.createNewFile();
-					System.out.println("File 'level" + levelNum + ".txt created.");
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
-		}while(true);
+		levelSequence = new File("../media/data/levels/level" + level + ".txt");
 	}
 	
-	
-	
+	public String readLine(int line) {
+		try {
+			scan = new Scanner(levelSequence);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		for(int i = 0; i < line; i++) {
+			if(scan.hasNextLine()) {
+				scan.nextLine();
+			}
+			else {				
+				return ("BOSS");
+			}
+		}
+		if(!(scan.hasNextLine())) {
+			return ("BOSS");
+		}
+		String lineText = scan.nextLine();
+		scan.close();
+		return lineText;
+	}
 }

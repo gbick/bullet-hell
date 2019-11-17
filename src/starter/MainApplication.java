@@ -35,6 +35,18 @@ public class MainApplication extends GraphicsApplication {
 	}
 
 	public void run() {
+		LevelReader read = new LevelReader(1);
+		int i = 0;
+		String line;
+		do {
+			line = read.readLine(i);
+			if(line == "BOSS") {
+				break;
+			}
+			System.out.println(line);
+			i++;
+		}while(true);
+		
 		gameTimer = new Timer(10, this);
 		menu = new MenuPane(this);
 		lead = new LeaderboardPane(this);
