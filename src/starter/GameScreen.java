@@ -69,6 +69,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	private GRoundRect insideSuperBar;
 	private boolean mouseDown = false;
 	private ArrayList<GRoundRect> bars;
+	private int points = 0;
 	
 	public GameScreen(MainApplication app)
 	{
@@ -353,6 +354,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		//Check for loss
 		if(health <= 0) {
 			program.gameLost = true;
+			points += accuracy*10;
 			program.addLosePop();
 			program.gameTimer.stop();
 		}
@@ -389,6 +391,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 						if(obstacle.getSprite().contains(tempPoint) && !bullet.checkEnemyBullet()) {
 							obstaclesToRemove.add(obstacle);
 							kills++;
+							points++;
 							if(superShotPercent <= 98) {
 								superShotPercent += 2;
 								superLabel.setLabel("Supershot: " + superShotPercent + "%");
@@ -414,6 +417,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 						obstaclesToRemove.add(remove);
 					}
 					program.gameLost = true;
+					points += accuracy*10;
 					program.addLosePop();
 					program.gameTimer.stop();
 				}
@@ -463,6 +467,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 					if(health <= 0) {
 						program.remove(insideHealthBar);
 						healthLabel.setLabel("HP: " + 0);
+						points += accuracy*10;
 						program.addLosePop();
 						program.gameTimer.stop();
 					}
@@ -470,6 +475,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 						if (health <= 0) {
 							healthLabel.setLabel("HP: " + 0);
 							program.gameLost = true;
+							points += accuracy*10;
 							program.addLosePop();
 							program.gameTimer.stop();
 							// break;
@@ -551,6 +557,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		playerShip.setLocation(PLAYER_X, PLAYER_Y);
 		shot = 0;
 		kills = 0;
+		points = 0;
 		shotsLabel.setLabel("Shots: " + shot);
 		accuracyLabel.setLabel("Accuracy: 00.00%");
 		for(Bullet bullet : bullets) {
@@ -562,6 +569,10 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		}
 		enemies.removeAll(enemies);
 		program.gameLost = false;
+	}
+	
+	public int getPoints() {
+		return points;
 	}
 	
 }
