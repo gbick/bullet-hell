@@ -83,4 +83,8 @@ public class GButton extends GCompound {
 	public void setEdgeColor(Color col) {
 		rect.setColor(col);
 	}
+
+	public Color getFillColor() {
+		return rect.getFillColor();
+	}
 }
