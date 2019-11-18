@@ -2,6 +2,9 @@ package starter;
 
 import java.awt.Color;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -171,6 +174,8 @@ public class LevelCreator extends GraphicsApplication {
 		pageNum.setLabelText((page + 1) + "/" + numPages);
 		
 		//Tool
+		
+		//TODO CHANGE THIS SWITCH STATEMENT TO ADD/REMOVE ENEMY TYPES
 		switch(curTool) {
 			case 0:
 				tool.setFillColor(Color.WHITE);
@@ -224,6 +229,7 @@ public class LevelCreator extends GraphicsApplication {
 				}
 			}
 			if(clicked == tool) {
+				//TODO CHANGE THIS IF STATEMENT TO SUPPORT MORE ENEMY TYPES
 				if(curTool < 2) {
 					curTool++;
 				}
@@ -231,6 +237,83 @@ public class LevelCreator extends GraphicsApplication {
 					curTool = 0;
 				}
 				updateMenuButtons();
+			}
+			if(clicked == export) {
+				int num = 0;
+				boolean cantCreate = true;
+				File file;
+				FileWriter writer = null;
+				do {
+					file = new File("../media/data/levelCreatorOutput/unamedLevel" + num + ".txt");
+					if(file.exists()) {
+						num++;
+					}
+					else {
+						cantCreate = false;
+					}
+				}while(cantCreate);
+				
+				try {
+					file.createNewFile();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				num = 0;
+				
+				try {
+					writer = new FileWriter(file, true);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				//WRITE TO FILE
+				for(int i = 0; i < dataLines.size(); i++) {
+					for(int j = 0; j < 10; j++){
+						Color dataColor = dataLines.get(i).get(j).getFillColor();
+						
+						//TODO ADD COLOR CASES TO THIS IF ELSE STATEMENT WHEN ADDING NEW OBJECTS
+						if(dataColor == Color.WHITE) {
+							try {
+								writer.write("0 ");
+							} catch (IOException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+						}
+						else if(dataColor == Color.RED) {
+							try {
+								writer.write("1 ");
+							} catch (IOException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+						}
+						else if(dataColor == Color.BLUE){
+							try {
+								writer.write("2 ");
+							} catch (IOException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+						}
+					}
+					try {
+						writer.write("\n");
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				
+				try {
+					writer.close();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				consoleMessage("Exported level schematic as 'unamedLevel" + num + ".txt'");
 			}
 		}
 	}
