@@ -17,6 +17,7 @@ import acm.graphics.GObject;
 public class RecordPop extends GraphicsPane implements KeyListener {
 	private MainApplication program; // you will use program to get access to
 	private GameScreen game;									// all of the GraphicsProgram calls
+	private LeaderboardPane lead;
 	//TODO Identify required objects here
 	GButton frame;
 	GButton file1;
@@ -39,15 +40,17 @@ public class RecordPop extends GraphicsPane implements KeyListener {
 	
 	//=====
 
-	public RecordPop(MainApplication app, GameScreen game) {
+	public RecordPop(MainApplication app, GameScreen game, LeaderboardPane lead) {
 		this.program = app;
 		this.game = game;
+		this.lead = lead;
 		//TODO Declare object properties here
-		frame = new GButton("_ _ _", FRAME_X, FRAME_Y, FRAME_WIDTH, FRAME_HEIGHT);
+		frame = new GButton("", FRAME_X, FRAME_Y, FRAME_WIDTH, FRAME_HEIGHT);
 		instructions = new GLabel("Please enter a 3-character ID: ", 138, 292);
 		id.add('_');
 		id.add('_');
 		id.add('_');
+		frame.setLabelText(id.get(0) + " " + id.get(1) + " " + id.get(2));
 		frame.message.setFont("Arial-64");
 		frame.message.setLocation(frame.message.getX() - 40, frame.message.getY());
 		save = new File("../media/data/levels/highscores.txt");
@@ -75,21 +78,25 @@ public class RecordPop extends GraphicsPane implements KeyListener {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-		        try {
-		            FileWriter writer = new FileWriter(save, true);
-		            writer.write("ID: " + id.get(0) + id.get(1) + id.get(2));
-		            writer.write("\r\n");
-		            writer.write("Points: " + game.getPoints());
-		            writer.write("\r\n");
-		            writer.close();
-		            System.exit(0);
-		        } catch (IOException e2) {
-		            e2.printStackTrace();
-		        }
-		        id.set(0, '_');
-		        id.set(1,  '_');
-		        id.set(2, '_');
-		        program.setSave(save);
+//		        try {
+//		            FileWriter writer = new FileWriter(save, true);
+//		            writer.write("ID: " + id.get(0) + id.get(1) + id.get(2));
+//		            writer.write("\r\n");
+//		            writer.write("Points: " + game.getPoints());
+//		            writer.write("\r\n");
+//		            writer.close();
+		        	String tempString = String.valueOf(id.get(0)) + String.valueOf(id.get(1)) + String.valueOf(id.get(2));
+		        	int tempInt = game.getPoints();
+		        	lead.addElement(tempString, tempInt);
+			        id.set(0, '_');
+			        id.set(1,  '_');
+			        id.set(2, '_');
+			        frame.setLabelText(id.get(0) + " " + id.get(1) + " " + id.get(2));
+			        program.switchToMenu();
+//		        } catch (IOException e2) {
+//		            e2.printStackTrace();
+//		        }
+		        //program.setSave(save);
 		        //program.switchToSel();
 				return;
 			}
@@ -97,6 +104,7 @@ public class RecordPop extends GraphicsPane implements KeyListener {
 		frame.setLabelText(id.get(0) + " " + id.get(1) + " " + id.get(2));
 		program.remove(instructions);
 		program.add(instructions);
+		if(charNum == 3 && e.getKeyCode() == KeyEvent.VK_ENTER) { program.switchToMenu();}
 	}
 	@Override
 	public void showContents() {

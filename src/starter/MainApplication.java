@@ -60,7 +60,7 @@ public class MainApplication extends GraphicsApplication {
 		RtMPop = new ReturnToMenuPop(this);
 		losePop = new LosePop(this, game);
 		gameLost = false;
-		recordPop = new RecordPop(this, game);
+		recordPop = new RecordPop(this, game, lead);
 		switchToMenu();
 	}
 	

@@ -1,8 +1,13 @@
 package starter;
 
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Scanner;
 
 import acm.graphics.GImage;
 import acm.graphics.GLabel;
@@ -27,6 +32,9 @@ public class LeaderboardPane extends GraphicsPane {
 	private static final double LEADERBOARD_Y = MainApplication.WINDOW_HEIGHT*.25;
 	private static final int NUM_LEVELS = 3;
 	private HashMap<Integer, Pair<String, Integer>> scores; // first element is a 3-digit int - 
+	private ArrayList<Pair<String, Integer>> scoreList = new ArrayList<Pair<String, Integer>>();
+	File save = new File("../media/data/levels/highscores.txt");
+	private Scanner scan;
 	
 	//=====
 
@@ -43,12 +51,12 @@ public class LeaderboardPane extends GraphicsPane {
 			level.setFont("Arial-Bold-24");
 			levels.add(level);
 		}
-		easy = new GLabel("Easy Mode", level.getX(), 250);
-		easy.setFont("Arial-Bold-16");
-		medium = new GLabel("Medium Mode", level.getX(), 350);
-		medium.setFont("Arial-Bold-16");
-		hard = new GLabel("Hard Mode", level.getX(), 450);
-		hard.setFont("Arial-Bold-16");
+//		easy = new GLabel("Easy Mode", level.getX(), 250);
+//		easy.setFont("Arial-Bold-16");
+//		medium = new GLabel("Medium Mode", level.getX(), 350);
+//		medium.setFont("Arial-Bold-16");
+//		hard = new GLabel("Hard Mode", level.getX(), 450);
+//		hard.setFont("Arial-Bold-16");
 		//=====
 	}
 
@@ -63,9 +71,11 @@ public class LeaderboardPane extends GraphicsPane {
 		if (!levels.isEmpty()) {
 			program.add(levels.get(0));
 		}
-		program.add(easy);
-		program.add(medium);
-		program.add(hard);
+//		program.add(easy);
+//		program.add(medium);
+//		program.add(hard);
+		writeToFile();
+		printFile();
 		//=====
 	}
 
@@ -92,6 +102,54 @@ public class LeaderboardPane extends GraphicsPane {
 		}
 		else if(obj == returnToMenu) {
 			program.switchToMenu();
+		}
+	}
+	
+	public void addElement(String id, int score) {
+		Pair<String, Integer> tempPair = new Pair<>(id, score);
+		if (scoreList.size() == 0) {
+			scoreList.add(tempPair);
+		}
+		else {
+			for(int i = 0; i < scoreList.size(); ++i) {
+				if(scoreList.get(i).getValue() < tempPair.getValue()) {
+					scoreList.add(i, tempPair);
+					return;
+				}
+			}
+		}
+	}
+	
+	public void writeToFile() {
+		try {
+			save.createNewFile();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+	        FileWriter writer = new FileWriter(save, true);
+	        for(int i = 0; i < scoreList.size(); ++i) {
+	        	writer.write("ID: " + scoreList.get(i).getKey());
+		        writer.write("\r\n");
+		        writer.write("Points: " + scoreList.get(i).getValue());
+		        writer.write("\r\n");
+	        }
+	        writer.close();
+		}
+		catch(IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void printFile() {
+		for(int i = 0; i < scoreList.size(); ++i) {
+			GLabel tempId = new GLabel("ID: " + scoreList.get(i).getKey(), level.getX() - 100, level.getY() + 40*(i+1));
+			tempId.setFont("Arial-18");
+			GLabel tempScore = new GLabel("Points: " + scoreList.get(i).getValue(), tempId.getX() + 200, tempId.getY());
+			tempScore.setFont("Arial-18");
+			program.add(tempId);
+			program.add(tempScore);
 		}
 	}
 }
