@@ -13,20 +13,25 @@ public class LevelCreator extends GraphicsApplication {
 	public static final int WINDOW_WIDTH = 650;
 	public static final int WINDOW_HEIGHT = 650;
 	
-	GButton restart = new GButton("Restart", 0, 0, 50, 50, Color.RED);
-	GButton export = new GButton("Export", 50, 0, 50, 50, Color.GREEN);
-	GButton del = new GButton("Delete", 100, 0, 50, 50);
-	GButton newLine = new GButton("New Line", 150, 0, 50, 50);
-	GButton tool = new GButton("Empty", 200, 0, 50, 50, Color.YELLOW);
-	GButton pageNum = new GButton("1/1", 500, 0, 50, 50);
-	GButton pageDown = new GButton("DOWN", 550, 0, 50, 50, Color.GRAY);
-	GButton pageUp = new GButton(" UP ", 600, 0, 50, 50, Color.GRAY);
-	GRect menuButtons = new GRect(0, 0, 650, 50);
-	GRect gridBounds = new GRect(25, 50, 600, 550);
-	GRect consoleBounds = new GRect (25, 600, 600, 50);
+	private GButton restart = new GButton("Restart", 0, 0, 50, 50, Color.RED);
+	private GButton export = new GButton("Export", 50, 0, 50, 50, Color.GREEN);
+	private GButton del = new GButton("Delete", 100, 0, 50, 50);
+	private GButton newLine = new GButton("New Line", 150, 0, 50, 50);
+	private GButton tool = new GButton("Empty", 200, 0, 50, 50, Color.YELLOW);
+	private GButton pageNum = new GButton(" / ", 500, 0, 50, 50);
+	private GButton pagePrev = new GButton("PREV", 550, 0, 50, 50, Color.GRAY);
+	private GButton pageNext = new GButton("NEXT", 600, 0, 50, 50, Color.GRAY);
+	private GRect menuButtons = new GRect(0, 0, 650, 50);
+	private GRect gridBounds = new GRect(25, 50, 600, 550);
+	private GRect consoleBounds = new GRect (25, 600, 600, 50);
 	
-	ArrayList<GLabel> consoleMessages = new ArrayList<GLabel>();
-	HashMap<Integer, ArrayList<GButton>> dataLines = new HashMap<Integer, ArrayList<GButton>>();
+	private ArrayList<GLabel> consoleMessages = new ArrayList<GLabel>();
+	private ArrayList<GButton> gridLabels = new ArrayList<GButton>();
+	private HashMap<Integer, ArrayList<GButton>> displayData = new HashMap<Integer, ArrayList<GButton>>();
+	private HashMap<Integer, ArrayList<GButton>> dataLines = new HashMap<Integer, ArrayList<GButton>>();
+	private int page = 0;
+	private int numPages = 1;
+	private int numLines = 0;
 	
 	public void init() {
 		setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -38,7 +43,7 @@ public class LevelCreator extends GraphicsApplication {
 	}
 	
 	public void initialize() {
-		add(menuButtons);
+		//add(menuButtons);
 		add(gridBounds);
 		add(export);
 		add(restart);
@@ -46,8 +51,8 @@ public class LevelCreator extends GraphicsApplication {
 		add(newLine);
 		add(tool);
 		add(pageNum);
-		add(pageUp);
-		add(pageDown);
+		add(pageNext);
+		add(pagePrev);
 		consoleBounds.setFillColor(Color.LIGHT_GRAY);
 		consoleBounds.setFilled(true);
 		add(consoleBounds);
@@ -70,16 +75,90 @@ public class LevelCreator extends GraphicsApplication {
 	public void createNewLine() {
 		ArrayList<GButton> line = new ArrayList<GButton>();
 		for(int i = 0; i < 10; i++) {
-			GButton temp = new GButton("", 25 + (50 * i), 0, 60, 60);
+			GButton temp = new GButton("", 25 + (60 * i), 0, 60, 60);
 			line.add(temp);
+		}
+		numLines++;
+		if(numLines % 8 == 0) {
+			numLines = 0;
+			numPages++;
 		}
 		dataLines.put(dataLines.size(), line);
 		consoleMessage("Line " + dataLines.size() + " created.");
+		updateGrid();
+		updateMenuButtons();
 	}
 	
-	public void addNewLineVis() {
+	public void updateGrid() {
+		//Remove current objects
+		if(gridLabels.size() > 0) {
+			for(int i = 0; i < gridLabels.size(); i++) {
+				remove(gridLabels.get(i));
+				gridLabels.remove(i);
+			}
+		}
+		if(displayData.size() > 0) {
+			for(int i = displayData.size() - 1; i >= 0; i--) {
+				for(int j = 0; j < 10; j++) {
+					try {						
+						remove(displayData.get(i).get(j));
+					}
+					catch(NullPointerException e) {
+						break;
+					}
+				}
+				displayData.remove(i);
+			}
+		}
 		
-		
+		//Add new objects
+		GButton lineLabel;
+		int label = 1 * (page);
+		for(int i = 0; i < 8; i++) {
+			lineLabel = new GButton("" + ((label * 8) + i + 1), 0, 50 + (60 * i), 25, 60);
+			gridLabels.add(lineLabel);
+			add(lineLabel);
+		}
+		if(page != numPages - 1) {
+			//Full page
+			for(int i = 0; i < 8; i++) {
+				displayData.put(i, dataLines.get(i + (page * 8)));
+				for(int j = 0; j < 10; j++) {
+					dataLines.get(i + (page * 8)).get(j).setLocation(dataLines.get(i + (page * 8)).get(j).getX(), 50 + (i * 60));
+					add(dataLines.get(i + (page * 8)).get(j));
+				}
+			}
+		}
+		else {
+			//Not full page
+			for(int i = 0; i < 8; i++) {
+				displayData.put(i, dataLines.get(i + (page * 8)));
+				for(int j = 0; j < 10; j++) {
+					try {						
+						dataLines.get(i + (page * 8)).get(j);
+					}
+					catch(NullPointerException e){
+						return;
+					}
+					dataLines.get(i + (page * 8)).get(j).setLocation(dataLines.get(i + (page * 8)).get(j).getX(), 50 + (i * 60));
+					add(dataLines.get(i + (page * 8)).get(j));
+				}
+			}
+		}
+	}
+	
+	private void reset() {
+		dataLines = new HashMap<Integer, ArrayList<GButton>>();
+		page = 0;
+		numPages = 1;
+		numLines = 0;
+		updateMenuButtons();
+		updateGrid();
+		consoleMessage("FULL RESET. ALL DATA ERASED.");
+	}
+	
+	public void updateMenuButtons() {
+		pageNum.setLabelText((page + 1) + "/" + numPages);
 	}
 	
 	@Override
@@ -89,6 +168,19 @@ public class LevelCreator extends GraphicsApplication {
 			if(clicked == newLine) {
 				//Create new line
 				createNewLine();
+			}
+			if(clicked == pageNext && (page + 1) < numPages) {
+				page++;
+				updateGrid();
+				updateMenuButtons();
+			}
+			if(clicked == pagePrev && page > 0) {
+				page--;
+				updateGrid();
+				updateMenuButtons();
+			}
+			if(clicked == restart) {
+				reset();
 			}
 		}
 	}
