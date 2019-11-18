@@ -3,8 +3,10 @@ package starter;
 import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import acm.graphics.GLabel;
+import acm.graphics.GObject;
 import acm.graphics.GRect;
 
 public class LevelCreator extends GraphicsApplication {
@@ -24,6 +26,7 @@ public class LevelCreator extends GraphicsApplication {
 	GRect consoleBounds = new GRect (25, 600, 600, 50);
 	
 	ArrayList<GLabel> consoleMessages = new ArrayList<GLabel>();
+	HashMap<Integer, ArrayList<GButton>> dataLines = new HashMap<Integer, ArrayList<GButton>>();
 	
 	public void init() {
 		setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -35,6 +38,8 @@ public class LevelCreator extends GraphicsApplication {
 	}
 	
 	public void initialize() {
+		add(menuButtons);
+		add(gridBounds);
 		add(export);
 		add(restart);
 		add(del);
@@ -43,8 +48,6 @@ public class LevelCreator extends GraphicsApplication {
 		add(pageNum);
 		add(pageUp);
 		add(pageDown);
-		add(menuButtons);
-		add(gridBounds);
 		consoleBounds.setFillColor(Color.LIGHT_GRAY);
 		consoleBounds.setFilled(true);
 		add(consoleBounds);
@@ -56,6 +59,7 @@ public class LevelCreator extends GraphicsApplication {
 			consoleMessages.get(i).move(0, -10);
 			if(consoleMessages.get(i).getY() <= 600){
 				remove(consoleMessages.get(i));
+				consoleMessages.remove(i);
 			}
 		}
 		GLabel msg = new GLabel("> " + message, 25, 650);
@@ -63,9 +67,30 @@ public class LevelCreator extends GraphicsApplication {
 		add(msg);
 	}
 	
+	public void createNewLine() {
+		ArrayList<GButton> line = new ArrayList<GButton>();
+		for(int i = 0; i < 10; i++) {
+			GButton temp = new GButton("", 25 + (50 * i), 0, 60, 60);
+			line.add(temp);
+		}
+		dataLines.put(dataLines.size(), line);
+		consoleMessage("Line " + dataLines.size() + " created.");
+	}
+	
+	public void addNewLineVis() {
+		
+		
+	}
+	
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		consoleMessage("Click");
+		GObject clicked = getElementAt(e.getX(), e.getY());
+		if(clicked instanceof GButton) {
+			if(clicked == newLine) {
+				//Create new line
+				createNewLine();
+			}
+		}
 	}
 
 }
