@@ -8,18 +8,21 @@ import acm.graphics.GObject;
 
 public class LosePop extends GraphicsPane {
 	private MainApplication program;
+	private GameScreen game;
 	
 	GButton frame;
 	GLabel message;
 	GButton returnToMenu;
 	GButton exit;
+	GLabel pointsLabel;
 	
-	public LosePop(MainApplication app) {
+	public LosePop(MainApplication app, GameScreen game) {
 		this.program = app;
-		frame = new GButton("", program.getWidth()/5, program.getHeight()/3, program.getWidth()/2, program.getHeight()*((double)4/13));
+		this.game = game;
+		frame = new GButton("", program.getWidth()/5, program.getHeight()/3, program.getWidth()/2, program.getHeight()*((double)6/13));
 		frame.setFillColor(Color.MAGENTA);
-		message = new GLabel("You lose! Better luck next time", frame.getX(), frame.getHeight()+60);
-		message.setFont("Arial-24");
+		message = new GLabel("You lose! Better luck next time", frame.getX() + 20, frame.getHeight() - 50);
+		message.setFont("Arial-22");
 		returnToMenu = new GButton("Return to Main Menu", frame.getX() + frame.getWidth()/65, frame.getY() + frame.getHeight()/3 + frame.getWidth()/65,
 				frame.getWidth() - ((frame.getWidth()/65) * 2), frame.getHeight()/3 - ((frame.getWidth()/65) * 2));
 		returnToMenu.setFillColor(Color.MAGENTA);
@@ -28,6 +31,8 @@ public class LosePop extends GraphicsPane {
 				frame.getWidth() - ((frame.getWidth()/65) * 2), frame.getHeight()/3 - ((frame.getWidth()/65) * 2));
 		exit.setFillColor(Color.MAGENTA);
 		exit.setEdgeColor(Color.MAGENTA);
+		pointsLabel = new GLabel("Total Points: " + game.getPoints(), message.getX() + 65, message.getY() + 30);
+		pointsLabel.setFont("Arial-22");
 	}
 	@Override
 	public void showContents() {
@@ -35,6 +40,8 @@ public class LosePop extends GraphicsPane {
 		program.add(message);
 		program.add(returnToMenu);
 		program.add(exit);
+		setPointsLabel();
+		program.add(pointsLabel);
 		program.gameLost = true;
 
 	}
@@ -45,6 +52,7 @@ public class LosePop extends GraphicsPane {
 		program.remove(message);
 		program.remove(returnToMenu);
 		program.remove(exit);
+		program.remove(pointsLabel);
 	}
 	
 	@Override
@@ -63,6 +71,10 @@ public class LosePop extends GraphicsPane {
 			program.delPop();
 			program.addExitPop();
 		}
+	}
+	
+	public void setPointsLabel() {
+		pointsLabel.setLabel("Total Points: " + game.getPoints());
 	}
 
 }

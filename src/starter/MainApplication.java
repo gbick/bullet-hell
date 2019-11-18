@@ -45,7 +45,7 @@ public class MainApplication extends GraphicsApplication {
 			}
 			System.out.println(line);
 			i++;
-		}while(true);
+		} while(true);
 		
 		gameTimer = new Timer(10, this);
 		menu = new MenuPane(this);
@@ -57,7 +57,7 @@ public class MainApplication extends GraphicsApplication {
 		exitPop = new ExitPop(this);
 		pausePop = new PausePop(this);
 		RtMPop = new ReturnToMenuPop(this);
-		losePop = new LosePop(this);
+		losePop = new LosePop(this, game);
 		gameLost = false;
 		switchToMenu();
 	}

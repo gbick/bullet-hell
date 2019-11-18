@@ -69,6 +69,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	private GRoundRect insideSuperBar;
 	private boolean mouseDown = false;
 	private ArrayList<GRoundRect> bars;
+	private int points = 0;
 	
 	public GameScreen(MainApplication app)
 	{
@@ -121,9 +122,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		 * Show screen contents
 		 */
 		
-		if(program.gameLost) {
-			resetGame();
-		}
+		resetGame();
 		program.add(gameSection);
 		program.add(healthBarLabel);
 		program.add(superShotLabel);
@@ -355,6 +354,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		//Check for loss
 		if(health <= 0) {
 			program.gameLost = true;
+			points += accuracy*10;
 			program.addLosePop();
 			program.gameTimer.stop();
 		}
@@ -374,6 +374,15 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		for(Bullet bullet : bullets) {
 			//Despawning
 			GObject temp = program.getElementAt(bullet.getSprite().getX() + bullet.getSprite().getWidth() + 1, bullet.getSprite().getY() + bullet.getSprite().getHeight()/2);
+			
+			try {
+				if(temp.getY() < gameSection.getY()) {
+					bulletsToRemove.add(bullet);
+				}
+			}
+			catch(NullPointerException f) {
+				bulletsToRemove.add(bullet);
+			}
 			if(temp instanceof GRect && !(temp instanceof GRoundRect) && temp != gameSection && !bullet.checkEnemyBullet()) {
 					GPoint tempPoint = new GPoint(bullet.getSprite().getX(), bullet.getSprite().getY());
 					bulletsToRemove.add(bullet);
@@ -382,7 +391,8 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 						if(obstacle.getSprite().contains(tempPoint) && !bullet.checkEnemyBullet()) {
 							obstaclesToRemove.add(obstacle);
 							kills++;
-							if(superShotPercent < 100) {
+							points++;
+							if(superShotPercent <= 98) {
 								superShotPercent += 2;
 								superLabel.setLabel("Supershot: " + superShotPercent + "%");
 								insideSuperBar.setSize(insideSuperBar.getWidth()+8, 10);
@@ -392,7 +402,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 			}
 			
 			//Ship damaged
-			if(temp == playerShip && bullet.checkEnemyBullet()) {
+			else if(temp == playerShip && bullet.checkEnemyBullet()) {
 				bulletsToRemove.add(bullet);
 				if(health > 0) {
 					health--;
@@ -407,6 +417,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 						obstaclesToRemove.add(remove);
 					}
 					program.gameLost = true;
+					points += accuracy*10;
 					program.addLosePop();
 					program.gameTimer.stop();
 				}
@@ -456,6 +467,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 					if(health <= 0) {
 						program.remove(insideHealthBar);
 						healthLabel.setLabel("HP: " + 0);
+						points += accuracy*10;
 						program.addLosePop();
 						program.gameTimer.stop();
 					}
@@ -463,6 +475,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 						if (health <= 0) {
 							healthLabel.setLabel("HP: " + 0);
 							program.gameLost = true;
+							points += accuracy*10;
 							program.addLosePop();
 							program.gameTimer.stop();
 							// break;
@@ -542,6 +555,11 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		insideHealthBar.setSize(400,10);
 		insideSuperBar.setSize(0, 10);
 		playerShip.setLocation(PLAYER_X, PLAYER_Y);
+		shot = 0;
+		kills = 0;
+		points = 0;
+		shotsLabel.setLabel("Shots: " + shot);
+		accuracyLabel.setLabel("Accuracy: 00.00%");
 		for(Bullet bullet : bullets) {
 			program.remove(bullet.getSprite());
 		}
@@ -551,6 +569,10 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		}
 		enemies.removeAll(enemies);
 		program.gameLost = false;
+	}
+	
+	public int getPoints() {
+		return points;
 	}
 	
 }
