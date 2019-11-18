@@ -204,6 +204,14 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		 */
 		
 		//Pausing
+		
+		if(program.getCurPop() != null) {
+			program.getCurPop().keyPressed(e);
+			return;
+		}
+		if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+			System.exit(0);
+		}
 		if(e.getKeyCode() == KeyEvent.VK_ESCAPE || e.getKeyCode() == KeyEvent.VK_P) {
 			program.addPausePop();
 			program.gameTimer.stop();
@@ -224,7 +232,6 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 				insideSuperBar.setSize(0, 10);
 			}
 		}
-		
 	}
 	@Override
 	public void mouseMoved(MouseEvent e) {

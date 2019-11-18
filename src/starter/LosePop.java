@@ -1,6 +1,7 @@
 package starter;
 
 import java.awt.Color;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 import acm.graphics.GLabel;
@@ -15,6 +16,7 @@ public class LosePop extends GraphicsPane {
 	GButton returnToMenu;
 	GButton exit;
 	GLabel pointsLabel;
+	GButton highScore;
 	
 	public LosePop(MainApplication app, GameScreen game) {
 		this.program = app;
@@ -33,6 +35,9 @@ public class LosePop extends GraphicsPane {
 		exit.setEdgeColor(Color.MAGENTA);
 		pointsLabel = new GLabel("Total Points: " + game.getPoints(), message.getX() + 65, message.getY() + 30);
 		pointsLabel.setFont("Arial-22");
+		highScore = new GButton("Record your high score", returnToMenu.getX(), returnToMenu.getY() - 40, returnToMenu.getWidth(), returnToMenu.getHeight() - 40);
+		highScore.setFillColor(Color.MAGENTA);
+		highScore.setEdgeColor(Color.MAGENTA);
 	}
 	@Override
 	public void showContents() {
@@ -42,6 +47,7 @@ public class LosePop extends GraphicsPane {
 		program.add(exit);
 		setPointsLabel();
 		program.add(pointsLabel);
+		program.add(highScore);
 		program.gameLost = true;
 
 	}
@@ -53,24 +59,32 @@ public class LosePop extends GraphicsPane {
 		program.remove(returnToMenu);
 		program.remove(exit);
 		program.remove(pointsLabel);
+		program.remove(highScore);
 	}
 	
 	@Override
 	public void mousePressed(MouseEvent e) {
 		GObject obj = program.getElementAt(e.getX(), e.getY());
-		if(obj == returnToMenu)	
-		{
+		if(obj == returnToMenu)	{
 			program.remove(frame);
 			program.remove(message);
 			program.remove(returnToMenu);
 			program.remove(exit);
 			program.addRtMPop();
 		}
-		else if(obj == exit)
-		{
+		else if(obj == exit) {
 			program.delPop();
 			program.addExitPop();
 		}
+		else if(obj == highScore) {
+			program.delPop();
+			program.addRecordPop();
+		}
+	}
+	
+	@Override
+	public void keyPressed(KeyEvent e) {
+		System.exit(0);
 	}
 	
 	public void setPointsLabel() {

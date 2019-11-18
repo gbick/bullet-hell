@@ -14,7 +14,8 @@ public class MainApplication extends GraphicsApplication {
 	private MenuPane menu;
 	private LeaderboardPane lead;
 	private LevelSelectPane sel;
-	public GameScreen game;
+	public GameScreen game; // TODO maybe encapsulate this and make getters to refactor?
+	private RecordPop recordPop;
 	
 	//Popups
 	private FileSelectPop load;
@@ -59,6 +60,7 @@ public class MainApplication extends GraphicsApplication {
 		RtMPop = new ReturnToMenuPop(this);
 		losePop = new LosePop(this, game);
 		gameLost = false;
+		recordPop = new RecordPop(this, game);
 		switchToMenu();
 	}
 	
@@ -116,6 +118,10 @@ public class MainApplication extends GraphicsApplication {
 	
 	public void addLosePop() {
 		addPop(losePop);
+	}
+	
+	public void addRecordPop() {
+		addPop(recordPop);
 	}
 
 	private void playRandomSound() {

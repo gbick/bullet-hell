@@ -20,7 +20,7 @@ import acm.graphics.GRoundRect;
 
 public class GButton extends GCompound {
 	private GRoundRect rect;
-	private GLabel message;
+	public GLabel message;
 
 	public static final int BUFFER = 20;
 

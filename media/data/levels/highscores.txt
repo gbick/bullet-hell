@@ -1,0 +1,4 @@
+ID: aaa
+Points: 100
+ID: aaa
+Points: 0
