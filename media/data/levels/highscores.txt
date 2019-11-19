@@ -2,3 +2,5 @@ ID: aaa
 Points: 100
 ID: aaa
 Points: 0
+ID: tes
+Points: 70
