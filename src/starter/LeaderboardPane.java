@@ -117,6 +117,7 @@ public class LeaderboardPane extends GraphicsPane {
 					return;
 				}
 			}
+			scoreList.add(tempPair);
 		}
 	}
 	
