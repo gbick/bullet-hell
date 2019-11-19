@@ -189,6 +189,13 @@ public class LevelCreator extends GraphicsApplication {
 				tool.setFillColor(Color.BLUE);
 				tool.setLabelText("Shooter");
 				break;
+			case 3:
+				tool.setFillColor(Color.YELLOW);
+				tool.setLabelText("Fighter 2");
+				break;
+			case 4:
+				tool.setFillColor(Color.DARK_GRAY);
+				tool.setLabelText("Circler");
 			default:
 				break;
 		}
@@ -230,7 +237,7 @@ public class LevelCreator extends GraphicsApplication {
 			}
 			if(clicked == tool) {
 				//TODO CHANGE THIS IF STATEMENT TO SUPPORT MORE ENEMY TYPES
-				if(curTool < 2) {
+				if(curTool < 4) {
 					curTool++;
 				}
 				else {
@@ -293,6 +300,22 @@ public class LevelCreator extends GraphicsApplication {
 						else if(dataColor == Color.BLUE){
 							try {
 								writer.write("2 ");
+							} catch (IOException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+						}
+						else if(dataColor == Color.YELLOW) {
+							try {
+								writer.write("3 ");
+							} catch (IOException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+						}
+						else if(dataColor == Color.DARK_GRAY) {
+							try {
+								writer.write("4 ");
 							} catch (IOException e1) {
 								// TODO Auto-generated catch block
 								e1.printStackTrace();
