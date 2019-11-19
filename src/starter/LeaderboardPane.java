@@ -35,6 +35,8 @@ public class LeaderboardPane extends GraphicsPane {
 	private ArrayList<Pair<String, Integer>> scoreList = new ArrayList<Pair<String, Integer>>();
 	File save = new File("../media/data/levels/highscores.txt");
 	private Scanner scan;
+	private boolean valid;
+	private int score;
 	
 	//=====
 
@@ -51,6 +53,7 @@ public class LeaderboardPane extends GraphicsPane {
 			level.setFont("Arial-Bold-24");
 			levels.add(level);
 		}
+		importOldScores();
 //		easy = new GLabel("Easy Mode", level.getX(), 250);
 //		easy.setFont("Arial-Bold-16");
 //		medium = new GLabel("Medium Mode", level.getX(), 350);
@@ -129,7 +132,7 @@ public class LeaderboardPane extends GraphicsPane {
 			e1.printStackTrace();
 		}
 		try {
-	        FileWriter writer = new FileWriter(save, true);
+	        FileWriter writer = new FileWriter(save);
 	        for(int i = 0; i < scoreList.size(); ++i) {
 	        	writer.write("ID: " + scoreList.get(i).getKey());
 		        writer.write("\r\n");
@@ -151,6 +154,30 @@ public class LeaderboardPane extends GraphicsPane {
 			tempScore.setFont("Arial-18");
 			program.add(tempId);
 			program.add(tempScore);
+		}
+	}
+	
+	public void importOldScores() {
+		try {
+			scan = new Scanner(save);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		while(scan.hasNext()) {
+			valid = true;
+			scan.next();
+			String id = scan.next();
+			scan.next();
+			try {
+				score = Integer.parseInt(scan.next());
+			}
+			catch(NumberFormatException e) {
+				valid = false;
+			}
+			if(valid) {
+				addElement(id, score);
+			}
 		}
 	}
 }
