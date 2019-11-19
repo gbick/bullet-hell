@@ -42,6 +42,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	private final static int BAR_WIDTH = 10;
 	private final static int PLAYER_X = 250;
 	private final static int PLAYER_Y = 543;
+	private final static int TICK_RATE = 50;
 	
 	private GRect gameSection;
 	private GLabel healthBarLabel;
@@ -59,7 +60,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	private ArrayList<SuperShot> superShot;
 	private int timerRuns;
 	private int kills = 0, shot = 0;
-	double accuracy;
+	private double accuracy;
 	private RandomGenerator random;
 	private int health = 100;
 	private GLabel healthLabel;
@@ -70,6 +71,8 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	private boolean mouseDown = false;
 	private ArrayList<GRoundRect> bars;
 	private int points = 0;
+	private LevelReader read;
+	private int ticks;
 	
 	public GameScreen(MainApplication app)
 	{
@@ -113,6 +116,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		enemies = new ArrayList<Obstacle>();
 		superShot = new ArrayList<SuperShot>();
 		timerRuns = 0;
+		ticks = 0;
 		random = RandomGenerator.getInstance();
 	}
 	
@@ -516,32 +520,61 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		timerRuns++;
 		
 		//Random Spawning
-		if(timerRuns % 100 == 0) {
-			double rand = random.nextDouble(0,4);
-			Obstacle temp;
-			if(rand < 1 && rand > 0) {				
-				Fighter enemyShip = new Fighter(random.nextDouble(0, GAME_SCREEN_WIDTH - 20), 0, MovementEquation.SEEK, playerShip);
-				BasicBullet shot = new BasicBullet(5, enemyShip.getSprite(), 2);
-				temp = new Shooter(enemyShip, shot, 50);
-				temp.getSprite().setColor(Color.WHITE);
-				temp.getSprite().setFillColor(Color.RED);
+		if(timerRuns % TICK_RATE == 0) {
+			if(read.readLine(ticks) != "BOSS") {
+				String line = read.readLine(ticks);
+				for(int i = 0; i < 10; i++) {
+					Obstacle temp;
+					switch(line.charAt(i * 2)) {
+					case '1':
+						Fighter enemyShip = new Fighter(GAME_SCREEN_MARGIN + (i * 60), 0, MovementEquation.SEEK, playerShip);
+						BasicBullet shot = new BasicBullet(5, enemyShip.getSprite(), 2);
+						temp = new Shooter(enemyShip, shot, 50);
+						temp.getSprite().setColor(Color.WHITE);
+						temp.getSprite().setFillColor(Color.RED);
+						enemies.add(temp);
+						program.add(temp.getSprite());
+						break;
+					case '2':
+						temp = new Fighter(GAME_SCREEN_MARGIN + (i * 60), 0, MovementEquation.WAVE);
+						temp.getSprite().setColor(Color.WHITE);
+						temp.getSprite().setFillColor(Color.BLACK);
+						enemies.add(temp);
+						program.add(temp.getSprite());
+						break;
+					default:
+						break;
+					}
+				}
 			}
-			else if(rand > 1 && rand < 2) {
-				temp = new Fighter(random.nextDouble(0, GAME_SCREEN_WIDTH - 20), 0, MovementEquation.WAVE);
-				temp.getSprite().setColor(Color.WHITE);
-				temp.getSprite().setFillColor(Color.BLACK);
+			else {			
+				double rand = random.nextDouble(0,4);
+				Obstacle temp;
+				if(rand < 1 && rand > 0) {				
+					Fighter enemyShip = new Fighter(random.nextDouble(0, GAME_SCREEN_WIDTH - 20), 0, MovementEquation.SEEK, playerShip);
+					BasicBullet shot = new BasicBullet(5, enemyShip.getSprite(), 2);
+					temp = new Shooter(enemyShip, shot, 50);
+					temp.getSprite().setColor(Color.WHITE);
+					temp.getSprite().setFillColor(Color.RED);
+				}
+				else if(rand > 1 && rand < 2) {
+					temp = new Fighter(random.nextDouble(0, GAME_SCREEN_WIDTH - 20), 0, MovementEquation.WAVE);
+					temp.getSprite().setColor(Color.WHITE);
+					temp.getSprite().setFillColor(Color.BLACK);
+				}
+				else if(rand > 2 && rand < 3) {
+					Fighter enemyShip = new Fighter(random.nextDouble(0, GAME_SCREEN_WIDTH - 20), 0 , MovementEquation.STRAIGHT);
+					WaveBullet shot = new WaveBullet(5, enemyShip.getSprite(), 2, true, true);
+					temp = new Shooter(enemyShip, shot, 100);
+				}
+				else {
+					temp = new Fighter(random.nextDouble(0, GAME_SCREEN_WIDTH - 20), 0, MovementEquation.CIRCLE);
+				}
+				enemies.add(temp);
+				program.add(temp.getSprite());
+				
 			}
-			else if(rand > 2 && rand < 3) {
-				Fighter enemyShip = new Fighter(random.nextDouble(0, GAME_SCREEN_WIDTH - 20), 0 , MovementEquation.STRAIGHT);
-				WaveBullet shot = new WaveBullet(5, enemyShip.getSprite(), 2, true, true);
-				temp = new Shooter(enemyShip, shot, 100);
-			}
-			else {
-				temp = new Fighter(random.nextDouble(0, GAME_SCREEN_WIDTH - 20), 0, MovementEquation.CIRCLE);
-			}
-			enemies.add(temp);
-			program.add(temp.getSprite());
-			
+			ticks++;
 		}
 	}
 	
@@ -552,6 +585,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		 */
 		
 		//Reset to default values
+		read = new LevelReader(program.getLevel());
 		health = 100;
 		healthLabel.setLabel("HP: " + health);
 		superShotPercent = 0;
@@ -565,6 +599,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		shot = 0;
 		kills = 0;
 		points = 0;
+		ticks = 0;
 		shotsLabel.setLabel("Shots: " + shot);
 		accuracyLabel.setLabel("Accuracy: 00.00%");
 		for(Bullet bullet : bullets) {

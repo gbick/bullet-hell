@@ -34,7 +34,7 @@ public class LevelReader {
 			else {				
 				return ("BOSS");
 			}
-		}
+		}		
 		if(!(scan.hasNextLine())) {
 			return ("BOSS");
 		}
