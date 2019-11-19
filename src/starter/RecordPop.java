@@ -51,8 +51,8 @@ public class RecordPop extends GraphicsPane implements KeyListener {
 		id.add('_');
 		id.add('_');
 		frame.setLabelText(id.get(0) + " " + id.get(1) + " " + id.get(2));
-		frame.message.setFont("Arial-64");
-		frame.message.setLocation(frame.message.getX() - 40, frame.message.getY());
+		//frame.message.setFont("Arial-64");
+		//frame.message.setLocation(95, 281);
 		save = new File("../media/data/levels/highscores.txt");
 		//=====
 	}
@@ -110,6 +110,7 @@ public class RecordPop extends GraphicsPane implements KeyListener {
 	@Override
 	public void showContents() {
 		//TODO program.add(" ") all objects that should be immediately visible on load
+		//frame.message.setLocation(95, 281);
 		program.add(frame);
 		program.add(instructions);
 		//=====
@@ -128,6 +129,7 @@ public class RecordPop extends GraphicsPane implements KeyListener {
 		if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
 			program.remove(instructions);
 			program.delPop();
+			program.addLosePop();
 			return;
 		}
 		if (!confirmed) {
