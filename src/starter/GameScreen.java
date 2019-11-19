@@ -565,6 +565,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		shot = 0;
 		kills = 0;
 		points = 0;
+		accuracy = 0;
 		shotsLabel.setLabel("Shots: " + shot);
 		accuracyLabel.setLabel("Accuracy: 00.00%");
 		for(Bullet bullet : bullets) {
