@@ -73,7 +73,8 @@ public class RecordPop extends GraphicsPane implements KeyListener {
 				charNum = 0;
 				
 				try {
-					save.createNewFile();
+					boolean check = save.createNewFile();
+					System.out.println(check);
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
