@@ -120,7 +120,9 @@ public class LeaderboardPane extends GraphicsPane {
 					return;
 				}
 			}
-			scoreList.add(tempPair);
+			if (scoreList.size() < 5) {
+				scoreList.add(tempPair);
+			}
 		}
 	}
 	
@@ -134,10 +136,15 @@ public class LeaderboardPane extends GraphicsPane {
 		try {
 	        FileWriter writer = new FileWriter(save);
 	        for(int i = 0; i < scoreList.size(); ++i) {
-	        	writer.write("ID: " + scoreList.get(i).getKey());
-		        writer.write("\r\n");
-		        writer.write("Points: " + scoreList.get(i).getValue());
-		        writer.write("\r\n");
+	        	if (i < 5) {
+	        		writer.write("ID: " + scoreList.get(i).getKey());
+	        		writer.write("\r\n");
+	        		writer.write("Points: " + scoreList.get(i).getValue());
+	        		writer.write("\r\n");
+	        	}
+	        	else {
+	        		break;
+	        	}
 	        }
 	        writer.close();
 		}
@@ -148,12 +155,17 @@ public class LeaderboardPane extends GraphicsPane {
 	
 	public void printFile() {
 		for(int i = 0; i < scoreList.size(); ++i) {
-			GLabel tempId = new GLabel("ID: " + scoreList.get(i).getKey(), level.getX() - 100, level.getY() + 40*(i+1));
-			tempId.setFont("Arial-18");
-			GLabel tempScore = new GLabel("Points: " + scoreList.get(i).getValue(), tempId.getX() + 200, tempId.getY());
-			tempScore.setFont("Arial-18");
-			program.add(tempId);
-			program.add(tempScore);
+			if (i < 5) {
+				GLabel tempId = new GLabel("ID: " + scoreList.get(i).getKey(), level.getX() - 100, level.getY() + 40*(i+1));
+				tempId.setFont("Arial-18");
+				GLabel tempScore = new GLabel("Points: " + scoreList.get(i).getValue(), tempId.getX() + 200, tempId.getY());
+				tempScore.setFont("Arial-18");
+				program.add(tempId);
+				program.add(tempScore);
+			}
+			else {
+				break;
+			}
 		}
 	}
 	
