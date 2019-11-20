@@ -7,7 +7,7 @@ import java.awt.event.MouseEvent;
 import acm.graphics.GLabel;
 import acm.graphics.GObject;
 
-public class LosePop extends GraphicsPane {
+public class EndGamePop extends GraphicsPane {
 	private MainApplication program;
 	private GameScreen game;
 	
@@ -18,12 +18,12 @@ public class LosePop extends GraphicsPane {
 	GLabel pointsLabel;
 	GButton highScore;
 	
-	public LosePop(MainApplication app, GameScreen game) {
+	public EndGamePop(MainApplication app, GameScreen game) {
 		this.program = app;
 		this.game = game;
 		frame = new GButton("", program.getWidth()/5, program.getHeight()/3, program.getWidth()/2, program.getHeight()*((double)6/13));
 		frame.setFillColor(Color.MAGENTA);
-		message = new GLabel("You lose! Better luck next time", frame.getX() + 20, frame.getHeight() - 50);
+		message = new GLabel("", frame.getX() + 20, frame.getHeight() - 50);
 		message.setFont("Arial-22");
 		returnToMenu = new GButton("Return to Main Menu", frame.getX() + frame.getWidth()/65, frame.getY() + frame.getHeight()/3 + frame.getWidth()/65,
 				frame.getWidth() - ((frame.getWidth()/65) * 2), frame.getHeight()/3 - ((frame.getWidth()/65) * 2));
@@ -41,6 +41,12 @@ public class LosePop extends GraphicsPane {
 	}
 	@Override
 	public void showContents() {
+		if(program.gameLost) {
+			message.setLabel("You lose! Better luck next time");
+		}
+		else {
+			message.setLabel("You win! Good job!");
+		}
 		program.add(frame);
 		program.add(message);
 		program.add(returnToMenu);
@@ -48,8 +54,6 @@ public class LosePop extends GraphicsPane {
 		setPointsLabel();
 		program.add(pointsLabel);
 		program.add(highScore);
-		program.gameLost = true;
-
 	}
 
 	@Override
@@ -70,11 +74,11 @@ public class LosePop extends GraphicsPane {
 			program.remove(message);
 			program.remove(returnToMenu);
 			program.remove(exit);
-			program.addRtMPop("lose");
+			program.addRtMPop("end");
 		}
 		else if(obj == exit) {
 			program.delPop();
-			program.addExitPop("lose");
+			program.addExitPop("end");
 		}
 		else if(obj == highScore) {
 			program.delPop();

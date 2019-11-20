@@ -345,6 +345,11 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		 */
 		
 		//Rapid Fire
+		if (timerRuns > 1000) {
+			points += accuracy*10;
+			program.addEndPop();
+			program.gameTimer.stop();
+		}
 		if (mouseDown && timerRuns % 10 == 0) {
 			PlayerBullet temp = new PlayerBullet(5, playerShip, 10);
 			bullets.add(temp);
@@ -365,7 +370,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		if(health <= 0) {
 			program.gameLost = true;
 			points += accuracy*10;
-			program.addLosePop();
+			program.addEndPop();
 			program.gameTimer.stop();
 		}
 
@@ -446,7 +451,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 					}
 					program.gameLost = true;
 					points += accuracy*10;
-					program.addLosePop();
+					program.addEndPop();
 					program.gameTimer.stop();
 				}
 				healthLabel.setLabel("HP: " + health);
@@ -496,7 +501,8 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 						program.remove(insideHealthBar);
 						healthLabel.setLabel("HP: " + 0);
 						points += accuracy*10;
-						program.addLosePop();
+						program.gameLost = true;
+						program.addEndPop();
 						program.gameTimer.stop();
 					}
 					else {
@@ -504,7 +510,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 							healthLabel.setLabel("HP: " + 0);
 							program.gameLost = true;
 							points += accuracy*10;
-							program.addLosePop();
+							program.addEndPop();
 							program.gameTimer.stop();
 							// break;
 						}

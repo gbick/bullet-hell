@@ -15,6 +15,7 @@ public class ExitPop extends GraphicsPane {
 	GButton prompt;
 	GButton yes;
 	GButton no;
+	private String pane;
 	
 	public ExitPop(MainApplication app)
 	{
@@ -58,11 +59,22 @@ public class ExitPop extends GraphicsPane {
 		else if(obj == no)
 		{
 			program.delPop();
-			if(!program.gameTimer.isRunning()) {
-				program.gameTimer.restart();
+			if(pane == "end") {
+				program.addEndPop();
 			}
+			else if(pane == "lose") {
+				program.addLosePop();
+			}
+			
+//			if(!program.gameTimer.isRunning()) {
+//				program.gameTimer.restart();
+//			}
 			return;
 		}
 		
+	}
+	
+	public void setPane(String pane) {
+		this.pane = pane;
 	}
 }

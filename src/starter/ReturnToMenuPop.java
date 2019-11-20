@@ -16,6 +16,7 @@ public class ReturnToMenuPop extends GraphicsPane {
 	GButton prompt;
 	GButton yes;
 	GButton no;
+	private String pane;
 	
 	public ReturnToMenuPop(MainApplication app)
 	{
@@ -62,14 +63,27 @@ public class ReturnToMenuPop extends GraphicsPane {
 		else if(obj == no)
 		{
 			program.delPop();
-			if(!program.gameLost) {
-				program.addPausePop();
-			}
-			else {
+//			if(!program.gameLost) {
+//				program.addPausePop();
+//			}
+//			else {
+//				program.addLosePop();
+//			}
+			if(pane == "lose") {
 				program.addLosePop();
+			}
+			else if(pane == "end") {
+				program.addEndPop();
+			}
+			else if(pane == "pause") {
+				program.addPausePop();
 			}
 			return;
 		}
 		
+	}
+	
+	public void setPane(String pane) {
+		this.pane = pane;
 	}
 }

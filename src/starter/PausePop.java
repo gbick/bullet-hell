@@ -62,7 +62,7 @@ public class PausePop extends GraphicsPane {
 		if(obj == returnToMenu)	
 		{
 			program.delPop();
-			program.addRtMPop();
+			program.addRtMPop("pause");
 		}
 		else if(obj == resume)
 		{

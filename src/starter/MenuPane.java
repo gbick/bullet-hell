@@ -84,7 +84,7 @@ public class MenuPane extends GraphicsPane {
 		
 		else if(obj==exit)
 		{
-			program.addExitPop();
+			program.addExitPop("menu");
 		}
 	}
 	

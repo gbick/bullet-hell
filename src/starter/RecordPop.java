@@ -71,34 +71,19 @@ public class RecordPop extends GraphicsPane implements KeyListener {
 			if(charNum == 3 && e.getKeyCode() == KeyEvent.VK_ENTER) {
 				program.delPop();
 				charNum = 0;
-				
 				try {
-					boolean check = save.createNewFile();
-					System.out.println(check);
+					save.createNewFile();
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-//		        try {
-//		            FileWriter writer = new FileWriter(save, true);
-//		            writer.write("ID: " + id.get(0) + id.get(1) + id.get(2));
-//		            writer.write("\r\n");
-//		            writer.write("Points: " + game.getPoints());
-//		            writer.write("\r\n");
-//		            writer.close();
-		        	String tempString = String.valueOf(id.get(0)) + String.valueOf(id.get(1)) + String.valueOf(id.get(2));
-		        	int tempInt = game.getPoints();
-		        	lead.addElement(tempString, tempInt);
-			        id.set(0, '_');
-			        id.set(1,  '_');
-			        id.set(2, '_');
-			        frame.setLabelText(id.get(0) + " " + id.get(1) + " " + id.get(2));
-			        program.switchToMenu();
-//		        } catch (IOException e2) {
-//		            e2.printStackTrace();
-//		        }
-		        //program.setSave(save);
-		        //program.switchToSel();
+	        	String tempString = String.valueOf(id.get(0)) + String.valueOf(id.get(1)) + String.valueOf(id.get(2));
+	        	int tempInt = game.getPoints();
+	        	lead.addElement(tempString, tempInt);
+		        id.set(0, '_');
+		        id.set(1,  '_');
+		        id.set(2, '_');
+		        frame.setLabelText(id.get(0) + " " + id.get(1) + " " + id.get(2));
+		        program.switchToMenu();
 				return;
 			}
 		}
