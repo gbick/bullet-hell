@@ -73,6 +73,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	private int points = 0;
 	private LevelReader read;
 	private int ticks;
+	private boolean spawnBoss = true;
 	
 	public GameScreen(MainApplication app)
 	{
@@ -395,7 +396,9 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 					bulletsToRemove.add(bullet);
 					for(Obstacle obstacle : enemies) {
 //						if(temp == obstacle.getSprite() && !bullet.checkEnemyBullet()) { // earlier version, can change back if this doesn't work
-						if(obstacle.getSprite().contains(tempPoint) && !bullet.checkEnemyBullet()) {
+						if(tempPoint.getX() > obstacle.getSprite().getX() && tempPoint.getX() < obstacle.getSprite().getX() + obstacle.getSprite().getWidth() && 
+								tempPoint.getY() > obstacle.getSprite().getY() && tempPoint.getY() < obstacle.getSprite().getY() + obstacle.getSprite().getHeight() &&
+								!bullet.checkEnemyBullet()) {
 							if(obstacle.hit(bullet) <= 0) {								
 								obstaclesToRemove.add(obstacle);
 								kills++;
@@ -560,9 +563,14 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 			else {			
 				double rand = random.nextDouble(0,4);
 				Obstacle temp;
-				Boss boss = new Boss(GAME_SCREEN_WIDTH/4, GAME_SCREEN_MARGIN, MovementEquation.STAY_SEEK);
-				boss.getSprite().setColor(Color.GRAY);
-				boss.getSprite().setFillColor(Color.WHITE);
+				if(spawnBoss) {
+					Boss boss = new Boss(GAME_SCREEN_WIDTH/4, GAME_SCREEN_MARGIN, MovementEquation.STAY_SEEK);
+					boss.getSprite().setColor(Color.GRAY);
+					boss.getSprite().setFillColor(Color.WHITE);
+					spawnBoss = false;
+					enemies.add(boss);
+					program.add(boss.getSprite());
+				}
 				if(rand < 1 && rand > 0) {				
 					Fighter enemyShip = new Fighter(random.nextDouble(0, GAME_SCREEN_WIDTH - 20), 0, MovementEquation.SEEK, playerShip);
 					BasicBullet shot = new BasicBullet(5, enemyShip.getSprite(), 2);
@@ -584,9 +592,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 					temp = new Fighter(random.nextDouble(0, GAME_SCREEN_WIDTH - 20), 0, MovementEquation.CIRCLE);
 				}
 				enemies.add(temp);
-				enemies.add(boss);
 				program.add(temp.getSprite());
-				program.add(boss.getSprite());
 				
 			}
 			ticks++;
