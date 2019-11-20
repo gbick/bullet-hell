@@ -74,6 +74,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	private LevelReader read;
 	private int ticks;
 	private boolean spawnBoss = true;
+	ArrayList<Obstacle> obstaclesToRemove = new ArrayList<Obstacle>();
 	
 	public GameScreen(MainApplication app)
 	{
@@ -378,13 +379,28 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		
 		//BULLETS
 		ArrayList<Bullet> bulletsToRemove = new ArrayList<Bullet>();
-		ArrayList<Obstacle> obstaclesToRemove = new ArrayList<Obstacle>();
+//		ArrayList<Obstacle> obstaclesToRemove = new ArrayList<Obstacle>();
 		ArrayList<SuperShot> superShotToRemove = new ArrayList<SuperShot>();
 		for(Bullet bullet : bullets) {
 			//Despawning
 			GObject temp = program.getElementAt(bullet.getSprite().getX() + bullet.getSprite().getWidth() + 1, bullet.getSprite().getY() + bullet.getSprite().getHeight()/2);
+			GObject temp2 = program.getElementAt(bullet.getSprite().getX(), bullet.getSprite().getY());
+			if(bullet instanceof SuperShot) {
+				try {
+					if(temp2.getY() < gameSection.getY()) {
+						bulletsToRemove.add(bullet);
+					}
+				}
+				catch(NullPointerException n) {
+					bulletsToRemove.add(bullet);
+				}
+				checkSuperShot(bullet);
+			}
 			try {
 				if(temp.getY() < gameSection.getY()) {
+					bulletsToRemove.add(bullet);
+				}
+				else if(bullet instanceof SuperShot && temp2.getY() < gameSection.getY()) {
 					bulletsToRemove.add(bullet);
 				}
 			}
@@ -434,7 +450,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 					program.gameTimer.stop();
 				}
 				healthLabel.setLabel("HP: " + health);
-				insideHealthBar.setSize(insideHealthBar.getWidth()-4, 10);
+				insideHealthBar.setSize(insideHealthBar.getWidth()-(4*bullet.getDamage()), 10);
 			}
 			
 			//Movement
@@ -637,6 +653,23 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	
 	public int getPoints() {
 		return points;
+	}
+	public void checkSuperShot(Bullet bullet) {
+		ArrayList<GPoint> points = new ArrayList<GPoint>();
+		GRectangle bounds = bullet.getSprite().getBounds();
+		for(int i = (int)bounds.getX(); i < bounds.getWidth() + bounds.getX(); i++) {
+			for(int j = (int)bounds.getY(); j < bounds.getHeight() + bounds.getY(); j++) {
+				GPoint temp = new GPoint(i, j);
+				points.add(temp);
+			}
+		}
+		for(GPoint point : points) {
+			for(Obstacle obstacle : enemies) {
+				if(obstacle.getSprite().contains(point)){
+					obstaclesToRemove.add(obstacle);
+				}
+			}
+		}
 	}
 	
 }
