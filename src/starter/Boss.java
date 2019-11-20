@@ -8,7 +8,7 @@ import javafx.util.Pair;
 
 public class Boss implements Obstacle{
 	
-	private final static double MAX_HEALTH = 50;
+	private final static double MAX_HEALTH = 500;
 	private double health;
 	private Path flightPath;
 	private Bullet shotType;
@@ -21,7 +21,7 @@ public class Boss implements Obstacle{
 		sprite.setFillColor(Color.GRAY);
 		sprite.setFilled(true);
 		flightPath = new Path(sprite, flightType, 2, true);
-		health = 50;
+		health = 500;
 	}
 
 	@Override
@@ -41,7 +41,7 @@ public class Boss implements Obstacle{
 		health -= bullet.getDamage();
 		return health;
 	}
-	public double getHealth() {
+	public double getHealthPercentage() {
 		return health/MAX_HEALTH;
 	}
 }
