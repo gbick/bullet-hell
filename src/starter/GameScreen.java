@@ -75,6 +75,8 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	private int ticks;
 	private boolean spawnBoss = true;
 	ArrayList<Obstacle> obstaclesToRemove = new ArrayList<Obstacle>();
+	private GRoundRect bossBar;
+	private GRoundRect insideBossBar;
 	
 	public GameScreen(MainApplication app)
 	{
@@ -101,7 +103,9 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		insideHealthBar = new GRoundRect(BAR_X, gameSection.getY() + gameSection.getHeight() + HEALTH_DIFFERENTIAL, BAR_LENGTH, BAR_WIDTH);
 		superBar = new GRoundRect(BAR_X, gameSection.getY() + gameSection.getHeight() + SUPER_DIFFERENTIAL, BAR_LENGTH, BAR_WIDTH);
 		insideSuperBar = new GRoundRect(BAR_X, gameSection.getY() + gameSection.getHeight() + SUPER_DIFFERENTIAL, 0, BAR_WIDTH);
-		bars = new ArrayList<GRoundRect>(Arrays.asList(insideSuperBar, insideHealthBar, healthBar));
+		bossBar = new GRoundRect(gameSection.getX() + ((gameSection.getWidth() - BAR_LENGTH)/2), gameSection.getY() - BAR_WIDTH, BAR_LENGTH, BAR_WIDTH);
+		insideBossBar = new GRoundRect(gameSection.getX() + ((gameSection.getWidth() - BAR_LENGTH)/2), gameSection.getY() - BAR_WIDTH, BAR_LENGTH, BAR_WIDTH);
+		bars = new ArrayList<GRoundRect>(Arrays.asList(insideSuperBar, insideHealthBar, healthBar, bossBar, insideBossBar));
 		for(GRoundRect bar : bars) {
 			bar.setColor(Color.BLACK);
 		}
@@ -111,6 +115,10 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		healthBar.setFilled(false);
 		insideHealthBar.setFillColor(Color.RED);
 		insideHealthBar.setFilled(true);
+		insideBossBar.setFillColor(Color.MAGENTA);
+		insideBossBar.setFilled(true);
+		bossBar.setVisible(false);
+		insideBossBar.setVisible(false);
 		gameSection.setColor(Color.BLACK);
 		gameSection.setFilled(true);
 		playerShip = new GImage("../media/sprites/player/ship1_32x32.png", PLAYER_X, PLAYER_Y);
@@ -144,6 +152,8 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		program.add(insideHealthBar);
 		program.add(superBar);
 		program.add(insideSuperBar);
+		program.add(bossBar);
+		program.add(insideBossBar);
 		program.add(playerShip);
 		program.gameTimer.start();
 	}
@@ -415,7 +425,12 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 						if(tempPoint.getX() > obstacle.getSprite().getX() && tempPoint.getX() < obstacle.getSprite().getX() + obstacle.getSprite().getWidth() && 
 								tempPoint.getY() > obstacle.getSprite().getY() && tempPoint.getY() < obstacle.getSprite().getY() + obstacle.getSprite().getHeight() &&
 								!bullet.checkEnemyBullet()) {
-							if(obstacle.hit(bullet) <= 0) {								
+							if(obstacle instanceof Boss) {
+								program.remove(insideBossBar);
+								insideBossBar.setSize(((Boss) obstacle).getHealthPercentage() * BAR_LENGTH, BAR_WIDTH);
+								program.add(insideBossBar);
+							}
+							if(obstacle.hit(bullet) <= 0) {		
 								obstaclesToRemove.add(obstacle);
 								kills++;
 								points++;
@@ -553,6 +568,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 			else {			
 				double rand = random.nextDouble(0,4);
 				Obstacle temp;
+				//SPAWN BOSS
 				if(spawnBoss) {
 					Boss boss = new Boss(GAME_SCREEN_WIDTH/4, GAME_SCREEN_MARGIN, MovementEquation.STAY_SEEK);
 					boss.getSprite().setColor(Color.GRAY);
@@ -560,6 +576,8 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 					spawnBoss = false;
 					enemies.add(boss);
 					program.add(boss.getSprite());
+					bossBar.setVisible(true);
+					insideBossBar.setVisible(true);
 				}
 				if(rand < 1 && rand > 0) {				
 					Fighter enemyShip = new Fighter(random.nextDouble(0, GAME_SCREEN_WIDTH - 20), 0, MovementEquation.SEEK, playerShip);
