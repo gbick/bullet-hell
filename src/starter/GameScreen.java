@@ -417,7 +417,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 			else if(temp == playerShip && bullet.checkEnemyBullet()) {
 				bulletsToRemove.add(bullet);
 				if(health > 0) {
-					health--;
+					health -= bullet.getDamage();
 				}
 				else if (health <= 0) {
 					program.remove(insideHealthBar);
