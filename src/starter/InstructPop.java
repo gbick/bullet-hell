@@ -14,25 +14,25 @@ public class InstructPop extends GraphicsPane {
 	private final static int FRAME_WIDTH_HEIGHT = 325;
 	private final static int LABELS_WIDTH = 315;
 	private final static double LABELS_HEIGHT = 98.33;
-	private final static double LABELS_X_Y = 167.5;
-	private final static double LABEL_2_Y = 275.83;
-	private final static double LABEL_3_Y = 384.17;
+	private final static double LABELS_X_Y = 162.5;
+	private final static double LABEL_2_Y = 272.83;
+	private final static double LABEL_3_Y = 381.17;
 	
-	GButton frame;
-	GButton label1;
-	GButton label2;
-	GButton label3;
+	GImage frame;
+	GImage label1;
+	GImage label2;
+	GImage label3;
 	
 	public InstructPop(MainApplication app)
 	{
 		this.program = app;
-		frame = new GButton("", FRAME_X_Y, FRAME_X_Y, FRAME_WIDTH_HEIGHT, FRAME_WIDTH_HEIGHT);
+		frame = new GImage("../media/sprites/screen_images/popup_frame.png", FRAME_X_Y, FRAME_X_Y);
 		
-		label1 = new GButton("Mouse - Move Ship", LABELS_X_Y, LABELS_X_Y, LABELS_WIDTH, LABELS_HEIGHT);
+		label1 = new GImage("../media/sprites/screen_images/popup_option_instruct_move.png", LABELS_X_Y, LABELS_X_Y);
 		
-		label2 = new GButton("Shoot - Left Click", LABELS_X_Y, LABEL_2_Y, LABELS_WIDTH, LABELS_HEIGHT);
+		label2 = new GImage("../media/sprites/screen_images/popup_option_instruct_shoot.png", LABELS_X_Y, LABEL_2_Y);
 		
-		label3 = new GButton("Space - Super Shot", LABELS_X_Y, LABEL_3_Y, LABELS_WIDTH, LABELS_HEIGHT);
+		label3 = new GImage("../media/sprites/screen_images/popup_option_instruct_super.png", LABELS_X_Y, LABEL_3_Y);
 	}
 
 	@Override
