@@ -72,7 +72,19 @@ public class Path {
 			center = new Pair<Double, Double>(center.getKey(), center.getValue() + 1);
 			coords = new Pair<Double, Double>((Math.cos(num) * 30) + center.getKey(), (Math.sin(num) * 30) + center.getValue());
 			num += 0.1;
-			
+			break;
+		case STAY_SEEK:
+			if(target != null) {
+				Pair<Double, Double> temp = new Pair<Double, Double>(object.getX(), object.getY() + tick);
+				//If target is to the right/left of object
+				if((target.getX() + target.getWidth()/2) > coords.getKey() + object.getWidth()/2) {
+					temp = new Pair<Double, Double>(temp.getKey() + 1, temp.getValue());
+				}
+				else if((target.getX() + target.getWidth()/2) < coords.getKey() + object.getWidth()/2){
+					temp = new Pair<Double, Double>(temp.getKey() - 1, temp.getValue());
+				}
+				coords = temp;
+			}
 			break;
 		default:
 			break;
@@ -91,6 +103,9 @@ public class Path {
 			case WAVE:
 				//TODO write this case - not entirely sure how we wanted to implement this
 				break;
+			default:
+				break;
+				
 		}
 	}
 }

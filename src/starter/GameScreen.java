@@ -550,6 +550,9 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 			else {			
 				double rand = random.nextDouble(0,4);
 				Obstacle temp;
+				Boss boss = new Boss(GAME_SCREEN_WIDTH/4, GAME_SCREEN_MARGIN, MovementEquation.STAY_SEEK);
+				boss.getSprite().setColor(Color.GRAY);
+				boss.getSprite().setFillColor(Color.WHITE);
 				if(rand < 1 && rand > 0) {				
 					Fighter enemyShip = new Fighter(random.nextDouble(0, GAME_SCREEN_WIDTH - 20), 0, MovementEquation.SEEK, playerShip);
 					BasicBullet shot = new BasicBullet(5, enemyShip.getSprite(), 2);
@@ -571,7 +574,9 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 					temp = new Fighter(random.nextDouble(0, GAME_SCREEN_WIDTH - 20), 0, MovementEquation.CIRCLE);
 				}
 				enemies.add(temp);
+				enemies.add(boss);
 				program.add(temp.getSprite());
+				program.add(boss.getSprite());
 				
 			}
 			ticks++;
