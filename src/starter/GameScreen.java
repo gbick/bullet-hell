@@ -213,9 +213,6 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 			program.getCurPop().keyPressed(e);
 			return;
 		}
-		if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-			System.exit(0);
-		}
 		if(e.getKeyCode() == KeyEvent.VK_ESCAPE || e.getKeyCode() == KeyEvent.VK_P) {
 			program.addPausePop();
 			program.gameTimer.stop();
