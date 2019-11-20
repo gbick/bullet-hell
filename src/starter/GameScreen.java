@@ -541,38 +541,12 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 			if(read.readLine(ticks) != "BOSS") {
 				String line = read.readLine(ticks);
 				for(int i = 0; i < 10; i++) {
-					Obstacle temp;
-					switch(line.charAt(i * 2)) {
-					case '1':
-						Fighter enemyShip1 = new Fighter(GAME_SCREEN_MARGIN + (i * 50), 0, MovementEquation.SEEK, playerShip);
-						BasicBullet shot1 = new BasicBullet(5, enemyShip1.getSprite(), 2);
-						temp = new Shooter(enemyShip1, shot1, 50);
-						temp.getSprite().setColor(Color.WHITE);
-						temp.getSprite().setFillColor(Color.RED);
-						enemies.add(temp);
-						program.add(temp.getSprite());
-						break;
-					case '2':
-						temp = new Fighter(GAME_SCREEN_MARGIN + (i * 50), 0, MovementEquation.WAVE);
-						temp.getSprite().setColor(Color.WHITE);
-						temp.getSprite().setFillColor(Color.BLACK);
-						enemies.add(temp);
-						program.add(temp.getSprite());
-						break;
-					case '3':
-						Fighter enemyShip2 = new Fighter(GAME_SCREEN_MARGIN + (i * 50), 0 , MovementEquation.STRAIGHT);
-						WaveBullet shot2 = new WaveBullet(5, enemyShip2.getSprite(), 2, true, true);
-						temp = new Shooter(enemyShip2, shot2, 100);
-						enemies.add(temp);
-						program.add(temp.getSprite());
-						break;
-					case '4':
-						temp = new Fighter(GAME_SCREEN_MARGIN + (i * 50), 0, MovementEquation.CIRCLE);
-						enemies.add(temp);
-						program.add(temp.getSprite());
-						break;
-					default:
-						break;
+					Enemy newEnemy;
+					char current = line.charAt(i * 2);
+					if(current != '0') {
+						newEnemy = new Enemy(current, GAME_SCREEN_MARGIN + (i * 50), playerShip);
+						enemies.add(newEnemy.getEnemy());
+						program.add(newEnemy.getSprite());
 					}
 				}
 			}
