@@ -16,16 +16,15 @@ public class SuperShot implements Bullet {
 	private boolean direction;
 	//private GImage sprite;
 	private MainApplication program;
-	private GOval sprite;
+	private GImage sprite;
 	public SuperShot(double damage, GObject shooter, double speed, boolean dir) {
 		if(dir) {
-			sprite = new GOval(shooter.getX() + shooter.getY()/2, shooter.getY() + shooter.getHeight(), 25, 200);	
+			sprite = new GImage("../media/sprites/player/ship_laser.png", shooter.getX() + shooter.getY()/2, shooter.getY() + shooter.getHeight());	
 		}
 		else {
-			sprite = new GOval(shooter.getX() + shooter.getWidth()/2, shooter.getY(), 35, 200);
+			sprite = new GImage("../media/sprites/player/ship_laser.png", shooter.getX() + shooter.getWidth()/2, shooter.getY());
 		}
-		sprite.setFillColor(Color.BLUE);
-		sprite.setFilled(true);
+		sprite.scale(10);
 		direction = dir;
 		this.damage = damage;
 		this.speed = speed;
@@ -45,7 +44,7 @@ public class SuperShot implements Bullet {
 	}
 
 	@Override
-	public GOval getSprite() {
+	public GImage getSprite() {
 		// TODO Auto-generated method stub
 		return sprite;
 	}

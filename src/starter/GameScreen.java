@@ -385,7 +385,6 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		for(Bullet bullet : bullets) {
 			//Despawning
 			GObject temp = program.getElementAt(bullet.getSprite().getX() + bullet.getSprite().getWidth() + 1, bullet.getSprite().getY() + bullet.getSprite().getHeight()/2);
-			
 			try {
 				if(temp.getY() < gameSection.getY()) {
 					bulletsToRemove.add(bullet);
@@ -400,9 +399,11 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 					for(Obstacle obstacle : enemies) {
 //						if(temp == obstacle.getSprite() && !bullet.checkEnemyBullet()) { // earlier version, can change back if this doesn't work
 						if(obstacle.getSprite().contains(tempPoint) && !bullet.checkEnemyBullet()) {
-							obstaclesToRemove.add(obstacle);
-							kills++;
-							points++;
+							if(obstacle.hit(bullet) <= 0) {								
+								obstaclesToRemove.add(obstacle);
+								kills++;
+								points++;
+							}
 							if(superShotPercent <= 98) {
 								superShotPercent += 2;
 								superLabel.setLabel("Supershot: " + superShotPercent + "%");

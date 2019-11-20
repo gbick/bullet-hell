@@ -7,5 +7,5 @@ public interface Obstacle {
 	public GRect getSprite();
 	public Path getPath();
 	public Pair<Double, Double> getNextLoc();
-	public void hit(Bullet bullet);
+	public double hit(Bullet bullet);
 }

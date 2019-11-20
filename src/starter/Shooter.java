@@ -72,9 +72,9 @@ public class Shooter implements Obstacle {
 	}
 
 	@Override
-	public void hit(Bullet bullet) {
+	public double hit(Bullet bullet) {
 		health -= bullet.getDamage();
-
+		return health;
 	}
 
 
