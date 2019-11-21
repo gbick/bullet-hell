@@ -355,11 +355,6 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		 */
 		
 		//Rapid Fire
-		if (timerRuns > 1000) {
-			points += accuracy*10;
-			program.addEndPop();
-			program.gameTimer.stop();
-		}
 		if (mouseDown && timerRuns % 10 == 0) {
 			PlayerBullet temp = new PlayerBullet(5, playerShip, 10);
 			bullets.add(temp);
@@ -436,6 +431,11 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 								program.add(insideBossBar);
 							}
 							if(obstacle.hit(bullet) <= 0) {		
+								if(obstacle instanceof Boss) {
+									points += accuracy*10;
+									program.addEndPop();
+									program.gameTimer.stop();
+								}
 								obstaclesToRemove.add(obstacle);
 								kills++;
 								points++;
@@ -448,7 +448,6 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 						}
 					}
 			}
-			
 			//Ship damaged
 			else if(temp == playerShip && bullet.checkEnemyBullet()) {
 				bulletsToRemove.add(bullet);
