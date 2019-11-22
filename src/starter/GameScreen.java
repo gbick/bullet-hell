@@ -43,6 +43,8 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	private final static int PLAYER_X = 250;
 	private final static int PLAYER_Y = 543;
 	private final static int TICK_RATE = 50;
+	private final static String PLAYER_SHOT = "Normal_Shot_Sound.mp3";
+	private final static String SUPER_SOUND = "SuperShot_Sound.mp3";
 	
 	private int timerRuns;
 	private int kills = 0, shot = 0;
@@ -90,6 +92,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		
 		//Creation of on-screen objects
 		this.program = app;
+		player = AudioPlayer.getInstance();
 		
 		gameSection = new GRect(GAME_SCREEN_MARGIN, GAME_SCREEN_MARGIN, GAME_SCREEN_WIDTH, GAME_SCREEN_HEIGHT);
 		healthBarLabel = new GLabel("Health:", 50, gameSection.getY() + gameSection.getHeight() + 15);
@@ -240,6 +243,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 			}
 			else if (superShotPercent >= 100) {
 				SuperShot temp = new SuperShot(50, playerShip, 10, false);
+				player.playSound("sounds", SUPER_SOUND);
 				bullets.add(temp);
 				program.add(temp.getSprite());
 				shot++;
@@ -301,6 +305,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 			program.add(temp.bullet);
 			shot++;
 			shotsLabel.setLabel("Shots: " + shot);
+			//player.playSound("sounds", PLAYER_SHOT);
 			mouseDown = true;
 		}
 	}
