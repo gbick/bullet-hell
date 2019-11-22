@@ -23,7 +23,6 @@ public class MainApplication extends GraphicsApplication {
 	private ExitPop exitPop;
 	private PausePop pausePop;
 	private ReturnToMenuPop RtMPop;
-	private LosePop losePop;
 	private EndGamePop endPop;
 	private int count;
 	
@@ -59,7 +58,6 @@ public class MainApplication extends GraphicsApplication {
 		exitPop = new ExitPop(this);
 		pausePop = new PausePop(this);
 		RtMPop = new ReturnToMenuPop(this);
-		losePop = new LosePop(this, game);
 		gameLost = false;
 		recordPop = new RecordPop(this, game, lead);
 		endPop = new EndGamePop(this, game);
@@ -118,10 +116,6 @@ public class MainApplication extends GraphicsApplication {
 	public void addRtMPop(String pop) { // TODO make enum
 		addPop(RtMPop);
 		RtMPop.setPane(pop);
-	}
-	
-	public void addLosePop() {
-		addPop(losePop);
 	}
 	
 	public void addRecordPop() {

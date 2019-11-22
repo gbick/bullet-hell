@@ -49,6 +49,16 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	private final static int PLAYER_Y = 543;
 	private final static int TICK_RATE = 50;
 	
+	private int timerRuns;
+	private int kills = 0, shot = 0;
+	private int health = 100;
+	private int points = 0;
+	private int ticks;
+	private double accuracy;
+	private double superShotPercent = 0;
+	private boolean mouseDown = false;
+	private boolean spawnBoss = true;
+	private boolean deleteSuper = false;
 	private GRect gameSection;
 	private GLabel healthBarLabel;
 	private GLabel superShotLabel;
@@ -58,30 +68,23 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	private GLabel killsLabel;
 	private GLabel shotsLabel;
 	private GLabel accuracyLabel;
+	private GLabel healthLabel;
+	private GLabel superLabel;
 	private GRoundRect healthBar;
 	private GRoundRect superBar;
+	private GRoundRect insideHealthBar;
+	private GRoundRect insideSuperBar;
+	private GRoundRect bossBar;
+	private GRoundRect insideBossBar;
+	private RandomGenerator random;
+	private LevelReader read;
 	private ArrayList<Bullet> bullets;
 	private ArrayList<Obstacle> enemies;
 	private ArrayList<SuperShot> superShot;
-	private int timerRuns;
-	private int kills = 0, shot = 0;
-	private double accuracy;
-	private RandomGenerator random;
-	private int health = 100;
-	private GLabel healthLabel;
-	private GRoundRect insideHealthBar;
-	private GLabel superLabel;
-	private double superShotPercent = 0;
-	private GRoundRect insideSuperBar;
-	private boolean mouseDown = false;
 	private ArrayList<GRoundRect> bars;
-	private int points = 0;
-	private LevelReader read;
-	private int ticks;
-	private boolean spawnBoss = true;
-	ArrayList<Obstacle> obstaclesToRemove = new ArrayList<Obstacle>();
-	private GRoundRect bossBar;
-	private GRoundRect insideBossBar;
+	private ArrayList<Bullet> bulletsToRemove = new ArrayList<Bullet>();
+	private ArrayList<Obstacle> obstaclesToRemove = new ArrayList<Obstacle>();
+	private AudioPlayer player;
 	
 	public GameScreen(MainApplication app)
 	{
@@ -395,8 +398,6 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		}
 		
 		//BULLETS
-		ArrayList<Bullet> bulletsToRemove = new ArrayList<Bullet>();
-//		ArrayList<Obstacle> obstaclesToRemove = new ArrayList<Obstacle>();
 		ArrayList<SuperShot> superShotToRemove = new ArrayList<SuperShot>();
 		for(Bullet bullet : bullets) {
 			//Despawning
@@ -412,6 +413,10 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 					bulletsToRemove.add(bullet);
 				}
 				checkSuperShot(bullet);
+				if (deleteSuper) {
+					bulletsToRemove.add(bullet);
+				}
+				
 			}
 			try {
 				if(temp.getY() < gameSection.getY()) {
@@ -475,6 +480,11 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 								obstaclesToRemove.add(obstacle);
 								kills++;
 								points++;
+								if (obstacle instanceof Boss) {
+									points += accuracy*10;
+									program.addEndPop();
+									program.gameTimer.stop();
+								}
 							}
 							if(superShotPercent <= 98) {
 								superShotPercent += 2;
@@ -518,6 +528,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		for(Bullet bullet : bulletsToRemove) {
 			program.remove(bullet.getSprite());
 		}
+		deleteSuper = false;
 		enemies.removeAll(obstaclesToRemove);
 		for(Obstacle obstacle : obstaclesToRemove) {
 			program.remove(obstacle.getSprite());
@@ -686,6 +697,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		}
 		enemies.removeAll(enemies);
 		program.gameLost = false;
+		deleteSuper = false;
 	}
 	
 	public int getPoints() {
@@ -703,7 +715,17 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		for(GPoint point : points) {
 			for(Obstacle obstacle : enemies) {
 				if(obstacle.getSprite().contains(point)){
-					obstaclesToRemove.add(obstacle);
+					if (obstacle.hit(bullet) <= 0) {
+						obstaclesToRemove.add(obstacle);
+						kills++;
+					}
+					if(obstacle instanceof Boss) {
+						program.remove(insideBossBar);
+						insideBossBar.setSize(((Boss) obstacle).getHealthPercentage() * BAR_LENGTH, BAR_WIDTH);
+						program.add(insideBossBar);
+						deleteSuper = true;
+						return;
+					}
 				}
 			}
 		}
