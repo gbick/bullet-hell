@@ -390,8 +390,6 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		}
 		
 		//BULLETS
-//		ArrayList<Bullet> bulletsToRemove = new ArrayList<Bullet>();
-//		ArrayList<Obstacle> obstaclesToRemove = new ArrayList<Obstacle>();
 		ArrayList<SuperShot> superShotToRemove = new ArrayList<SuperShot>();
 		for(Bullet bullet : bullets) {
 			//Despawning
