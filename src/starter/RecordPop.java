@@ -114,7 +114,7 @@ public class RecordPop extends GraphicsPane implements KeyListener {
 		if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
 			program.remove(instructions);
 			program.delPop();
-			program.addLosePop();
+			program.addEndPop();
 			return;
 		}
 		if (!confirmed) {

@@ -7,11 +7,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Scanner;
 
 import javax.swing.Timer;
 
@@ -191,6 +196,8 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		program.remove(superBar);
 		program.remove(insideSuperBar);
 		program.remove(playerShip);
+		program.remove(bossBar);
+		program.remove(insideBossBar);
 		
 		//Clear enemy array
 		if (enemies.size() > 0) {
@@ -396,8 +403,6 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		}
 		
 		//BULLETS
-//		ArrayList<Bullet> bulletsToRemove = new ArrayList<Bullet>();
-//		ArrayList<Obstacle> obstaclesToRemove = new ArrayList<Obstacle>();
 		ArrayList<SuperShot> superShotToRemove = new ArrayList<SuperShot>();
 		for(Bullet bullet : bullets) {
 			//Despawning
@@ -447,6 +452,35 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 									points += accuracy*10;
 									program.addEndPop();
 									program.gameTimer.stop();
+									File save = program.getSave();
+									Scanner scan = null;
+									FileWriter writer = null;
+									try {
+										scan = new Scanner(save);
+									} catch (FileNotFoundException e1) {
+										// TODO Auto-generated catch block
+										e1.printStackTrace();
+									}
+									scan.skip("ID: ");
+									String id = scan.next();
+									scan.nextLine();
+									scan.skip("Unlocked Levels: ");
+									int currUnlocked = scan.nextInt();
+									scan.close();
+									if(currUnlocked == program.getLevel()) {
+										try {
+											currUnlocked++;
+											String oldText = "Unlocked Levels: " + currUnlocked;
+											writer = new FileWriter(save, false);
+											writer.write("ID: " + id);
+											writer.write("\r\n");
+											writer.write(oldText);
+											writer.close();
+										} catch (IOException e1) {
+											// TODO Auto-generated catch block
+											e1.printStackTrace();
+										}
+									}
 								}
 								obstaclesToRemove.add(obstacle);
 								kills++;
@@ -499,6 +533,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		for(Bullet bullet : bulletsToRemove) {
 			program.remove(bullet.getSprite());
 		}
+		deleteSuper = false;
 		enemies.removeAll(obstaclesToRemove);
 		for(Obstacle obstacle : obstaclesToRemove) {
 			program.remove(obstacle.getSprite());
@@ -652,6 +687,10 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		points = 0;
 		ticks = 0;
 		accuracy = 0;
+		timerRuns = 0;
+		spawnBoss = true;
+		insideBossBar.setVisible(false);
+		bossBar.setVisible(false);
 		shotsLabel.setLabel("Shots: " + shot);
 		accuracyLabel.setLabel("Accuracy: 00.00%");
 		for(Bullet bullet : bullets) {

@@ -61,11 +61,7 @@ public class ExitPop extends GraphicsPane {
 			program.delPop();
 			if(pane == "end") {
 				program.addEndPop();
-			}
-			else if(pane == "lose") {
-				program.addLosePop();
-			}
-			
+			}	
 //			if(!program.gameTimer.isRunning()) {
 //				program.gameTimer.restart();
 //			}
