@@ -45,7 +45,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	private final static int TICK_RATE = 50;
 	
 	private int timerRuns;
-	private int kills = 0, shot = 0;
+	private int kills = 0, shot = 0, hits = 0;
 	private int health = 100;
 	private int points = 0;
 	private int ticks;
@@ -384,7 +384,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 
 		//Update accuracy label
 		if(shot > 0) {			
-			accuracy = ((double)kills / (double)shot) * 100;
+			accuracy = ((double)hits / (double)shot) * 100;
 			DecimalFormat df = new DecimalFormat("#00.00");
 			String accuracyFormated = df.format(accuracy);
 			accuracyLabel.setLabel("Accuracy: " + accuracyFormated + "%");
@@ -430,6 +430,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 						if(tempPoint.getX() > obstacle.getSprite().getX() && tempPoint.getX() < obstacle.getSprite().getX() + obstacle.getSprite().getWidth() && 
 								tempPoint.getY() > obstacle.getSprite().getY() && tempPoint.getY() < obstacle.getSprite().getY() + obstacle.getSprite().getHeight() &&
 								!bullet.checkEnemyBullet()) {
+							hits++;
 							if(obstacle instanceof Boss) {
 								program.remove(insideBossBar);
 								insideBossBar.setSize(((Boss) obstacle).getHealthPercentage() * BAR_LENGTH, BAR_WIDTH);
