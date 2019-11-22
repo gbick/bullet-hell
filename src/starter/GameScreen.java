@@ -684,6 +684,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		insideSuperBar.setSize(0, 10);
 		playerShip.setLocation(PLAYER_X, PLAYER_Y);
 		shot = 0;
+		hits = 0;
 		kills = 0;
 		points = 0;
 		ticks = 0;
@@ -724,6 +725,11 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 					if (obstacle.hit(bullet) <= 0) {
 						obstaclesToRemove.add(obstacle);
 						kills++;
+						if(obstacle instanceof Boss) {
+							this.points += accuracy*10;
+							program.addEndPop();
+							program.gameTimer.stop();
+						}
 					}
 					if(obstacle instanceof Boss) {
 						program.remove(insideBossBar);
