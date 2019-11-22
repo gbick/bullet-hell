@@ -493,6 +493,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		for(Bullet bullet : bulletsToRemove) {
 			program.remove(bullet.getSprite());
 		}
+		deleteSuper = false;
 		enemies.removeAll(obstaclesToRemove);
 		for(Obstacle obstacle : obstaclesToRemove) {
 			program.remove(obstacle.getSprite());
