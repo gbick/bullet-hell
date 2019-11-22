@@ -7,11 +7,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Scanner;
 
 import javax.swing.Timer;
 
@@ -43,6 +48,8 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	private final static int PLAYER_X = 250;
 	private final static int PLAYER_Y = 543;
 	private final static int TICK_RATE = 50;
+	private final static String PLAYER_SHOT = "Normal_Shot_Sound.mp3";
+	private final static String SUPER_SOUND = "SuperShot_Sound.mp3";
 	
 	private int timerRuns;
 	private int kills = 0, shot = 0, hits = 0;
@@ -90,6 +97,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		
 		//Creation of on-screen objects
 		this.program = app;
+		player = AudioPlayer.getInstance();
 		
 		gameSection = new GRect(GAME_SCREEN_MARGIN, GAME_SCREEN_MARGIN, GAME_SCREEN_WIDTH, GAME_SCREEN_HEIGHT);
 		healthBarLabel = new GLabel("Health:", 50, gameSection.getY() + gameSection.getHeight() + 15);
@@ -188,6 +196,8 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		program.remove(superBar);
 		program.remove(insideSuperBar);
 		program.remove(playerShip);
+		program.remove(bossBar);
+		program.remove(insideBossBar);
 		
 		//Clear enemy array
 		if (enemies.size() > 0) {
@@ -240,6 +250,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 			}
 			else if (superShotPercent >= 100) {
 				SuperShot temp = new SuperShot(50, playerShip, 10, false);
+				player.playSound("sounds", SUPER_SOUND);
 				bullets.add(temp);
 				program.add(temp.getSprite());
 				shot++;
@@ -301,6 +312,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 			program.add(temp.bullet);
 			shot++;
 			shotsLabel.setLabel("Shots: " + shot);
+			//player.playSound("sounds", PLAYER_SHOT);
 			mouseDown = true;
 		}
 	}
@@ -441,6 +453,35 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 									points += accuracy*10;
 									program.addEndPop();
 									program.gameTimer.stop();
+									File save = program.getSave();
+									Scanner scan = null;
+									FileWriter writer = null;
+									try {
+										scan = new Scanner(save);
+									} catch (FileNotFoundException e1) {
+										// TODO Auto-generated catch block
+										e1.printStackTrace();
+									}
+									scan.skip("ID: ");
+									String id = scan.next();
+									scan.nextLine();
+									scan.skip("Unlocked Levels: ");
+									int currUnlocked = scan.nextInt();
+									scan.close();
+									if(currUnlocked == program.getLevel()) {
+										try {
+											currUnlocked++;
+											String oldText = "Unlocked Levels: " + currUnlocked;
+											writer = new FileWriter(save, false);
+											writer.write("ID: " + id);
+											writer.write("\r\n");
+											writer.write(oldText);
+											writer.close();
+										} catch (IOException e1) {
+											// TODO Auto-generated catch block
+											e1.printStackTrace();
+										}
+									}
 								}
 								obstaclesToRemove.add(obstacle);
 								kills++;
@@ -647,6 +688,10 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		points = 0;
 		ticks = 0;
 		accuracy = 0;
+		timerRuns = 0;
+		spawnBoss = true;
+		insideBossBar.setVisible(false);
+		bossBar.setVisible(false);
 		shotsLabel.setLabel("Shots: " + shot);
 		accuracyLabel.setLabel("Accuracy: 00.00%");
 		for(Bullet bullet : bullets) {
