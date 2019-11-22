@@ -44,6 +44,15 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	private final static int PLAYER_Y = 543;
 	private final static int TICK_RATE = 50;
 	
+	private int timerRuns;
+	private int kills = 0, shot = 0;
+	private int health = 100;
+	private int points = 0;
+	private int ticks;
+	private double accuracy;
+	private double superShotPercent = 0;
+	private boolean mouseDown = false;
+	private boolean spawnBoss = true;
 	private GRect gameSection;
 	private GLabel healthBarLabel;
 	private GLabel superShotLabel;
@@ -53,30 +62,22 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	private GLabel killsLabel;
 	private GLabel shotsLabel;
 	private GLabel accuracyLabel;
+	private GLabel healthLabel;
+	private GLabel superLabel;
 	private GRoundRect healthBar;
 	private GRoundRect superBar;
+	private GRoundRect insideHealthBar;
+	private GRoundRect insideSuperBar;
+	private GRoundRect bossBar;
+	private GRoundRect insideBossBar;
+	private RandomGenerator random;
+	private LevelReader read;
 	private ArrayList<Bullet> bullets;
 	private ArrayList<Obstacle> enemies;
 	private ArrayList<SuperShot> superShot;
-	private int timerRuns;
-	private int kills = 0, shot = 0;
-	private double accuracy;
-	private RandomGenerator random;
-	private int health = 100;
-	private GLabel healthLabel;
-	private GRoundRect insideHealthBar;
-	private GLabel superLabel;
-	private double superShotPercent = 0;
-	private GRoundRect insideSuperBar;
-	private boolean mouseDown = false;
 	private ArrayList<GRoundRect> bars;
-	private int points = 0;
-	private LevelReader read;
-	private int ticks;
-	private boolean spawnBoss = true;
-	ArrayList<Obstacle> obstaclesToRemove = new ArrayList<Obstacle>();
-	private GRoundRect bossBar;
-	private GRoundRect insideBossBar;
+	private ArrayList<Obstacle> obstaclesToRemove = new ArrayList<Obstacle>();
+	private AudioPlayer player;
 	
 	public GameScreen(MainApplication app)
 	{
