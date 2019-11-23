@@ -33,7 +33,7 @@ public class LeaderboardPane extends GraphicsPane {
 	private static final double LEADERBOARD_X = MainApplication.WINDOW_WIDTH*((double)9/26);
 	private static final double LEADERBOARD_Y = MainApplication.WINDOW_HEIGHT*.25;
 	private static final int NUM_LEVELS = 3;
-	private HashMap<Integer, ArrayList<Pair<String, Integer>>> scores = new HashMap<Integer, ArrayList<Pair<String, Integer>>>();
+	public HashMap<Integer, ArrayList<Pair<String, Integer>>> scores = new HashMap<Integer, ArrayList<Pair<String, Integer>>>();
 	File save = new File("../media/data/levels/highscores.txt");
 	File save2 = new File("../media/data/levels/highscores2.txt");
 	File save3 = new File("../media/data/levels/highscores3.txt");
@@ -216,7 +216,7 @@ public class LeaderboardPane extends GraphicsPane {
 			for(GLabel label : currentScores) {
 				program.remove(label);
 			}
-			currentScores.removeAll(currentScores);
+			currentScores.clear();
 			levelNumber++;
 			program.add(levels.get(levelNumber-1));
 			printFile();
@@ -226,7 +226,7 @@ public class LeaderboardPane extends GraphicsPane {
 			for(GLabel label : currentScores) {
 				program.remove(label);
 			}
-			currentScores.removeAll(currentScores);
+			currentScores.clear();
 			levelNumber--;
 			program.add(levels.get(levelNumber - 1));
 			printFile();
