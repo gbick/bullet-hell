@@ -46,7 +46,6 @@ public class MenuPane extends GraphicsPane {
 		program.add(lead);
 		program.add(controls);
 		program.add(exit);
-		program.add(title);
 	}
 
 	@Override

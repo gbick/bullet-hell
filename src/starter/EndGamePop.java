@@ -10,6 +10,7 @@ import acm.graphics.GObject;
 public class EndGamePop extends GraphicsPane {
 	private MainApplication program;
 	private GameScreen game;
+	private LeaderboardPane lead;
 	
 	GButton frame;
 	GLabel message;
@@ -17,10 +18,12 @@ public class EndGamePop extends GraphicsPane {
 	GButton exit;
 	GLabel pointsLabel;
 	GButton highScore;
+	boolean canRecord;
 	
-	public EndGamePop(MainApplication app, GameScreen game) {
+	public EndGamePop(MainApplication app, GameScreen game, LeaderboardPane lead) {
 		this.program = app;
 		this.game = game;
+		this.lead = lead;
 		frame = new GButton("", program.getWidth()/5, program.getHeight()/3, program.getWidth()/2, program.getHeight()*((double)6/13));
 		frame.setFillColor(Color.MAGENTA);
 		message = new GLabel("", frame.getX() + 20, frame.getHeight() - 50);
@@ -36,16 +39,22 @@ public class EndGamePop extends GraphicsPane {
 		pointsLabel = new GLabel("Total Points: " + game.getPoints(), message.getX() + 65, message.getY() + 30);
 		pointsLabel.setFont("Arial-22");
 		highScore = new GButton("Record your high score", returnToMenu.getX(), returnToMenu.getY() - 40, returnToMenu.getWidth(), returnToMenu.getHeight() - 40);
-		highScore.setFillColor(Color.MAGENTA);
 		highScore.setEdgeColor(Color.MAGENTA);
 	}
 	@Override
 	public void showContents() {
+		canRecord = game.getPoints() > lead.scores.get(program.getLevel()).get(lead.scores.get(program.getLevel()).size()-1).getValue();
 		if(program.gameLost) {
 			message.setLabel("You lose! Better luck next time");
 		}
 		else {
 			message.setLabel("You win! Good job!");
+		}
+		if(canRecord) {
+			highScore.setFillColor(Color.MAGENTA);
+		}
+		else {
+			highScore.setFillColor(Color.LIGHT_GRAY);
 		}
 		program.add(frame);
 		program.add(message);
@@ -80,7 +89,7 @@ public class EndGamePop extends GraphicsPane {
 			program.delPop();
 			program.addExitPop("end");
 		}
-		else if(obj == highScore) {
+		else if(obj == highScore && canRecord) {
 			program.delPop();
 			program.addRecordPop();
 		}
@@ -88,7 +97,9 @@ public class EndGamePop extends GraphicsPane {
 	
 	@Override
 	public void keyPressed(KeyEvent e) {
-		System.exit(0);
+		if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+			System.exit(0);
+		}
 	}
 	
 	public void setPointsLabel() {

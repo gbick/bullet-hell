@@ -1,4 +1,5 @@
 package starter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.Scanner;
@@ -60,6 +61,13 @@ public class InstructPop extends GraphicsPane {
 				e.getY() < frame.getY() || e.getY() > frame.getY() + frame.getHeight()) {
 			program.delPop();
 			return;
+		}
+	}
+	
+	@Override
+	public void keyPressed(KeyEvent e) {
+		if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+			program.delPop();
 		}
 	}
 }
