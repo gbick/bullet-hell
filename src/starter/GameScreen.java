@@ -50,6 +50,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	private final static int TICK_RATE = 50;
 	private final static String PLAYER_SHOT = "Normal_Shot_Sound.mp3";
 	private final static String SUPER_SOUND = "SuperShot_Sound.mp3";
+	private final static String DEATH = "Enemy_Death.mp3";
 	
 	private int timerRuns;
 	private int kills = 0, shot = 0, hits = 0;
@@ -308,11 +309,11 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		}
 		else {
 			PlayerBullet temp = new PlayerBullet(5, playerShip, 10);
+			player.playSound("sounds", PLAYER_SHOT);
 			bullets.add(temp);
 			program.add(temp.bullet);
 			shot++;
 			shotsLabel.setLabel("Shots: " + shot);
-			//player.playSound("sounds", PLAYER_SHOT);
 			mouseDown = true;
 		}
 	}
@@ -372,6 +373,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		//Rapid Fire
 		if (mouseDown && timerRuns % 10 == 0) {
 			PlayerBullet temp = new PlayerBullet(5, playerShip, 10);
+			player.playSound("sounds", PLAYER_SHOT);
 			bullets.add(temp);
 			program.add(temp.bullet);
 			shot++;
@@ -448,7 +450,8 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 								insideBossBar.setSize(((Boss) obstacle).getHealthPercentage() * BAR_LENGTH, BAR_WIDTH);
 								program.add(insideBossBar);
 							}
-							if(obstacle.hit(bullet) <= 0) {		
+							if(obstacle.hit(bullet) <= 0) {	
+								player.playSound("sounds", DEATH);
 								if(obstacle instanceof Boss) {
 									points += accuracy*10;
 									program.addEndPop();
