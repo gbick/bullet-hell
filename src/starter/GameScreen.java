@@ -347,10 +347,9 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		
 		//Check for loss
 		if(health <= 0) {
+			program.remove(insideHealthBar);
 			program.gameLost = true;
-			points += accuracy*10;
-			program.addEndPop();
-			program.gameTimer.stop();
+			gameEnd();
 		}
 
 		//Update accuracy label
@@ -362,7 +361,6 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		}
 		
 		//BULLETS
-		ArrayList<SuperShot> superShotToRemove = new ArrayList<SuperShot>();
 		for(Bullet bullet : bullets) {
 			//Despawning
 			GObject temp = program.getElementAt(bullet.getSprite().getX() + bullet.getSprite().getWidth() + 1, bullet.getSprite().getY() + bullet.getSprite().getHeight()/2);
@@ -409,9 +407,9 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 							}
 							if(obstacle.hit(bullet) <= 0) {		
 								if(obstacle instanceof Boss) {
-									points += accuracy*10;
-									program.addEndPop();
-									program.gameTimer.stop();
+									program.remove(insideBossBar);
+									program.remove(bossBar);
+									gameEnd();
 									File save = program.getSave();
 									Scanner scan = null;
 									FileWriter writer = null;
@@ -445,11 +443,6 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 								obstaclesToRemove.add(obstacle);
 								kills++;
 								points++;
-								if (obstacle instanceof Boss) {
-									points += accuracy*10;
-									program.addEndPop();
-									program.gameTimer.stop();
-								}
 							}
 							if(superShotPercent <= 98) {
 								superShotPercent += 2;
@@ -475,9 +468,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 						obstaclesToRemove.add(remove);
 					}
 					program.gameLost = true;
-					points += accuracy*10;
-					program.addEndPop();
-					program.gameTimer.stop();
+					gameEnd();
 				}
 				healthLabel.setLabel("HP: " + health);
 				insideHealthBar.setSize(insideHealthBar.getWidth()-(4*bullet.getDamage()), 10);
@@ -521,23 +512,11 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 					if(health <= 0) {
 						program.remove(insideHealthBar);
 						healthLabel.setLabel("HP: " + 0);
-						points += accuracy*10;
 						program.gameLost = true;
-						program.addEndPop();
-						program.gameTimer.stop();
+						gameEnd();
 					}
 					else {
-						if (health <= 0) {
-							healthLabel.setLabel("HP: " + 0);
-							program.gameLost = true;
-							points += accuracy*10;
-							program.addEndPop();
-							program.gameTimer.stop();
-							// break;
-						}
-						else {
-							healthLabel.setLabel("HP: " + health);
-						}
+						healthLabel.setLabel("HP: " + health);
 						program.remove(insideHealthBar);
 						insideHealthBar.setSize(insideHealthBar.getWidth()-20, 10);
 						program.add(insideHealthBar);
@@ -551,12 +530,6 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 			}
 			Pair<Double, Double> next = enemy.getNextLoc();
 			enemy.getSprite().setLocation(next.getKey(), next.getValue());
-		}
-		
-		//Remove from array
-		enemies.removeAll(obstaclesToRemove);
-		for(Obstacle obstacle : obstaclesToRemove) {
-			program.remove(obstacle.getSprite());
 		}
 		
 		//Update label and timerRuns
@@ -652,11 +625,11 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		for(Bullet bullet : bullets) {
 			program.remove(bullet.getSprite());
 		}
-		bullets.removeAll(bullets);
+		bullets.clear();
 		for(Obstacle enemy : enemies) {
 			program.remove(enemy.getSprite());
 		}
-		enemies.removeAll(enemies);
+		enemies.clear();
 		program.gameLost = false;
 		deleteSuper = false;
 	}
@@ -664,6 +637,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	public int getPoints() {
 		return points;
 	}
+	
 	public void checkSuperShot(Bullet bullet) {
 		ArrayList<GPoint> points = new ArrayList<GPoint>();
 		GRectangle bounds = bullet.getSprite().getBounds();
@@ -680,9 +654,9 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 						obstaclesToRemove.add(obstacle);
 						kills++;
 						if(obstacle instanceof Boss) {
-							this.points += accuracy*10;
-							program.addEndPop();
-							program.gameTimer.stop();
+							program.remove(insideBossBar);
+							program.remove(bossBar);
+							gameEnd();
 						}
 					}
 					if(obstacle instanceof Boss) {
@@ -695,6 +669,12 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 				}
 			}
 		}
+	}
+	
+	public void gameEnd() {
+		points += accuracy*10;
+		program.addEndPop();
+		program.gameTimer.stop();
 	}
 	
 }
