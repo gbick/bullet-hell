@@ -78,7 +78,7 @@ public class RecordPop extends GraphicsPane implements KeyListener {
 				}
 	        	String tempString = String.valueOf(id.get(0)) + String.valueOf(id.get(1)) + String.valueOf(id.get(2));
 	        	int tempInt = game.getPoints();
-	        	lead.addElement(tempString, tempInt);
+	        	lead.addElement(tempString, tempInt, program.getLevel());
 		        id.set(0, '_');
 		        id.set(1,  '_');
 		        id.set(2, '_');
