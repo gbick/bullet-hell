@@ -33,8 +33,6 @@ public class LeaderboardPane extends GraphicsPane {
 	private static final double LEADERBOARD_X = MainApplication.WINDOW_WIDTH*((double)9/26);
 	private static final double LEADERBOARD_Y = MainApplication.WINDOW_HEIGHT*.25;
 	private static final int NUM_LEVELS = 3;
-	//private HashMap<Integer, Pair<String, Integer>> scores; // first element is a 3-digit int - 
-//	private ArrayList<Pair<String, Integer>> scoreList = new ArrayList<Pair<String, Integer>>();
 	private HashMap<Integer, ArrayList<Pair<String, Integer>>> scores = new HashMap<Integer, ArrayList<Pair<String, Integer>>>();
 	File save = new File("../media/data/levels/highscores.txt");
 	File save2 = new File("../media/data/levels/highscores2.txt");
@@ -100,16 +98,6 @@ public class LeaderboardPane extends GraphicsPane {
 	
 	public void mousePressed(MouseEvent e) {
 		GObject obj = program.getElementAt(e.getX(), e.getY());
-//		if (obj == nextLevel && levelNumber < NUM_LEVELS) {
-//			program.remove(levels.get(levelNumber - 1));
-//			levelNumber++;
-//			program.add(levels.get(levelNumber - 1));
-//		}
-//		else if(obj == prevLevel && levelNumber != 1) {
-//			program.remove(levels.get(levelNumber - 1));
-//			levelNumber--;
-//			program.add(levels.get(levelNumber - 1));
-//		}
 		switchScores(obj);
 		if(obj == returnToMenu) {
 			program.switchToMenu();
@@ -190,23 +178,6 @@ public class LeaderboardPane extends GraphicsPane {
 				}
 			}
 		}
-//		try {
-//			scan = new Scanner(saves.get(levelNumber));
-//		} catch (FileNotFoundException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		int i = 0;
-//		while(scan.hasNext() && i < 5) {
-//			GLabel tempId = new GLabel(scan.next() + scan.next(), level.getX() - 100, level.getY() + 40*(i+1));
-//			tempId.setFont("Arial-18");
-//			GLabel tempScore = new GLabel(scan.next() + scan.next(), tempId.getX() + 200, tempId.getY());
-//			tempScore.setFont("Arial-18");
-//			program.add(tempId);
-//			program.add(tempScore);
-//			currentScores.addAll(Arrays.asList(tempId, tempScore));
-//			++i;
-//		}
 	}
 	
 	public void importOldScores() {
