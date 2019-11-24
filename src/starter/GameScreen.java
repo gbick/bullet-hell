@@ -86,6 +86,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	private ArrayList<Bullet> bulletsToRemove = new ArrayList<Bullet>();
 	private ArrayList<Obstacle> obstaclesToRemove = new ArrayList<Obstacle>();
 	private AudioPlayer player;
+	private boolean hit;
 	Boss boss;
 	
 	public GameScreen(MainApplication app)
@@ -403,7 +404,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 						if(tempPoint.getX() > obstacle.getSprite().getX() && tempPoint.getX() < obstacle.getSprite().getX() + obstacle.getSprite().getWidth() && 
 								tempPoint.getY() > obstacle.getSprite().getY() && tempPoint.getY() < obstacle.getSprite().getY() + obstacle.getSprite().getHeight() &&
 								!bullet.checkEnemyBullet()) {
-							hits++;
+							hit = true;
 							if(obstacle instanceof Boss) {
 								program.remove(insideBossBar);
 								insideBossBar.setSize(((Boss) obstacle).getHealthPercentage() * BAR_LENGTH, BAR_WIDTH);
@@ -482,6 +483,10 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 			//Movement
 			Pair<Double, Double> next = bullet.getNextLoc();
 			bullet.getSprite().setLocation(next.getKey(), next.getValue());
+			if(hit) {
+				hits++;
+			}
+			hit = false;
 		}
 		
 		//Removal from arrays
