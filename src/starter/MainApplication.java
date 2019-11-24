@@ -105,7 +105,7 @@ public class MainApplication extends GraphicsApplication {
 	public void addInstructPop() {
 		addPop(controls);
 	}
-	public void addExitPop(String pop) { // TODO make enum
+	public void addExitPop(ReturnToEnum pop) { // TODO make enum
 		addPop(exitPop);
 		exitPop.setPane(pop);
 	}
@@ -113,7 +113,7 @@ public class MainApplication extends GraphicsApplication {
 	public void addPausePop() {
 		addPop(pausePop);
 	}
-	public void addRtMPop(String pop) { // TODO make enum
+	public void addRtMPop(ReturnToEnum pop) { // TODO make enum
 		addPop(RtMPop);
 		RtMPop.setPane(pop);
 	}

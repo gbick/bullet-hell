@@ -83,7 +83,7 @@ public class MenuPane extends GraphicsPane {
 		
 		else if(obj==exit)
 		{
-			program.addExitPop("menu");
+			program.addExitPop(ReturnToEnum.MENU);
 		}
 	}
 	
