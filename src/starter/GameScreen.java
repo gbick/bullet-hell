@@ -86,6 +86,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	private ArrayList<Bullet> bulletsToRemove = new ArrayList<Bullet>();
 	private ArrayList<Obstacle> obstaclesToRemove = new ArrayList<Obstacle>();
 	private AudioPlayer player;
+	Boss boss;
 	
 	public GameScreen(MainApplication app)
 	{
@@ -327,7 +328,9 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		 *   - Update label and timerRuns
 		 *   - Random Spawning
 		 */
-		
+		if(!spawnBoss) {
+			checkCollision(boss);
+		}
 		//Rapid Fire
 		if (mouseDown && timerRuns % 10 == 0) {
 			PlayerBullet temp = new PlayerBullet(5, playerShip, 10);
@@ -475,6 +478,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 				insideHealthBar.setSize(insideHealthBar.getWidth()-(4*bullet.getDamage()), 10);
 			}
 			
+			
 			//Movement
 			Pair<Double, Double> next = bullet.getNextLoc();
 			bullet.getSprite().setLocation(next.getKey(), next.getValue());
@@ -556,7 +560,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 				Obstacle temp;
 				//SPAWN BOSS
 				if(spawnBoss) {
-					Boss boss = new Boss(GAME_SCREEN_WIDTH/4, GAME_SCREEN_MARGIN, MovementEquation.STAY_SEEK);
+					boss = new Boss(GAME_SCREEN_WIDTH/4, GAME_SCREEN_MARGIN, MovementEquation.STAY_SEEK);
 					boss.getSprite().setColor(Color.GRAY);
 					boss.getSprite().setFillColor(Color.WHITE);
 					spawnBoss = false;
@@ -668,6 +672,24 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 						return;
 					}
 				}
+			}
+		}
+	}
+	
+	public void checkCollision(Boss boss) {
+		ArrayList<GPoint> points = new ArrayList<GPoint>();
+		GRectangle bounds = playerShip.getBounds();
+		for(int i = (int)bounds.getX(); i < bounds.getWidth() + bounds.getX(); i++) {
+			for(int j = (int)bounds.getY(); j < bounds.getHeight() + bounds.getY(); j++) {
+				GPoint temp = new GPoint(i, j);
+				points.add(temp);
+			}
+		}
+		for(GPoint point : points) {
+			if(boss.getSprite().contains(point)) {
+				program.gameLost = true;
+				gameEnd();
+				return;
 			}
 		}
 	}
