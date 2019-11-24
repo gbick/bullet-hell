@@ -209,7 +209,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 			}
 			else if (superShotPercent >= 100) {
 				SuperShot temp = new SuperShot(50, playerShip, 10, false);
-				//player.playSound("sounds", SUPER_SOUND);
+				player.playSound("sounds", SUPER_SOUND);
 				bullets.add(temp);
 				program.add(temp.getSprite());
 				shot++;
@@ -271,7 +271,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 			program.add(temp.bullet);
 			shot++;
 			shotsLabel.setLabel("Shots: " + shot);
-			//player.playSound("sounds", PLAYER_SHOT);
+			player.playSound("sounds", PLAYER_SHOT);
 			mouseDown = true;
 		}
 	}
@@ -335,6 +335,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 			program.add(temp.bullet);
 			shot++;
 			shotsLabel.setLabel("Shots: " + shot);
+			player.playSound("sounds", PLAYER_SHOT);
 		}
 		
 		//Super Shot

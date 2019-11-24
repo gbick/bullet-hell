@@ -43,7 +43,7 @@ public class EndGamePop extends GraphicsPane {
 	}
 	@Override
 	public void showContents() {
-		canRecord = game.getPoints() > lead.scores.get(program.getLevel()).get(lead.scores.get(program.getLevel()).size()-1).getValue();
+		canRecord = game.getPoints() > lead.scores.get(program.getLevel()).get(lead.scores.get(program.getLevel()).size()-1).getValue() || lead.scores.get(program.getLevel()).size() < 5;
 		if(program.gameLost) {
 			message.setLabel("You lose! Better luck next time");
 		}
