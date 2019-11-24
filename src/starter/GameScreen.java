@@ -268,12 +268,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 			return;
 		}
 		else {
-			PlayerBullet temp = new PlayerBullet(5, playerShip, 10);
-			bullets.add(temp);
-			program.add(temp.bullet);
-			shot++;
-			shotsLabel.setLabel("Shots: " + shot);
-			player.playSound("sounds", PLAYER_SHOT);
+			addBullet();
 			mouseDown = true;
 		}
 	}
@@ -334,12 +329,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		}
 		//Rapid Fire
 		if (mouseDown && timerRuns % 10 == 0) {
-			PlayerBullet temp = new PlayerBullet(5, playerShip, 10);
-			bullets.add(temp);
-			program.add(temp.bullet);
-			shot++;
-			shotsLabel.setLabel("Shots: " + shot);
-			player.playSound("sounds", PLAYER_SHOT);
+			addBullet();
 		}
 		
 		//Super Shot
@@ -703,6 +693,15 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		points += accuracy*10;
 		program.addEndPop();
 		program.gameTimer.stop();
+	}
+	
+	public void addBullet() {
+		PlayerBullet temp = new PlayerBullet(5, playerShip, 10);
+		bullets.add(temp);
+		program.add(temp.bullet);
+		shot++;
+		shotsLabel.setLabel("Shots: " + shot);
+		player.playSound("sounds", PLAYER_SHOT);
 	}
 	
 }
