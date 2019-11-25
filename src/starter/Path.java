@@ -37,6 +37,9 @@ public class Path {
 	
 	public Pair<Double, Double> moveNextTick() {
 		switch(movement) {
+		case STAY:
+			coords = new Pair<Double, Double>(object.getX(), object.getY());
+			break;
 		case STRAIGHT:
 			coords = new Pair<Double, Double>(object.getX(), object.getY() + tick);
 			break;
@@ -75,7 +78,7 @@ public class Path {
 			break;
 		case STAY_SEEK:
 			if(target != null) {
-				Pair<Double, Double> temp = new Pair<Double, Double>(object.getX(), object.getY() + tick);
+				Pair<Double, Double> temp = new Pair<Double, Double>(object.getX(), object.getY());
 				//If target is to the right/left of object
 				if((target.getX() + target.getWidth()/2) > coords.getKey() + object.getWidth()/2) {
 					temp = new Pair<Double, Double>(temp.getKey() + 1, temp.getValue());

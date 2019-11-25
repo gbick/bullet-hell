@@ -92,8 +92,12 @@ public class MenuPane extends GraphicsPane {
 		
 		else if(obj==exit)
 		{
+<<<<<<< HEAD
 			program.addExitPop("menu");
 			player.playSound("sounds", CLICK_NOISE);
+=======
+			program.addExitPop(ReturnToEnum.MENU);
+>>>>>>> branch 'master' of https://github.com/comp55/group-project-cell-block-c.git
 		}
 	}
 	

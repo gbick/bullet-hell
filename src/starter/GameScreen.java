@@ -82,12 +82,14 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	private GRoundRect insideBossBar;
 	private RandomGenerator random;
 	private LevelReader read;
+	private Boss boss;
 	private ArrayList<Bullet> bullets;
 	private ArrayList<Obstacle> enemies;
 	private ArrayList<GRoundRect> bars;
 	private ArrayList<Bullet> bulletsToRemove = new ArrayList<Bullet>();
 	private ArrayList<Obstacle> obstaclesToRemove = new ArrayList<Obstacle>();
 	private AudioPlayer player;
+	private boolean hit;
 	
 	public GameScreen(MainApplication app)
 	{
@@ -269,12 +271,16 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 			return;
 		}
 		else {
+<<<<<<< HEAD
 			PlayerBullet temp = new PlayerBullet(5, playerShip, 10);
 			player.playSound("sounds", PLAYER_SHOT);
 			bullets.add(temp);
 			program.add(temp.bullet);
 			shot++;
 			shotsLabel.setLabel("Shots: " + shot);
+=======
+			addBullet();
+>>>>>>> branch 'master' of https://github.com/comp55/group-project-cell-block-c.git
 			mouseDown = true;
 		}
 	}
@@ -330,15 +336,21 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		 *   - Update label and timerRuns
 		 *   - Random Spawning
 		 */
-		
+		if(!spawnBoss) {
+			checkCollision(boss);
+		}
 		//Rapid Fire
 		if (mouseDown && timerRuns % 10 == 0) {
+<<<<<<< HEAD
 			PlayerBullet temp = new PlayerBullet(5, playerShip, 10);
 			player.playSound("sounds", PLAYER_SHOT);
 			bullets.add(temp);
 			program.add(temp.bullet);
 			shot++;
 			shotsLabel.setLabel("Shots: " + shot);
+=======
+			addBullet();
+>>>>>>> branch 'master' of https://github.com/comp55/group-project-cell-block-c.git
 		}
 		
 		//Super Shot
@@ -403,7 +415,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 						if(tempPoint.getX() > obstacle.getSprite().getX() && tempPoint.getX() < obstacle.getSprite().getX() + obstacle.getSprite().getWidth() && 
 								tempPoint.getY() > obstacle.getSprite().getY() && tempPoint.getY() < obstacle.getSprite().getY() + obstacle.getSprite().getHeight() &&
 								!bullet.checkEnemyBullet()) {
-							hits++;
+							hit = true;
 							if(obstacle instanceof Boss) {
 								program.remove(insideBossBar);
 								insideBossBar.setSize(((Boss) obstacle).getHealthPercentage() * BAR_LENGTH, BAR_WIDTH);
@@ -480,9 +492,14 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 				insideHealthBar.setSize(insideHealthBar.getWidth()-(4*bullet.getDamage()), 10);
 			}
 			
+			
 			//Movement
 			Pair<Double, Double> next = bullet.getNextLoc();
 			bullet.getSprite().setLocation(next.getKey(), next.getValue());
+			if(hit) {
+				hits++;
+			}
+			hit = false;
 		}
 		
 		//Removal from arrays
@@ -507,10 +524,20 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 					program.add(temp.getSprite());
 				}
 			}
+			if(enemy instanceof Boss) {
+				if(((Boss) enemy).checkFireRate()) {
+					if(((Boss) enemy).getBulletType() != null){						
+						Bullet temp = ((Boss) enemy).getBulletType();
+						temp.getSprite().setLocation(enemy.getSprite().getX() + enemy.getSprite().getWidth()/2, enemy.getSprite().getY() + enemy.getSprite().getHeight());
+						bullets.add(temp);
+						program.add(temp.getSprite());
+					}
+				}
+			}
 			GObject temp = program.getElementAt(enemy.getSprite().getX() + enemy.getSprite().getWidth() + 1, enemy.getSprite().getY() + enemy.getSprite().getHeight()/2);
 			
 			//Player collision
-			if (temp == playerShip) {
+			if (temp == playerShip && !(enemy instanceof Boss)) {
 				obstaclesToRemove.add(enemy);
 				if(health > 0) {
 					health -= 5;
@@ -542,6 +569,19 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		killsLabel.setLabel("Kills : " + kills);
 		timerRuns++;
 		
+		if(!(spawnBoss)) {			
+			if(timerRuns % 200 == 0) {
+				boss.changePhase();
+			}
+			if(boss.getMinionRate() != 0) {						
+				if(timerRuns % boss.getMinionRate() == 0) {
+					Enemy newEnemy = boss.getMinions();
+					enemies.add(newEnemy.getEnemy());
+					program.add(newEnemy.getSprite());
+				}
+			}
+		}
+		
 		//Random Spawning
 		if(timerRuns % TICK_RATE == 0) {
 			if(read.readLine(ticks) != "BOSS") {
@@ -560,10 +600,15 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 				double rand = random.nextDouble(0,4);
 				Obstacle temp;
 				//SPAWN BOSS
+<<<<<<< HEAD
 				if(spawnBoss) {
 					player.stopSound("sounds", LEVEL_MUSIC);
 					//player.playSound("sounds", BOSS_MUSIC, true);
 					Boss boss = new Boss(GAME_SCREEN_WIDTH/4, GAME_SCREEN_MARGIN, MovementEquation.STAY_SEEK);
+=======
+				if(spawnBoss) {
+					boss = new Boss(GAME_SCREEN_WIDTH/4, GAME_SCREEN_MARGIN, playerShip);
+>>>>>>> branch 'master' of https://github.com/comp55/group-project-cell-block-c.git
 					boss.getSprite().setColor(Color.GRAY);
 					boss.getSprite().setFillColor(Color.WHITE);
 					spawnBoss = false;
@@ -572,6 +617,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 					bossBar.setVisible(true);
 					insideBossBar.setVisible(true);
 				}
+				/*
 				if(rand < 1 && rand > 0) {				
 					Fighter enemyShip = new Fighter(random.nextDouble(0, GAME_SCREEN_WIDTH - 20), 0, MovementEquation.SEEK, playerShip);
 					BasicBullet shot = new BasicBullet(5, enemyShip.getSprite(), 2);
@@ -594,6 +640,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 				}
 				enemies.add(temp);
 				program.add(temp.getSprite());
+				*/
 				
 			}
 			ticks++;
@@ -679,10 +726,37 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		}
 	}
 	
+	public void checkCollision(Boss boss) {
+		ArrayList<GPoint> points = new ArrayList<GPoint>();
+		GRectangle bounds = playerShip.getBounds();
+		for(int i = (int)bounds.getX(); i < bounds.getWidth() + bounds.getX(); i++) {
+			for(int j = (int)bounds.getY(); j < bounds.getHeight() + bounds.getY(); j++) {
+				GPoint temp = new GPoint(i, j);
+				points.add(temp);
+			}
+		}
+		for(GPoint point : points) {
+			if(boss.getSprite().contains(point)) {
+				program.gameLost = true;
+				gameEnd();
+				return;
+			}
+		}
+	}
+	
 	public void gameEnd() {
 		points += accuracy*10;
 		program.addEndPop();
 		program.gameTimer.stop();
+	}
+	
+	public void addBullet() {
+		PlayerBullet temp = new PlayerBullet(5, playerShip, 10);
+		bullets.add(temp);
+		program.add(temp.bullet);
+		shot++;
+		shotsLabel.setLabel("Shots: " + shot);
+		player.playSound("sounds", PLAYER_SHOT);
 	}
 	
 }

@@ -3,6 +3,8 @@ package starter;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import acm.graphics.GLabel;
 import acm.graphics.GObject;
@@ -22,7 +24,11 @@ public class EndGamePop extends GraphicsPane {
 	GLabel pointsLabel;
 	GButton highScore;
 	boolean canRecord;
+<<<<<<< HEAD
 	private AudioPlayer player;
+=======
+	private ArrayList<GButton> buttons;
+>>>>>>> branch 'master' of https://github.com/comp55/group-project-cell-block-c.git
 	
 	public EndGamePop(MainApplication app, GameScreen game, LeaderboardPane lead) {
 		this.program = app;
@@ -36,20 +42,26 @@ public class EndGamePop extends GraphicsPane {
 		message.setFont("Arial-22");
 		returnToMenu = new GButton("Return to Main Menu", frame.getX() + frame.getWidth()/65, frame.getY() + frame.getHeight()/3 + frame.getWidth()/65,
 				frame.getWidth() - ((frame.getWidth()/65) * 2), frame.getHeight()/3 - ((frame.getWidth()/65) * 2));
-		returnToMenu.setFillColor(Color.MAGENTA);
-		returnToMenu.setEdgeColor(Color.MAGENTA);
 		exit = new GButton("Exit Game", frame.getX() + frame.getWidth()/65, frame.getY() + ((frame.getHeight()/3) * 2) + frame.getWidth()/65,
 				frame.getWidth() - ((frame.getWidth()/65) * 2), frame.getHeight()/3 - ((frame.getWidth()/65) * 2));
-		exit.setFillColor(Color.MAGENTA);
-		exit.setEdgeColor(Color.MAGENTA);
 		pointsLabel = new GLabel("Total Points: " + game.getPoints(), message.getX() + 65, message.getY() + 30);
 		pointsLabel.setFont("Arial-22");
 		highScore = new GButton("Record your high score", returnToMenu.getX(), returnToMenu.getY() - 40, returnToMenu.getWidth(), returnToMenu.getHeight() - 40);
 		highScore.setEdgeColor(Color.MAGENTA);
+		buttons = new ArrayList<GButton>(Arrays.asList(returnToMenu, exit, highScore));
+		for(GButton button : buttons) {
+			button.setFillColor(Color.MAGENTA);
+			button.setEdgeColor(Color.MAGENTA);
+		}
 	}
 	@Override
 	public void showContents() {
-		canRecord = game.getPoints() > lead.scores.get(program.getLevel()).get(lead.scores.get(program.getLevel()).size()-1).getValue();
+		if(lead.scores.get(program.getLevel()).size() > 0) {
+			canRecord = game.getPoints() > lead.scores.get(program.getLevel()).get(lead.scores.get(program.getLevel()).size()-1).getValue() || lead.scores.get(program.getLevel()).size() < 5;
+		}
+		else {
+			canRecord = true;
+		}
 		if(program.gameLost) {
 			message.setLabel("You lose! Better luck next time");
 			player.playSound("sounds", LOSE_MUSIC);
@@ -58,10 +70,7 @@ public class EndGamePop extends GraphicsPane {
 			message.setLabel("You win! Good job!");
 			player.playSound("sounds", WIN_MUSIC, true);
 		}
-		if(canRecord) {
-			highScore.setFillColor(Color.MAGENTA);
-		}
-		else {
+		if(!canRecord) {
 			highScore.setFillColor(Color.LIGHT_GRAY);
 		}
 		program.add(frame);
@@ -91,13 +100,17 @@ public class EndGamePop extends GraphicsPane {
 			program.remove(message);
 			program.remove(returnToMenu);
 			program.remove(exit);
+<<<<<<< HEAD
 			program.addRtMPop("end");
 			player.stopSound("sounds", LOSE_MUSIC);
 			player.stopSound("sounds", WIN_MUSIC);
+=======
+			program.addRtMPop(ReturnToEnum.END);
+>>>>>>> branch 'master' of https://github.com/comp55/group-project-cell-block-c.git
 		}
 		else if(obj == exit) {
 			program.delPop();
-			program.addExitPop("end");
+			program.addExitPop(ReturnToEnum.END);
 		}
 		else if(obj == highScore && canRecord) {
 			program.delPop();

@@ -7,11 +7,17 @@ import acm.graphics.GRect;
 
 public class Enemy{
 	private Obstacle enemy;
+	private double loc;
+	private GImage target;
+	private char type;
 	
 	public Enemy(char enemyType, double location, GImage seek) {
 		Obstacle enemyShooter = null;
 		Fighter enemyShip = null;
 		Bullet shot;
+		type = enemyType;
+		loc = location;
+		target = seek;
 		switch(enemyType) {
 		case '1':
 			if(seek == null) {
@@ -49,6 +55,18 @@ public class Enemy{
 	
 	public Obstacle getEnemy() {
 		return enemy;
+	}
+	
+	public char getType() {
+		return type;
+	}
+	
+	public double getLocation() {
+		return loc;
+	}
+	
+	public GImage getTarget() {
+		return target;
 	}
 	
 	public GRect getSprite() {
