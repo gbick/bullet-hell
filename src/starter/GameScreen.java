@@ -272,12 +272,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 			return;
 		}
 		else {
-			PlayerBullet temp = new PlayerBullet(5, playerShip, 10);
-			player.playSound("sounds", PLAYER_SHOT);
-			bullets.add(temp);
-			program.add(temp.bullet);
-			shot++;
-			shotsLabel.setLabel("Shots: " + shot);
+
 			addBullet();
 			mouseDown = true;
 		}
@@ -339,12 +334,6 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		}
 		//Rapid Fire
 		if (mouseDown && timerRuns % 10 == 0) {
-			PlayerBullet temp = new PlayerBullet(5, playerShip, 10);
-			player.playSound("sounds", PLAYER_SHOT);
-			bullets.add(temp);
-			program.add(temp.bullet);
-			shot++;
-			shotsLabel.setLabel("Shots: " + shot);
 			addBullet();
 		}
 		
@@ -747,7 +736,6 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		program.add(temp.bullet);
 		shot++;
 		shotsLabel.setLabel("Shots: " + shot);
-		player.playSound("sounds", PLAYER_SHOT);
 	}
 	
 }
