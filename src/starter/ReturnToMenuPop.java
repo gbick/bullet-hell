@@ -12,6 +12,7 @@ public class ReturnToMenuPop extends GraphicsPane {
 	
 	private MainApplication program;
 	private final static String LEVEL_MUSIC = "Level_Music.mp3";
+	private final static String BOSS_MUSIC = "Boss_Music.mp3";
 	private AudioPlayer player;
 	
 	GButton frame;
@@ -61,7 +62,7 @@ public class ReturnToMenuPop extends GraphicsPane {
 			program.delPop();
 			program.switchToMenu();
 			player.stopSound("sounds", LEVEL_MUSIC);
-			
+			player.stopSound("sounds", BOSS_MUSIC);
 			return;
 		}
 		else if(obj == no)
