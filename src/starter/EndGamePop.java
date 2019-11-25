@@ -92,6 +92,8 @@ public class EndGamePop extends GraphicsPane {
 			program.remove(returnToMenu);
 			program.remove(exit);
 			program.addRtMPop("end");
+			player.stopSound("sounds", LOSE_MUSIC);
+			player.stopSound("sounds", WIN_MUSIC);
 		}
 		else if(obj == exit) {
 			program.delPop();

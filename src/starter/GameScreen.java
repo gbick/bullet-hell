@@ -52,7 +52,6 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	private final static String SUPER_SOUND = "SuperShot_Sound.mp3";
 	private final static String DEATH = "Enemy_Death.mp3";
 	private final static String LEVEL_MUSIC = "Level_Music.mp3";
-	//private final static String BOSS_MUSIC = "";
 	
 	private int timerRuns;
 	private int kills = 0, shot = 0, hits = 0;
@@ -168,7 +167,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		program.add(insideBossBar);
 		program.add(playerShip);
 		program.gameTimer.start();
-		//player.playSound("sounds", LEVEL_MUSIC, true);
+		player.playSound("sounds", LEVEL_MUSIC, true);
 	}
 
 	@Override
