@@ -5,7 +5,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -31,12 +33,15 @@ public class LeaderboardPane extends GraphicsPane {
 	private static final double LEADERBOARD_X = MainApplication.WINDOW_WIDTH*((double)9/26);
 	private static final double LEADERBOARD_Y = MainApplication.WINDOW_HEIGHT*.25;
 	private static final int NUM_LEVELS = 3;
-	private HashMap<Integer, Pair<String, Integer>> scores; // first element is a 3-digit int - 
-	private ArrayList<Pair<String, Integer>> scoreList = new ArrayList<Pair<String, Integer>>();
+	public HashMap<Integer, ArrayList<Pair<String, Integer>>> scores = new HashMap<Integer, ArrayList<Pair<String, Integer>>>();
 	File save = new File("../media/data/levels/highscores.txt");
+	File save2 = new File("../media/data/levels/highscores2.txt");
+	File save3 = new File("../media/data/levels/highscores3.txt");
+	private ArrayList<File> saves = new ArrayList<File>(Arrays.asList(save, save2, save3));
 	private Scanner scan;
 	private boolean valid;
 	private int score;
+	private ArrayList<GLabel> currentScores = new ArrayList<GLabel>();
 	
 	//=====
 
@@ -93,22 +98,14 @@ public class LeaderboardPane extends GraphicsPane {
 	
 	public void mousePressed(MouseEvent e) {
 		GObject obj = program.getElementAt(e.getX(), e.getY());
-		if (obj == nextLevel && levelNumber < NUM_LEVELS) {
-			program.remove(levels.get(levelNumber - 1));
-			levelNumber++;
-			program.add(levels.get(levelNumber - 1));
-		}
-		else if(obj == prevLevel && levelNumber != 1) {
-			program.remove(levels.get(levelNumber - 1));
-			levelNumber--;
-			program.add(levels.get(levelNumber - 1));
-		}
-		else if(obj == returnToMenu) {
+		switchScores(obj);
+		if(obj == returnToMenu) {
 			program.switchToMenu();
 		}
 	}
 	
-	public void addElement(String id, int score) {
+	public void addElement(String id, int score, int level) {
+		ArrayList<Pair<String, Integer>> scoreList = new ArrayList<Pair<String, Integer>>();
 		Pair<String, Integer> tempPair = new Pair<>(id, score);
 		if (scoreList.size() == 0) {
 			scoreList.add(tempPair);
@@ -124,71 +121,131 @@ public class LeaderboardPane extends GraphicsPane {
 				scoreList.add(tempPair);
 			}
 		}
+		if (scores.get(level) != null) {
+			for(Pair<String, Integer> appended : scoreList) {
+				scores.get(level).add(appended);
+			}
+			selectionSort(scores.get(level));
+		}
+		else {
+			scores.put(level, scoreList);
+		}
 	}
 	
 	public void writeToFile() {
-		try {
-			save.createNewFile();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		try {
-	        FileWriter writer = new FileWriter(save);
-	        for(int i = 0; i < scoreList.size(); ++i) {
-	        	if (i < 5) {
-	        		writer.write("ID: " + scoreList.get(i).getKey());
-	        		writer.write("\r\n");
-	        		writer.write("Points: " + scoreList.get(i).getValue());
-	        		writer.write("\r\n");
-	        	}
-	        	else {
-	        		break;
-	        	}
-	        }
-	        writer.close();
-		}
-		catch(IOException e) {
-			e.printStackTrace();
+		for(int i = 0; i < saves.size(); ++i) {
+			try {
+				saves.get(i).createNewFile();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			try {
+		        FileWriter writer = new FileWriter(saves.get(i));
+		        for(int j = 0; j < scores.get(i+1).size(); ++j) {
+		        	if (j < 5) {
+		        		writer.write("ID: " + scores.get(i+1).get(j).getKey());
+		        		writer.write("\r\n");
+		        		writer.write("Points: " + scores.get(i+1).get(j).getValue());
+		        		writer.write("\r\n");
+		        	}
+		        	else {
+		        		break;
+		        	}
+		        }
+		        writer.close();
+			}
+			catch(IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	
 	public void printFile() {
-		for(int i = 0; i < scoreList.size(); ++i) {
-			if (i < 5) {
-				GLabel tempId = new GLabel("ID: " + scoreList.get(i).getKey(), level.getX() - 100, level.getY() + 40*(i+1));
-				tempId.setFont("Arial-18");
-				GLabel tempScore = new GLabel("Points: " + scoreList.get(i).getValue(), tempId.getX() + 200, tempId.getY());
-				tempScore.setFont("Arial-18");
-				program.add(tempId);
-				program.add(tempScore);
-			}
-			else {
-				break;
+		if (scores.get(levelNumber) != null) {
+			for(int i = 0; i < scores.get(levelNumber).size(); ++i) {
+				if (i < 5) {
+					GLabel tempId = new GLabel("ID: " + scores.get(levelNumber).get(i).getKey(), level.getX() - 100, level.getY() + 40*(i+1));
+					tempId.setFont("Arial-18");
+					GLabel tempScore = new GLabel("Points: " + scores.get(levelNumber).get(i).getValue(), tempId.getX() + 200, tempId.getY());
+					tempScore.setFont("Arial-18");
+					program.add(tempId);
+					program.add(tempScore);
+					currentScores.addAll(Arrays.asList(tempId, tempScore));
+				}
+				else {
+					break;
+				}
 			}
 		}
 	}
 	
 	public void importOldScores() {
-		try {
-			scan = new Scanner(save);
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		while(scan.hasNext()) {
-			valid = true;
-			scan.next();
-			String id = scan.next();
-			scan.next();
+		for(int i = 0; i < NUM_LEVELS; ++i) {
 			try {
-				score = Integer.parseInt(scan.next());
+				scan = new Scanner(saves.get(i));
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-			catch(NumberFormatException e) {
-				valid = false;
+			if(!scan.hasNext()) {
+				ArrayList<Pair<String, Integer>> tempScores = new ArrayList<Pair<String, Integer>>();
+				scores.put(i+1, tempScores);
 			}
-			if(valid) {
-				addElement(id, score);
+			while(scan.hasNext()) {
+				valid = true;
+				scan.next();
+				String id = scan.next();
+				scan.next();
+				try {
+					score = Integer.parseInt(scan.next());
+				}
+				catch(NumberFormatException e) {
+					valid = false;
+				}
+				if(valid) {
+					addElement(id, score, i+1);
+				}
+			}
+		}
+	}
+	
+	public void switchScores(GObject obj) {
+		if(obj == nextLevel && levelNumber < NUM_LEVELS) {
+			program.remove(levels.get(levelNumber-1));
+			for(GLabel label : currentScores) {
+				program.remove(label);
+			}
+			currentScores.clear();
+			levelNumber++;
+			program.add(levels.get(levelNumber-1));
+			printFile();
+		}
+		else if (obj == prevLevel && levelNumber != 1) {
+			program.remove(levels.get(levelNumber - 1));
+			for(GLabel label : currentScores) {
+				program.remove(label);
+			}
+			currentScores.clear();
+			levelNumber--;
+			program.add(levels.get(levelNumber - 1));
+			printFile();
+		}
+	}
+	
+	public void selectionSort(ArrayList<Pair<String, Integer>> a) {
+		int i, j;
+		for(i = 0; i < a.size()-1; ++i) {
+			int max = i;
+			for(j = i+1; j < a.size(); ++j) {
+				if(a.get(j).getValue() > a.get(max).getValue()) {
+					max = j;
+				}
+			}
+			if(max != i) {
+				Pair<String, Integer> temp = a.get(i);
+				a.set(i, a.get(max));
+				a.set(max, temp);
 			}
 		}
 	}

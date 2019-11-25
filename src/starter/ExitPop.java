@@ -1,10 +1,5 @@
 package starter;
 import java.awt.event.MouseEvent;
-import java.io.File;
-import java.util.Scanner;
-
-import acm.graphics.GImage;
-import acm.graphics.GLabel;
 import acm.graphics.GObject;
 
 public class ExitPop extends GraphicsPane {
@@ -15,7 +10,7 @@ public class ExitPop extends GraphicsPane {
 	GButton prompt;
 	GButton yes;
 	GButton no;
-	private String pane;
+	private ReturnToEnum pane;
 	
 	public ExitPop(MainApplication app)
 	{
@@ -59,9 +54,18 @@ public class ExitPop extends GraphicsPane {
 		else if(obj == no)
 		{
 			program.delPop();
-			if(pane == "end") {
-				program.addEndPop();
-			}	
+			switch(pane) {
+				case END: {
+					program.addEndPop();
+					break;
+				}
+				case PAUSE: {
+					program.addPausePop();
+					break;
+				}
+				case MENU: {
+				}
+			}
 //			if(!program.gameTimer.isRunning()) {
 //				program.gameTimer.restart();
 //			}
@@ -70,7 +74,7 @@ public class ExitPop extends GraphicsPane {
 		
 	}
 	
-	public void setPane(String pane) {
+	public void setPane(ReturnToEnum pane) {
 		this.pane = pane;
 	}
 }

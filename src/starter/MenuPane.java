@@ -46,7 +46,6 @@ public class MenuPane extends GraphicsPane {
 		program.add(lead);
 		program.add(controls);
 		program.add(exit);
-		program.add(title);
 	}
 
 	@Override
@@ -84,7 +83,7 @@ public class MenuPane extends GraphicsPane {
 		
 		else if(obj==exit)
 		{
-			program.addExitPop("menu");
+			program.addExitPop(ReturnToEnum.MENU);
 		}
 	}
 	

@@ -83,11 +83,11 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	private Boss boss;
 	private ArrayList<Bullet> bullets;
 	private ArrayList<Obstacle> enemies;
-	private ArrayList<SuperShot> superShot;
 	private ArrayList<GRoundRect> bars;
 	private ArrayList<Bullet> bulletsToRemove = new ArrayList<Bullet>();
 	private ArrayList<Obstacle> obstaclesToRemove = new ArrayList<Obstacle>();
 	private AudioPlayer player;
+	private boolean hit;
 	
 	public GameScreen(MainApplication app)
 	{
@@ -136,7 +136,6 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		playerShip = new GImage("../media/sprites/player/ship1_32x32.png", PLAYER_X, PLAYER_Y);
 		bullets = new ArrayList<Bullet>();
 		enemies = new ArrayList<Obstacle>();
-		superShot = new ArrayList<SuperShot>();
 		timerRuns = 0;
 		ticks = 0;
 		random = RandomGenerator.getInstance();
@@ -181,48 +180,9 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		 */
 		
 		//Remove objects
-		program.remove(gameSection);
-		program.remove(healthBarLabel);
-		program.remove(superShotLabel);
-		program.remove(livesLabel);
-		program.remove(statsLabel);
-		program.remove(pointsLabel);
-		program.remove(killsLabel);
-		program.remove(shotsLabel);
-		program.remove(healthLabel);
-		program.remove(superLabel);
-		program.remove(accuracyLabel);
-		program.remove(healthBar);
-		program.remove(insideHealthBar);
-		program.remove(superBar);
-		program.remove(insideSuperBar);
-		program.remove(playerShip);
-		program.remove(bossBar);
-		program.remove(insideBossBar);
-		
-		//Clear enemy array
-		if (enemies.size() > 0) {
-			for(Obstacle enemy : enemies) {
-				program.remove(enemy.getSprite());
-			}
-			enemies.removeAll(enemies);
-		}
-		
-		//Clear bullets array
-		if(bullets.size() > 0) {
-			for(Bullet bullet : bullets) {
-				program.remove(bullet.getSprite());
-			}
-			bullets.removeAll(bullets);
-		}
-		
-		//Clear super shot array
-		if(superShot.size() > 0) {
-			for(SuperShot shot : superShot) {
-				program.remove(shot.getSprite());
-			}
-			superShot.removeAll(superShot);
-		}
+		program.removeAll();
+		enemies.clear();
+		bullets.clear();
 	}
 	
 	@Override
@@ -308,12 +268,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 			return;
 		}
 		else {
-			PlayerBullet temp = new PlayerBullet(5, playerShip, 10);
-			bullets.add(temp);
-			program.add(temp.bullet);
-			shot++;
-			shotsLabel.setLabel("Shots: " + shot);
-			//player.playSound("sounds", PLAYER_SHOT);
+			addBullet();
 			mouseDown = true;
 		}
 	}
@@ -369,14 +324,12 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		 *   - Update label and timerRuns
 		 *   - Random Spawning
 		 */
-		
+		if(!spawnBoss) {
+			checkCollision(boss);
+		}
 		//Rapid Fire
 		if (mouseDown && timerRuns % 10 == 0) {
-			PlayerBullet temp = new PlayerBullet(5, playerShip, 10);
-			bullets.add(temp);
-			program.add(temp.bullet);
-			shot++;
-			shotsLabel.setLabel("Shots: " + shot);
+			addBullet();
 		}
 		
 		//Super Shot
@@ -389,10 +342,9 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		
 		//Check for loss
 		if(health <= 0) {
+			program.remove(insideHealthBar);
 			program.gameLost = true;
-			points += accuracy*10;
-			program.addEndPop();
-			program.gameTimer.stop();
+			gameEnd();
 		}
 
 		//Update accuracy label
@@ -404,7 +356,6 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		}
 		
 		//BULLETS
-		ArrayList<SuperShot> superShotToRemove = new ArrayList<SuperShot>();
 		for(Bullet bullet : bullets) {
 			//Despawning
 			GObject temp = program.getElementAt(bullet.getSprite().getX() + bullet.getSprite().getWidth() + 1, bullet.getSprite().getY() + bullet.getSprite().getHeight()/2);
@@ -443,7 +394,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 						if(tempPoint.getX() > obstacle.getSprite().getX() && tempPoint.getX() < obstacle.getSprite().getX() + obstacle.getSprite().getWidth() && 
 								tempPoint.getY() > obstacle.getSprite().getY() && tempPoint.getY() < obstacle.getSprite().getY() + obstacle.getSprite().getHeight() &&
 								!bullet.checkEnemyBullet()) {
-							hits++;
+							hit = true;
 							if(obstacle instanceof Boss) {
 								program.remove(insideBossBar);
 								insideBossBar.setSize(((Boss) obstacle).getHealthPercentage() * BAR_LENGTH, BAR_WIDTH);
@@ -451,9 +402,9 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 							}
 							if(obstacle.hit(bullet) <= 0) {		
 								if(obstacle instanceof Boss) {
-									points += accuracy*10;
-									program.addEndPop();
-									program.gameTimer.stop();
+									program.remove(insideBossBar);
+									program.remove(bossBar);
+									gameEnd();
 									File save = program.getSave();
 									Scanner scan = null;
 									FileWriter writer = null;
@@ -487,11 +438,6 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 								obstaclesToRemove.add(obstacle);
 								kills++;
 								points++;
-								if (obstacle instanceof Boss) {
-									points += accuracy*10;
-									program.addEndPop();
-									program.gameTimer.stop();
-								}
 							}
 							if(superShotPercent <= 98) {
 								superShotPercent += 2;
@@ -517,17 +463,20 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 						obstaclesToRemove.add(remove);
 					}
 					program.gameLost = true;
-					points += accuracy*10;
-					program.addEndPop();
-					program.gameTimer.stop();
+					gameEnd();
 				}
 				healthLabel.setLabel("HP: " + health);
 				insideHealthBar.setSize(insideHealthBar.getWidth()-(4*bullet.getDamage()), 10);
 			}
 			
+			
 			//Movement
 			Pair<Double, Double> next = bullet.getNextLoc();
 			bullet.getSprite().setLocation(next.getKey(), next.getValue());
+			if(hit) {
+				hits++;
+			}
+			hit = false;
 		}
 		
 		//Removal from arrays
@@ -539,11 +488,6 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		enemies.removeAll(obstaclesToRemove);
 		for(Obstacle obstacle : obstaclesToRemove) {
 			program.remove(obstacle.getSprite());
-		}
-		
-		superShot.removeAll(superShotToRemove);
-		for(SuperShot superShots : superShot) {
-			program.remove(superShots.getSprite());
 		}
 		
 		//OBSTACLES
@@ -578,23 +522,11 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 					if(health <= 0) {
 						program.remove(insideHealthBar);
 						healthLabel.setLabel("HP: " + 0);
-						points += accuracy*10;
 						program.gameLost = true;
-						program.addEndPop();
-						program.gameTimer.stop();
+						gameEnd();
 					}
 					else {
-						if (health <= 0) {
-							healthLabel.setLabel("HP: " + 0);
-							program.gameLost = true;
-							points += accuracy*10;
-							program.addEndPop();
-							program.gameTimer.stop();
-							// break;
-						}
-						else {
-							healthLabel.setLabel("HP: " + health);
-						}
+						healthLabel.setLabel("HP: " + health);
 						program.remove(insideHealthBar);
 						insideHealthBar.setSize(insideHealthBar.getWidth()-20, 10);
 						program.add(insideHealthBar);
@@ -608,12 +540,6 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 			}
 			Pair<Double, Double> next = enemy.getNextLoc();
 			enemy.getSprite().setLocation(next.getKey(), next.getValue());
-		}
-		
-		//Remove from array
-		enemies.removeAll(obstaclesToRemove);
-		for(Obstacle obstacle : obstaclesToRemove) {
-			program.remove(obstacle.getSprite());
 		}
 		
 		//Update label and timerRuns
@@ -710,6 +636,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		insideSuperBar.setSize(0, 10);
 		playerShip.setLocation(PLAYER_X, PLAYER_Y);
 		shot = 0;
+		hits = 0;
 		kills = 0;
 		points = 0;
 		ticks = 0;
@@ -723,11 +650,11 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		for(Bullet bullet : bullets) {
 			program.remove(bullet.getSprite());
 		}
-		bullets.removeAll(bullets);
+		bullets.clear();
 		for(Obstacle enemy : enemies) {
 			program.remove(enemy.getSprite());
 		}
-		enemies.removeAll(enemies);
+		enemies.clear();
 		program.gameLost = false;
 		deleteSuper = false;
 	}
@@ -735,6 +662,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	public int getPoints() {
 		return points;
 	}
+	
 	public void checkSuperShot(Bullet bullet) {
 		ArrayList<GPoint> points = new ArrayList<GPoint>();
 		GRectangle bounds = bullet.getSprite().getBounds();
@@ -750,6 +678,11 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 					if (obstacle.hit(bullet) <= 0) {
 						obstaclesToRemove.add(obstacle);
 						kills++;
+						if(obstacle instanceof Boss) {
+							program.remove(insideBossBar);
+							program.remove(bossBar);
+							gameEnd();
+						}
 					}
 					if(obstacle instanceof Boss) {
 						program.remove(insideBossBar);
@@ -761,6 +694,39 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 				}
 			}
 		}
+	}
+	
+	public void checkCollision(Boss boss) {
+		ArrayList<GPoint> points = new ArrayList<GPoint>();
+		GRectangle bounds = playerShip.getBounds();
+		for(int i = (int)bounds.getX(); i < bounds.getWidth() + bounds.getX(); i++) {
+			for(int j = (int)bounds.getY(); j < bounds.getHeight() + bounds.getY(); j++) {
+				GPoint temp = new GPoint(i, j);
+				points.add(temp);
+			}
+		}
+		for(GPoint point : points) {
+			if(boss.getSprite().contains(point)) {
+				program.gameLost = true;
+				gameEnd();
+				return;
+			}
+		}
+	}
+	
+	public void gameEnd() {
+		points += accuracy*10;
+		program.addEndPop();
+		program.gameTimer.stop();
+	}
+	
+	public void addBullet() {
+		PlayerBullet temp = new PlayerBullet(5, playerShip, 10);
+		bullets.add(temp);
+		program.add(temp.bullet);
+		shot++;
+		shotsLabel.setLabel("Shots: " + shot);
+		player.playSound("sounds", PLAYER_SHOT);
 	}
 	
 }
