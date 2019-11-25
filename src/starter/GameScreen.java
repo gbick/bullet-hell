@@ -448,6 +448,11 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 								superLabel.setLabel("Supershot: " + superShotPercent + "%");
 								insideSuperBar.setSize(insideSuperBar.getWidth()+8, 10);
 							}
+							else if(superShotPercent > 98 && superShotPercent < 100){
+								superShotPercent = 100;
+								superLabel.setLabel("Supershot: " + superShotPercent + "%");
+								insideSuperBar.setSize(400, 10);
+							}
 						}
 					}
 			}
