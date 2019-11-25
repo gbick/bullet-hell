@@ -10,7 +10,7 @@ import javafx.util.Pair;
 
 public class Boss implements Obstacle{
 	
-	private final static double MAX_HEALTH = 1000;
+	private final static double MAX_HEALTH = 5000;
 	private double health;
 	private Path flightPath;
 	private Bullet shotType;
@@ -31,10 +31,17 @@ public class Boss implements Obstacle{
 		sprite.setFillColor(Color.GRAY);
 		sprite.setFilled(true);
 		target = seek;
-		phase.add(new Pair<Pair<Integer, Path>, Bullet>(new Pair<Integer, Path>(1, new Path(sprite, MovementEquation.STAY_SEEK, target)), null));
+		phase.add(new Pair<Pair<Integer, Path>, Bullet>(new Pair<Integer, Path>(0, new Path(sprite, MovementEquation.STAY_SEEK, target)), null));
 		phase.add(new Pair<Pair<Integer, Path>, Bullet>(new Pair<Integer, Path>(0, new Path(sprite, MovementEquation.STAY_SEEK, target)),
-				new WaveBullet(10, sprite, 3, true, true)));
-		minion.add(new Pair<Enemy, Integer>(new Enemy('1', sprite.getX() + sprite.getWidth()/2, target), 20));
+				new BasicBullet(10, sprite, 3)));
+		phase.add(new Pair<Pair<Integer, Path>, Bullet>(new Pair<Integer, Path>(1, new Path(sprite, MovementEquation.STAY, target)), null));
+		phase.add(new Pair<Pair<Integer, Path>, Bullet>(new Pair<Integer, Path>(0, new Path(sprite, MovementEquation.STAY_SEEK, target)),
+				new WaveBullet(10, sprite, 1, true, true)));
+		phase.add(new Pair<Pair<Integer, Path>, Bullet>(new Pair<Integer, Path>(0, new Path(sprite, MovementEquation.STAY_SEEK, target)),
+				new WaveBullet(10, sprite, 2, true, true)));
+		phase.add(new Pair<Pair<Integer, Path>, Bullet>(new Pair<Integer, Path>(2, new Path(sprite, MovementEquation.STAY_SEEK, target)), null));
+		minion.add(new Pair<Enemy, Integer>(new Enemy('2', sprite.getX() + sprite.getWidth()/2, target), 10));
+		minion.add(new Pair<Enemy, Integer>(new Enemy('1', sprite.getX() + sprite.getWidth()/2, target), 10));
 		rand = RandomGenerator.getInstance();
 		curPhase = -1;
 		changePhase();

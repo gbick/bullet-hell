@@ -562,7 +562,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		timerRuns++;
 		
 		if(!(spawnBoss)) {			
-			if(timerRuns % 200 == 0) {
+			if(timerRuns % 300 == 0) {
 				boss.changePhase();
 			}
 			if(boss.getMinionRate() != 0) {						
