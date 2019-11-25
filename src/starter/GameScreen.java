@@ -80,6 +80,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	private GRoundRect insideBossBar;
 	private RandomGenerator random;
 	private LevelReader read;
+	private Boss boss;
 	private ArrayList<Bullet> bullets;
 	private ArrayList<Obstacle> enemies;
 	private ArrayList<GRoundRect> bars;
@@ -87,7 +88,6 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	private ArrayList<Obstacle> obstaclesToRemove = new ArrayList<Obstacle>();
 	private AudioPlayer player;
 	private boolean hit;
-	Boss boss;
 	
 	public GameScreen(MainApplication app)
 	{
@@ -501,10 +501,20 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 					program.add(temp.getSprite());
 				}
 			}
+			if(enemy instanceof Boss) {
+				if(((Boss) enemy).checkFireRate()) {
+					if(((Boss) enemy).getBulletType() != null){						
+						Bullet temp = ((Boss) enemy).getBulletType();
+						temp.getSprite().setLocation(enemy.getSprite().getX() + enemy.getSprite().getWidth()/2, enemy.getSprite().getY() + enemy.getSprite().getHeight());
+						bullets.add(temp);
+						program.add(temp.getSprite());
+					}
+				}
+			}
 			GObject temp = program.getElementAt(enemy.getSprite().getX() + enemy.getSprite().getWidth() + 1, enemy.getSprite().getY() + enemy.getSprite().getHeight()/2);
 			
 			//Player collision
-			if (temp == playerShip) {
+			if (temp == playerShip && !(enemy instanceof Boss)) {
 				obstaclesToRemove.add(enemy);
 				if(health > 0) {
 					health -= 5;
@@ -536,6 +546,19 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		killsLabel.setLabel("Kills : " + kills);
 		timerRuns++;
 		
+		if(!(spawnBoss)) {			
+			if(timerRuns % 200 == 0) {
+				boss.changePhase();
+			}
+			if(boss.getMinionRate() != 0) {						
+				if(timerRuns % boss.getMinionRate() == 0) {
+					Enemy newEnemy = boss.getMinions();
+					enemies.add(newEnemy.getEnemy());
+					program.add(newEnemy.getSprite());
+				}
+			}
+		}
+		
 		//Random Spawning
 		if(timerRuns % TICK_RATE == 0) {
 			if(read.readLine(ticks) != "BOSS") {
@@ -555,7 +578,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 				Obstacle temp;
 				//SPAWN BOSS
 				if(spawnBoss) {
-					boss = new Boss(GAME_SCREEN_WIDTH/4, GAME_SCREEN_MARGIN, MovementEquation.STAY_SEEK);
+					boss = new Boss(GAME_SCREEN_WIDTH/4, GAME_SCREEN_MARGIN, playerShip);
 					boss.getSprite().setColor(Color.GRAY);
 					boss.getSprite().setFillColor(Color.WHITE);
 					spawnBoss = false;
@@ -564,6 +587,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 					bossBar.setVisible(true);
 					insideBossBar.setVisible(true);
 				}
+				/*
 				if(rand < 1 && rand > 0) {				
 					Fighter enemyShip = new Fighter(random.nextDouble(0, GAME_SCREEN_WIDTH - 20), 0, MovementEquation.SEEK, playerShip);
 					BasicBullet shot = new BasicBullet(5, enemyShip.getSprite(), 2);
@@ -586,6 +610,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 				}
 				enemies.add(temp);
 				program.add(temp.getSprite());
+				*/
 				
 			}
 			ticks++;
