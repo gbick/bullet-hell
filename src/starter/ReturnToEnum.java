@@ -1,5 +1,5 @@
 package starter;
 
 public enum ReturnToEnum {
-	END, PAUSE, MENU
+	END, PAUSE, MENU;
 }
