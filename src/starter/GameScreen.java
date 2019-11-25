@@ -591,9 +591,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 					}
 				}
 			}
-			else {			
-				double rand = random.nextDouble(0,4);
-				Obstacle temp;
+			else {		
 				//SPAWN BOSS
 				if(spawnBoss) {
 					player.stopSound("sounds", LEVEL_MUSIC);
