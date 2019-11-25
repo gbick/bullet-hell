@@ -15,7 +15,8 @@ public class EndGamePop extends GraphicsPane {
 	private LeaderboardPane lead;
 	private final static String LOSE_MUSIC = "Losing_Sound.mp3";
 	private final static String WIN_MUSIC = "Victory_Fanfare.mp3";
-	
+	private final static String LEVEL_MUSIC = "Level_Music.mp3";
+	private final static String BOSS_MUSIC = "Boss_Music.mp3";
 	
 	GButton frame;
 	GLabel message;
@@ -61,10 +62,14 @@ public class EndGamePop extends GraphicsPane {
 		}
 		if(program.gameLost) {
 			message.setLabel("You lose! Better luck next time");
+			player.stopSound("sounds", LEVEL_MUSIC);
+			player.stopSound("sounds", BOSS_MUSIC);
 			player.playSound("sounds", LOSE_MUSIC);
 		}
 		else {
 			message.setLabel("You win! Good job!");
+			player.stopSound("sounds", LEVEL_MUSIC);
+			player.stopSound("sounds", BOSS_MUSIC);
 			player.playSound("sounds", WIN_MUSIC, true);
 		}
 		if(!canRecord) {

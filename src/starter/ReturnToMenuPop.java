@@ -11,6 +11,8 @@ import acm.graphics.GObject;
 public class ReturnToMenuPop extends GraphicsPane {
 	
 	private MainApplication program;
+	private final static String LEVEL_MUSIC = "Level_Music.mp3";
+	private AudioPlayer player;
 	
 	GButton frame;
 	GButton prompt;
@@ -21,6 +23,7 @@ public class ReturnToMenuPop extends GraphicsPane {
 	public ReturnToMenuPop(MainApplication app)
 	{
 		this.program = app;
+		player = AudioPlayer.getInstance();
 		frame = new GButton("", program.getWidth()/4, program.getHeight()/4, program.getWidth()/2, program.getHeight()/2);
 		prompt = new GButton("Would you like to return to the Main Menu?", frame.getX()  + frame.getWidth()/65, frame.getY()  + frame.getWidth()/65,
 				frame.getWidth() - ((frame.getWidth()/65) * 2), frame.getHeight()/3 - ((frame.getWidth()/65) * 2));
@@ -57,6 +60,7 @@ public class ReturnToMenuPop extends GraphicsPane {
 		{	
 			program.delPop();
 			program.switchToMenu();
+			player.stopSound("sounds", LEVEL_MUSIC);
 			
 			return;
 		}
