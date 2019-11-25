@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Scanner;
 
 import javax.swing.Timer;
@@ -340,7 +341,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		{	
 			superShotPercent += 0.5;
 			superLabel.setLabel("Supershot: " + superShotPercent + "%");
-			insideSuperBar.setSize(insideSuperBar.getWidth()+2, 10);
+			insideSuperBar.setSize(superShotPercent*4, 10);
 		}
 		
 		//Check for loss
@@ -446,12 +447,12 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 							if(superShotPercent <= 98) {
 								superShotPercent += 2;
 								superLabel.setLabel("Supershot: " + superShotPercent + "%");
-								insideSuperBar.setSize(insideSuperBar.getWidth()+8, 10);
+								insideSuperBar.setSize(superShotPercent*4, 10);
 							}
 							else if(superShotPercent > 98 && superShotPercent < 100){
 								superShotPercent = 100;
 								superLabel.setLabel("Supershot: " + superShotPercent + "%");
-								insideSuperBar.setSize(400, 10);
+								insideSuperBar.setSize(superShotPercent*4, 10);
 							}
 						}
 					}
