@@ -52,6 +52,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	private final static String SUPER_SOUND = "SuperShot_Sound.mp3";
 	private final static String DEATH = "Enemy_Death.mp3";
 	private final static String LEVEL_MUSIC = "Level_Music.mp3";
+	private final static String BOSS_MUSIC = "Boss_Music.mp3";
 	
 	private int timerRuns;
 	private int kills = 0, shot = 0, hits = 0;
@@ -271,6 +272,12 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 			return;
 		}
 		else {
+			PlayerBullet temp = new PlayerBullet(5, playerShip, 10);
+			player.playSound("sounds", PLAYER_SHOT);
+			bullets.add(temp);
+			program.add(temp.bullet);
+			shot++;
+			shotsLabel.setLabel("Shots: " + shot);
 			addBullet();
 			mouseDown = true;
 		}
@@ -332,6 +339,12 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		}
 		//Rapid Fire
 		if (mouseDown && timerRuns % 10 == 0) {
+			PlayerBullet temp = new PlayerBullet(5, playerShip, 10);
+			player.playSound("sounds", PLAYER_SHOT);
+			bullets.add(temp);
+			program.add(temp.bullet);
+			shot++;
+			shotsLabel.setLabel("Shots: " + shot);
 			addBullet();
 		}
 		
@@ -584,7 +597,8 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 				//SPAWN BOSS
 				if(spawnBoss) {
 					player.stopSound("sounds", LEVEL_MUSIC);
-					//player.playSound("sounds", BOSS_MUSIC, true);
+					player.playSound("sounds", BOSS_MUSIC, true);
+				if(spawnBoss) {
 					boss = new Boss(GAME_SCREEN_WIDTH/4, GAME_SCREEN_MARGIN, playerShip);
 					boss.getSprite().setColor(Color.GRAY);
 					boss.getSprite().setFillColor(Color.WHITE);
@@ -621,6 +635,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 				
 			}
 			ticks++;
+		}
 		}
 	}
 	
