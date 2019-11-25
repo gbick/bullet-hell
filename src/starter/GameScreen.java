@@ -51,6 +51,8 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	private final static String PLAYER_SHOT = "Normal_Shot_Sound.mp3";
 	private final static String SUPER_SOUND = "SuperShot_Sound.mp3";
 	private final static String DEATH = "Enemy_Death.mp3";
+	private final static String LEVEL_MUSIC = "Level_Music.mp3";
+	//private final static String BOSS_MUSIC = "";
 	
 	private int timerRuns;
 	private int kills = 0, shot = 0, hits = 0;
@@ -166,6 +168,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		program.add(insideBossBar);
 		program.add(playerShip);
 		program.gameTimer.start();
+		//player.playSound("sounds", LEVEL_MUSIC, true);
 	}
 
 	@Override
@@ -210,7 +213,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 			}
 			else if (superShotPercent >= 100) {
 				SuperShot temp = new SuperShot(50, playerShip, 10, false);
-				//player.playSound("sounds", SUPER_SOUND);
+				player.playSound("sounds", SUPER_SOUND);
 				bullets.add(temp);
 				program.add(temp.getSprite());
 				shot++;
@@ -471,6 +474,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 						obstaclesToRemove.add(remove);
 					}
 					program.gameLost = true;
+					player.stopSound("sounds", LEVEL_MUSIC);
 					gameEnd();
 				}
 				healthLabel.setLabel("HP: " + health);
@@ -558,6 +562,8 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 				Obstacle temp;
 				//SPAWN BOSS
 				if(spawnBoss) {
+					player.stopSound("sounds", LEVEL_MUSIC);
+					//player.playSound("sounds", BOSS_MUSIC, true);
 					Boss boss = new Boss(GAME_SCREEN_WIDTH/4, GAME_SCREEN_MARGIN, MovementEquation.STAY_SEEK);
 					boss.getSprite().setColor(Color.GRAY);
 					boss.getSprite().setFillColor(Color.WHITE);

@@ -11,6 +11,9 @@ public class EndGamePop extends GraphicsPane {
 	private MainApplication program;
 	private GameScreen game;
 	private LeaderboardPane lead;
+	private final static String LOSE_MUSIC = "Losing_Sound.mp3";
+	private final static String WIN_MUSIC = "Victory_Fanfare.mp3";
+	
 	
 	GButton frame;
 	GLabel message;
@@ -19,11 +22,14 @@ public class EndGamePop extends GraphicsPane {
 	GLabel pointsLabel;
 	GButton highScore;
 	boolean canRecord;
+	private AudioPlayer player;
 	
 	public EndGamePop(MainApplication app, GameScreen game, LeaderboardPane lead) {
 		this.program = app;
 		this.game = game;
 		this.lead = lead;
+		player = AudioPlayer.getInstance();
+		
 		frame = new GButton("", program.getWidth()/5, program.getHeight()/3, program.getWidth()/2, program.getHeight()*((double)6/13));
 		frame.setFillColor(Color.MAGENTA);
 		message = new GLabel("", frame.getX() + 20, frame.getHeight() - 50);
@@ -46,9 +52,11 @@ public class EndGamePop extends GraphicsPane {
 		canRecord = game.getPoints() > lead.scores.get(program.getLevel()).get(lead.scores.get(program.getLevel()).size()-1).getValue();
 		if(program.gameLost) {
 			message.setLabel("You lose! Better luck next time");
+			player.playSound("sounds", LOSE_MUSIC);
 		}
 		else {
 			message.setLabel("You win! Good job!");
+			player.playSound("sounds", WIN_MUSIC, true);
 		}
 		if(canRecord) {
 			highScore.setFillColor(Color.MAGENTA);

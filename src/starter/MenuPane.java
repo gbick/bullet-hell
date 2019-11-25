@@ -20,10 +20,15 @@ public class MenuPane extends GraphicsPane {
 	private GImage exit;
 	private final static int BUTTON_X = 325;
 	private final static double BUTTON_Y = 81.25;
+	private final static String MENU_MUSIC = "Menu_Music.mp3";
+	private final static String CLICK_NOISE = "Menu_Button_Click.mp3";
+	private AudioPlayer player;
+	
 
 	public MenuPane(MainApplication app) {
 		super();
 		program = app;
+		player = AudioPlayer.getInstance();
 		
 		background = new GImage("../media/sprites/screen_images/title_back.png", 0, 0);
 		
@@ -40,6 +45,7 @@ public class MenuPane extends GraphicsPane {
 
 	@Override
 	public void showContents() {
+		player.playSound("sounds", MENU_MUSIC);
 		program.add(background);
 		program.add(title);
 		program.add(start);
@@ -71,19 +77,23 @@ public class MenuPane extends GraphicsPane {
 		if (obj == start)
 		{
 			program.addPopFileSelect();
+			player.playSound("sounds", CLICK_NOISE);
 		}
 		else if(obj==lead)
 		{
 			program.switchToLeaderboard();
+			player.playSound("sounds", CLICK_NOISE);
 		}
 		else if(obj==controls)
 		{
 			program.addInstructPop();
+			player.playSound("sounds", CLICK_NOISE);
 		}
 		
 		else if(obj==exit)
 		{
 			program.addExitPop("menu");
+			player.playSound("sounds", CLICK_NOISE);
 		}
 	}
 	

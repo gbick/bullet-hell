@@ -21,6 +21,7 @@ public class LevelSelectPane extends GraphicsPane {
 	private static final int LEVEL_GRID_HEIGHT = 250; //The height at which the level button grid is located
 	private static final int LEVEL_BUTTON_SIZE = 150; //Height and width of level buttons
 	private static final int MARGIN = 100; //The amount of space on the left and right of the level select buttons
+	private final static String MENU_MUSIC = "Menu_Music.mp3";
 	//TODO Identify required objects here
 	private GButton menuButton;
 	private GButton startButton;
@@ -28,6 +29,7 @@ public class LevelSelectPane extends GraphicsPane {
 	private ArrayList<GButton> levels;
 	private int unlocked;
 	private int level = 0;
+	private AudioPlayer player;
 	
 	Scanner scan;
 	//=====
@@ -35,7 +37,7 @@ public class LevelSelectPane extends GraphicsPane {
 	public LevelSelectPane(MainApplication app) {
 		this.program = app;
 		//TODO Declare object properties here
-		
+		player = AudioPlayer.getInstance();
 		title = new GLabel("Choose a level", program.getWidth()/2 - 80, 50);
 		title.setFont("Arial-25");
 		
@@ -126,6 +128,7 @@ public class LevelSelectPane extends GraphicsPane {
 				program.switchToMenu();
 			}
 			if(clicked == startButton && level != 0) {
+				player.stopSound("sounds", MENU_MUSIC);
 				program.setLevel(level);
 				program.switchToGame();
 			}

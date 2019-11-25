@@ -10,12 +10,12 @@ import acm.graphics.GObject;
 public class ExitPop extends GraphicsPane {
 	
 	private MainApplication program;
-	
 	GButton frame;
 	GButton prompt;
 	GButton yes;
 	GButton no;
 	private String pane;
+	AudioPlayer player;
 	
 	public ExitPop(MainApplication app)
 	{
