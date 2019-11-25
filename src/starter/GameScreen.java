@@ -578,6 +578,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 					}
 				}
 			}
+			
 			else {			
 				//SPAWN BOSS
 				if(spawnBoss) {
