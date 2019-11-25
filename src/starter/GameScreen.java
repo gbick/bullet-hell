@@ -271,16 +271,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 			return;
 		}
 		else {
-<<<<<<< HEAD
-			PlayerBullet temp = new PlayerBullet(5, playerShip, 10);
-			player.playSound("sounds", PLAYER_SHOT);
-			bullets.add(temp);
-			program.add(temp.bullet);
-			shot++;
-			shotsLabel.setLabel("Shots: " + shot);
-=======
 			addBullet();
->>>>>>> branch 'master' of https://github.com/comp55/group-project-cell-block-c.git
 			mouseDown = true;
 		}
 	}
@@ -341,16 +332,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		}
 		//Rapid Fire
 		if (mouseDown && timerRuns % 10 == 0) {
-<<<<<<< HEAD
-			PlayerBullet temp = new PlayerBullet(5, playerShip, 10);
-			player.playSound("sounds", PLAYER_SHOT);
-			bullets.add(temp);
-			program.add(temp.bullet);
-			shot++;
-			shotsLabel.setLabel("Shots: " + shot);
-=======
 			addBullet();
->>>>>>> branch 'master' of https://github.com/comp55/group-project-cell-block-c.git
 		}
 		
 		//Super Shot
@@ -600,15 +582,10 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 				double rand = random.nextDouble(0,4);
 				Obstacle temp;
 				//SPAWN BOSS
-<<<<<<< HEAD
 				if(spawnBoss) {
 					player.stopSound("sounds", LEVEL_MUSIC);
 					//player.playSound("sounds", BOSS_MUSIC, true);
-					Boss boss = new Boss(GAME_SCREEN_WIDTH/4, GAME_SCREEN_MARGIN, MovementEquation.STAY_SEEK);
-=======
-				if(spawnBoss) {
 					boss = new Boss(GAME_SCREEN_WIDTH/4, GAME_SCREEN_MARGIN, playerShip);
->>>>>>> branch 'master' of https://github.com/comp55/group-project-cell-block-c.git
 					boss.getSprite().setColor(Color.GRAY);
 					boss.getSprite().setFillColor(Color.WHITE);
 					spawnBoss = false;

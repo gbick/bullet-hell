@@ -24,11 +24,8 @@ public class EndGamePop extends GraphicsPane {
 	GLabel pointsLabel;
 	GButton highScore;
 	boolean canRecord;
-<<<<<<< HEAD
 	private AudioPlayer player;
-=======
 	private ArrayList<GButton> buttons;
->>>>>>> branch 'master' of https://github.com/comp55/group-project-cell-block-c.git
 	
 	public EndGamePop(MainApplication app, GameScreen game, LeaderboardPane lead) {
 		this.program = app;
@@ -100,13 +97,9 @@ public class EndGamePop extends GraphicsPane {
 			program.remove(message);
 			program.remove(returnToMenu);
 			program.remove(exit);
-<<<<<<< HEAD
-			program.addRtMPop("end");
 			player.stopSound("sounds", LOSE_MUSIC);
 			player.stopSound("sounds", WIN_MUSIC);
-=======
 			program.addRtMPop(ReturnToEnum.END);
->>>>>>> branch 'master' of https://github.com/comp55/group-project-cell-block-c.git
 		}
 		else if(obj == exit) {
 			program.delPop();

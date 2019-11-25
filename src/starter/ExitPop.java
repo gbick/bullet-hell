@@ -9,12 +9,8 @@ public class ExitPop extends GraphicsPane {
 	GButton prompt;
 	GButton yes;
 	GButton no;
-<<<<<<< HEAD
-	private String pane;
 	AudioPlayer player;
-=======
 	private ReturnToEnum pane;
->>>>>>> branch 'master' of https://github.com/comp55/group-project-cell-block-c.git
 	
 	public ExitPop(MainApplication app)
 	{
