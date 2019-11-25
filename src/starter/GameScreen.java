@@ -48,7 +48,6 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	private final static int PLAYER_X = 250;
 	private final static int PLAYER_Y = 543;
 	private final static int TICK_RATE = 50;
-	private final static String PLAYER_SHOT = "Normal_Shot_Sound.mp3";
 	private final static String SUPER_SOUND = "SuperShot_Sound.mp3";
 	private final static String DEATH = "Enemy_Death.mp3";
 	private final static String LEVEL_MUSIC = "Level_Music.mp3";
@@ -272,7 +271,6 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 			return;
 		}
 		else {
-
 			addBullet();
 			mouseDown = true;
 		}
