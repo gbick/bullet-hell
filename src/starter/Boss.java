@@ -1,20 +1,18 @@
 package starter;
 
-import java.awt.Color;
 import java.util.ArrayList;
 
 import acm.graphics.GImage;
-import acm.graphics.GRect;
 import acm.util.RandomGenerator;
 import javafx.util.Pair;
 
 public class Boss implements Obstacle{
 	
-	private final static double MAX_HEALTH = 5000;
+	private final static double MAX_HEALTH = 3000;
 	private double health;
 	private Path flightPath;
 	private Bullet shotType;
-	private GRect sprite;
+	private GImage sprite;
 	private int curPhase;
 	private GImage target;
 	private double tick;
@@ -26,10 +24,7 @@ public class Boss implements Obstacle{
 	
 	public Boss(double x, double y, GImage seek)
 	{
-		sprite = new GRect(x,y,300, 50);
-		sprite.setColor(Color.WHITE);
-		sprite.setFillColor(Color.GRAY);
-		sprite.setFilled(true);
+		sprite = new GImage("../media/sprites/screen_images/title_button_controls.png",x, y);
 		target = seek;
 		phase.add(new Pair<Pair<Integer, Path>, Bullet>(new Pair<Integer, Path>(0, new Path(sprite, MovementEquation.STAY_SEEK, target)), null));
 		phase.add(new Pair<Pair<Integer, Path>, Bullet>(new Pair<Integer, Path>(0, new Path(sprite, MovementEquation.STAY_SEEK, target)),
@@ -49,7 +44,7 @@ public class Boss implements Obstacle{
 	}
 
 	@Override
-	public GRect getSprite() {
+	public GImage getSprite() {
 		return sprite;
 	}
 	@Override

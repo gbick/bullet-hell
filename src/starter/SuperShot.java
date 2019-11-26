@@ -19,10 +19,10 @@ public class SuperShot implements Bullet {
 	private GImage sprite;
 	public SuperShot(double damage, GObject shooter, double speed, boolean dir) {
 		if(dir) {
-			sprite = new GImage("../media/sprites/player/ship_laser.png", shooter.getX() + shooter.getY()/2, shooter.getY() + shooter.getHeight());	
+			sprite = new GImage("../media/sprites/player/ship_laser.png", shooter.getX() + shooter.getY()/2 - 10, shooter.getY() + shooter.getHeight());	
 		}
 		else {
-			sprite = new GImage("../media/sprites/player/ship_laser.png", shooter.getX() + shooter.getWidth()/2, shooter.getY());
+			sprite = new GImage("../media/sprites/player/ship_laser.png", shooter.getX() + shooter.getWidth()/2 - 10, shooter.getY());
 		}
 		sprite.scale(10);
 		direction = dir;

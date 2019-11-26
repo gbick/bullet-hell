@@ -10,15 +10,13 @@ public class Shooter implements Obstacle {
 	private double health;
 	private Path flightPath;
 	private Bullet shotType;
-	private GRect sprite; //TODO change to type GImage in all instances
+	private GImage sprite; //TODO change to type GImage in all instances
 	private double tick;
 	private double fireRate;
 
 	public Shooter(Obstacle ship, Bullet shot, int rate) {
 		//sprite = new GImage("../media/sprites/player/ship1.png", x, y);
 		sprite = ship.getSprite();
-		sprite.setFillColor(Color.YELLOW);
-		sprite.setFilled(true);
 		flightPath = ship.getPath();
 		health = 5.0;
 		shotType = shot;
@@ -62,7 +60,7 @@ public class Shooter implements Obstacle {
 	}
 	
 	@Override
-	public GRect getSprite() {
+	public GImage getSprite() {
 		return sprite;
 	}
 	

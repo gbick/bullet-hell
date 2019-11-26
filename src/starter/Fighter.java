@@ -10,24 +10,47 @@ public class Fighter implements Obstacle {
 	private double health;
 	private Path flightPath;
 	private Bullet shotType;
-	private GRect sprite; //TODO change to type GImage in all instances
+	private GImage sprite; //TODO change to type GImage in all instances
 
-	public Fighter(double x, double y, MovementEquation flightType) {
+	public Fighter(double x, double y, MovementEquation flightType, int enemyType) {
 		//sprite = new GImage("../media/sprites/player/ship1.png", x, y);
-		sprite = new GRect(x, y, 20, 20);
-		sprite.setColor(Color.WHITE);
-		sprite.setFillColor(Color.BLUE);
-		sprite.setFilled(true);
+		switch(enemyType) {
+		case 1:
+			sprite = new GImage("../media/sprites/obstacle/enemy_shooter_ship.png", x, y);
+			break;
+		case 2:
+			sprite = new GImage("../media/sprites/obstacle/enemy_rammer_ship.png", x, y);
+			break;
+		case 3:
+			sprite = new GImage("../media/sprites/obstacle/enemy_circler_ship.png", x, y);
+			break;
+		case 4:
+			sprite = new GImage("../media/sprites/obstacle/obstacle_asteroid.png", x, y);
+			break;
+		default:
+			break;
+		}
 		flightPath = new Path(sprite, flightType, 1, true);
 		health = 5.0;
 	}
 	
-	public Fighter(double x, double y, MovementEquation flightType, GImage target) {
-		//sprite = new GImage("../media/sprites/player/ship1.png", x, y);
-		sprite = new GRect(x, y, 20, 20);
-		sprite.setColor(Color.WHITE);
-		sprite.setFillColor(Color.RED);
-		sprite.setFilled(true);
+	public Fighter(double x, double y, MovementEquation flightType, int enemyType, GImage target) {
+		switch(enemyType) {
+		case 1:
+			sprite = new GImage("../media/sprites/obstacle/enemy_shooter_ship.png", x, y);
+			break;
+		case 2:
+			sprite = new GImage("../media/sprites/obstacle/enemy_rammer_ship.png", x, y);
+			break;
+		case 3:
+			sprite = new GImage("../media/sprites/obstacle/enemy_circler_ship.png", x, y);
+			break;
+		case 4:
+			sprite = new GImage("../media/sprites/obstacle/obstacle_asteroid.png", x, y);
+			break;
+		default:
+			break;
+		}
 		flightPath = new Path(sprite, flightType, target);
 		health = 5.0;
 	}
@@ -38,7 +61,7 @@ public class Fighter implements Obstacle {
 	}
 	
 	@Override
-	public GRect getSprite() {
+	public GImage getSprite() {
 		return sprite;
 	}
 	

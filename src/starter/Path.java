@@ -4,6 +4,7 @@ import acm.graphics.GImage;
 import acm.graphics.GObject;
 import acm.graphics.GRect;
 import acm.graphics.GRoundRect;
+import acm.util.RandomGenerator;
 import javafx.util.Pair;
 
 public class Path {
@@ -15,6 +16,9 @@ public class Path {
 	private GImage target;
 	private double num = 0;
 	private double tick = 1;
+	private RandomGenerator rand = RandomGenerator.getInstance();
+	private double randNum = rand.nextDouble(-1,1);
+	private double randNumY = rand.nextDouble(1,1.5);
 
 	public Path(GObject enemy, MovementEquation movementType, double speed,  boolean dir) {
 		if(dir) {
@@ -73,7 +77,7 @@ public class Path {
 				num = 0;
 			}
 			center = new Pair<Double, Double>(center.getKey(), center.getValue() + 1);
-			coords = new Pair<Double, Double>((Math.cos(num) * 30) + center.getKey(), (Math.sin(num) * 30) + center.getValue());
+			coords = new Pair<Double, Double>((Math.cos(num) * 10) + center.getKey(), (Math.sin(num) * 10) + center.getValue());
 			num += 0.1;
 			break;
 		case STAY_SEEK:
@@ -89,26 +93,12 @@ public class Path {
 				coords = temp;
 			}
 			break;
+		case RAND_MOVE:
+			coords = new Pair<Double, Double>(object.getX() + randNum, object.getY() + randNumY);
+			break;
 		default:
 			break;
 		}
 		return coords;
-	}
-	
-	public void setDirection() {
-		switch(movement) {
-			case STRAIGHT:
-				direction = 0;
-				break;
-			case DIAGONAL:
-				direction = .1;
-				break;
-			case WAVE:
-				//TODO write this case - not entirely sure how we wanted to implement this
-				break;
-			default:
-				break;
-				
-		}
 	}
 }

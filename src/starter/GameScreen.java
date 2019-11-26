@@ -81,7 +81,6 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	private GRoundRect insideSuperBar;
 	private GRoundRect bossBar;
 	private GRoundRect insideBossBar;
-	private RandomGenerator random;
 	private LevelReader read;
 	private Boss boss;
 	private ArrayList<Bullet> bullets;
@@ -141,7 +140,6 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		enemies = new ArrayList<Obstacle>();
 		timerRuns = 0;
 		ticks = 0;
-		random = RandomGenerator.getInstance();
 	}
 	
 	@Override
@@ -379,17 +377,14 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 				
 			}
 			try {
-				if(temp.getY() < gameSection.getY()) {
-					bulletsToRemove.add(bullet);
-				}
-				else if(bullet instanceof SuperShot && temp2.getY() < gameSection.getY()) {
+				if(!(bullet instanceof SuperShot) && temp.getY() < gameSection.getY()) {
 					bulletsToRemove.add(bullet);
 				}
 			}
 			catch(NullPointerException f) {
 				bulletsToRemove.add(bullet);
 			}
-			if(temp instanceof GRect && !(temp instanceof GRoundRect) && temp != gameSection && !bullet.checkEnemyBullet()) {
+			if(temp instanceof GImage && !(temp instanceof Bullet) && temp != playerShip && !bullet.checkEnemyBullet()) {
 					GPoint tempPoint = new GPoint(bullet.getSprite().getX(), bullet.getSprite().getY());
 					bulletsToRemove.add(bullet);
 					for(Obstacle obstacle : enemies) {
@@ -590,8 +585,6 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 				}
 				if(spawnBoss) {
 					boss = new Boss(GAME_SCREEN_WIDTH/4, GAME_SCREEN_MARGIN, playerShip);
-					boss.getSprite().setColor(Color.GRAY);
-					boss.getSprite().setFillColor(Color.WHITE);
 					spawnBoss = false;
 					enemies.add(boss);
 					program.add(boss.getSprite());

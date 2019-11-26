@@ -23,24 +23,20 @@ public class Enemy{
 			if(seek == null) {
 				break;
 			}
-			enemyShip = new Fighter(location, 0, MovementEquation.SEEK, seek);
+			enemyShip = new Fighter(location, 0, MovementEquation.SEEK, 1, seek);
 			shot = new BasicBullet(5, enemyShip.getSprite(), 2);
 			enemyShooter = new Shooter(enemyShip, shot, 50);
-			enemyShooter.getSprite().setColor(Color.WHITE);
-			enemyShooter.getSprite().setFillColor(Color.RED);
 			break;
 		case '2':
-			enemyShip = new Fighter(location, 0, MovementEquation.WAVE);
-			enemyShip.getSprite().setColor(Color.WHITE);
-			enemyShip.getSprite().setFillColor(Color.BLACK);
+			enemyShip = new Fighter(location, 0, MovementEquation.WAVE, 2);
 			break;
 		case '3':
-			enemyShip = new Fighter(location, 0 , MovementEquation.STRAIGHT);
+			enemyShip = new Fighter(location, 0 , MovementEquation.CIRCLE, 3);
 			shot = new WaveBullet(5, enemyShip.getSprite(), 2, true, true);
 			enemyShooter = new Shooter(enemyShip, shot, 100);
 			break;
 		case '4':
-			enemyShip = new Fighter(location, 0, MovementEquation.CIRCLE);
+			enemyShip = new Fighter(location, 0, MovementEquation.RAND_MOVE, 4);
 			break;
 		default:
 			break;
@@ -69,7 +65,7 @@ public class Enemy{
 		return target;
 	}
 	
-	public GRect getSprite() {
+	public GImage getSprite() {
 		return enemy.getSprite();
 	}
 }
