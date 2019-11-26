@@ -14,57 +14,51 @@ import acm.graphics.GLabel;
 import acm.graphics.GObject;
 
 public class FileSelectPop extends GraphicsPane {
-	private MainApplication program; // you will use program to get access to
-										// all of the GraphicsProgram calls
-	//TODO Identify required objects here
-	GButton frame;
+	private MainApplication program;
+	private final static double FRAME_X_Y = 162.5;
+	private final static double DELETE_YES_NO_X_Y = 162.5;
+	private final static double YES_Y = 272.83;
+	private final static double NO_Y = 381.17;
+
 	GButton file1;
 	GButton file2;
 	GButton file3;
 	GButton delFile1;
 	GButton delFile2;
 	GButton delFile3;
-	GButton yes;
-	GButton no;
-	GButton delete;
-	GObject sel;
 	GButton newFile;
+	GObject sel;
+	GImage frame;
+	GImage frame2;
+	GImage yes;
+	GImage no;
+	GImage delete;
 	GLabel instructions;
 	String display;
+	
 	int charNum = 0;
 	int num;
 	boolean confirmed = true;
 	boolean delConfirmed = true;
-	private final static double FRAME_X_Y = 162.5;
-	private final static int FRAME_WIDTH_HEIGHT = 325;
-	private final static int DELETE_YES_NO_WIDTH = 315;
-	private final static double DELETE_YES_NO_HEIGHT = 98.33;
-	private final static double DELETE_YES_NO_X_Y = 167.5;
-	private final static double YES_Y = 275.83;
-	private final static double NO_Y = 384.17;
 	
 	ArrayList<Character> id = new ArrayList<Character>();
 	ArrayList<File> saves = new ArrayList<File>();
 	File save;
 	Scanner scan;
 	
-	//=====
 
 	public FileSelectPop(MainApplication app) {
 		this.program = app;
-		//TODO Declare object properties here
-		frame = new GButton("", FRAME_X_Y, FRAME_X_Y, FRAME_WIDTH_HEIGHT, FRAME_WIDTH_HEIGHT);
+		frame = new GImage("../media/sprites/screen_images/popup_frame.png", FRAME_X_Y, FRAME_X_Y);
+		frame2 = new GImage("../media/sprites/screen_images/popup_frame.png", FRAME_X_Y, FRAME_X_Y);
 		instructions = new GLabel("Please enter a 3-character ID: ", 0, 0);
+		delete = new GImage("../media/sprites/screen_images/popup_option_delete_prompt.png", DELETE_YES_NO_X_Y, DELETE_YES_NO_X_Y);
+		yes = new GImage("../media/sprites/screen_images/popup_option_exit_yes.png", DELETE_YES_NO_X_Y, YES_Y);
+		no = new GImage("../media/sprites/screen_images/popup_option_exit_no.png",  DELETE_YES_NO_X_Y, NO_Y);
 		
-		delete = new GButton("Do you want to delete this file?", DELETE_YES_NO_X_Y, DELETE_YES_NO_X_Y, DELETE_YES_NO_WIDTH, DELETE_YES_NO_HEIGHT);
-		
-		yes = new GButton("Yes", DELETE_YES_NO_X_Y, YES_Y, DELETE_YES_NO_WIDTH, DELETE_YES_NO_HEIGHT, Color.GREEN);
-		
-		no = new GButton("No",  DELETE_YES_NO_X_Y, NO_Y, DELETE_YES_NO_WIDTH, DELETE_YES_NO_HEIGHT, Color.RED);
 		id.add('_');
 		id.add('_');
 		id.add('_');
-		//=====
 	}
 	
 	public void createSave(KeyEvent e) {
@@ -86,7 +80,6 @@ public class FileSelectPop extends GraphicsPane {
 				try {
 					saves.get(num - 1).createNewFile();
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 		        try {
@@ -189,7 +182,6 @@ public class FileSelectPop extends GraphicsPane {
 
 	@Override
 	public void showContents() {
-		//TODO program.add(" ") all objects that should be immediately visible on load
 		checkSaves();
 		program.add(frame);
 		program.add(file1);
@@ -203,7 +195,6 @@ public class FileSelectPop extends GraphicsPane {
 
 	@Override
 	public void hideContents() {
-		//TODO program.remove(" ") all objects
 		program.remove(frame);
 		program.remove(file1);
 		program.remove(file2);
@@ -234,6 +225,7 @@ public class FileSelectPop extends GraphicsPane {
 				return;
 			}
 			program.delPop();
+			program.remove(frame2);
 			program.remove(delete);
 			program.remove(yes);
 			program.remove(no);
@@ -288,6 +280,7 @@ public class FileSelectPop extends GraphicsPane {
 		}
 		if(sel == delFile1 || sel == delFile2 || sel == delFile3) {
 			//Delete file
+			program.add(frame2);
 			program.add(delete);
 			program.add(yes);
 			program.add(no);

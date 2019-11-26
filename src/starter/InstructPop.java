@@ -12,9 +12,6 @@ public class InstructPop extends GraphicsPane {
 	
 	private MainApplication program;
 	private final static double FRAME_X_Y = 162.5;
-	private final static int FRAME_WIDTH_HEIGHT = 325;
-	private final static int LABELS_WIDTH = 315;
-	private final static double LABELS_HEIGHT = 98.33;
 	private final static double LABELS_X_Y = 162.5;
 	private final static double LABEL_2_Y = 272.83;
 	private final static double LABEL_3_Y = 381.17;
