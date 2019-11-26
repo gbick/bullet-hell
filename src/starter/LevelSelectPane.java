@@ -23,14 +23,16 @@ public class LevelSelectPane extends GraphicsPane {
 	private static final int MARGIN = 100; //The amount of space on the left and right of the level select buttons
 	private final static String MENU_MUSIC = "Menu_Music.mp3";
 	//TODO Identify required objects here
-	private GButton menuButton;
-	private GButton startButton;
-	private GLabel title;
-	private ArrayList<GButton> levels;
+	
+	private GImage background;
+	private GImage menuButton;
+	private GImage startButton;
+	private GImage title;
 	private int unlocked;
 	private int level = 0;
-	private AudioPlayer player;
 	
+	private ArrayList<GButton> levels;
+	private AudioPlayer player;
 	Scanner scan;
 	//=====
 
@@ -38,14 +40,10 @@ public class LevelSelectPane extends GraphicsPane {
 		this.program = app;
 		//TODO Declare object properties here
 		player = AudioPlayer.getInstance();
-		title = new GLabel("Choose a level", program.getWidth()/2 - 80, 50);
-		title.setFont("Arial-25");
-		
-		menuButton = new GButton("Return to Main Menu",0 ,program.getHeight() - BUTTON_HEIGHT ,BUTTON_WIDTH , BUTTON_HEIGHT);
-		startButton = new GButton("Start Game", program.getWidth() - BUTTON_WIDTH, program.getHeight() - BUTTON_HEIGHT, 
-				BUTTON_WIDTH, BUTTON_HEIGHT);
-		menuButton.setFillColor(Color.MAGENTA);
-		startButton.setFillColor(Color.MAGENTA);
+		title = new GImage("../media/sprites/screen_images/levelsel_title.png", program.getWidth()/2 - 100, 0);
+		background = new GImage("../media/sprites/screen_images/title_back.png", 0, 0);
+		menuButton = new GImage("../media/sprites/screen_images/lead_button_main.png",0 ,program.getHeight() - BUTTON_HEIGHT);
+		startButton = new GImage("../media/sprites/screen_images/title_button_start.png", program.getWidth() - BUTTON_WIDTH, program.getHeight() - BUTTON_HEIGHT);
 		//=====
 	}
 	
@@ -90,9 +88,10 @@ public class LevelSelectPane extends GraphicsPane {
 	@Override
 	public void showContents() {
 		//TODO program.add(" ") all objects that should be immediately visible on load
+		program.add(background);
+		program.add(title);
 		program.add(menuButton);
 		program.add(startButton);
-		program.add(title);
 		
 		//Add grid of levels
 		scanLevelStatus();
@@ -108,6 +107,7 @@ public class LevelSelectPane extends GraphicsPane {
 		program.remove(menuButton);
 		program.remove(startButton);
 		program.remove(title);
+		program.remove(background);
 		
 		//Remove grid of levels
 		for(int i = 0; i < levels.size(); i++) {
@@ -122,28 +122,26 @@ public class LevelSelectPane extends GraphicsPane {
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		GObject clicked = program.getElementAt(e.getX(), e.getY());
-		if(clicked instanceof GButton) {
-			if(clicked == menuButton) {
-				level = 0;
-				program.switchToMenu();
-			}
-			if(clicked == startButton && level != 0) {
-				player.stopSound("sounds", MENU_MUSIC);
-				program.setLevel(level);
-				program.switchToGame();
-			}
-			for(int i = 0; i < levels.size(); i++) {
-				if(clicked == levels.get(i) && unlocked >= i && level != i + 1) {
-					if(level != 0) {	
-						levels.get(level - 1).setFillColor(Color.WHITE);
-						program.remove(levels.get(level - 1));
-						program.add(levels.get(level - 1));
-					}
-					level = i + 1;
-					levels.get(i).setFillColor(Color.LIGHT_GRAY);
+		if(clicked == menuButton) {
+			level = 0;
+			program.switchToMenu();
+		}
+		if(clicked == startButton && level != 0) {
+			player.stopSound("sounds", MENU_MUSIC);
+			program.setLevel(level);
+			program.switchToGame();
+		}
+		for(int i = 0; i < levels.size(); i++) {
+			if(clicked == levels.get(i) && unlocked >= i && level != i + 1) {
+				if(level != 0) {	
+					levels.get(level - 1).setFillColor(Color.WHITE);
 					program.remove(levels.get(level - 1));
 					program.add(levels.get(level - 1));
 				}
+				level = i + 1;
+				levels.get(i).setFillColor(Color.LIGHT_GRAY);
+				program.remove(levels.get(level - 1));
+				program.add(levels.get(level - 1));
 			}
 		}
 	}

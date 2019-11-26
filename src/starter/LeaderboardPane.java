@@ -17,42 +17,43 @@ import acm.graphics.GObject;
 import javafx.util.Pair;
 
 public class LeaderboardPane extends GraphicsPane {
-	private MainApplication program; // you will use program to get access to
-										// all of the GraphicsProgram calls
-	//TODO Identify required objects here
-	private ArrayList<GLabel> levels = new ArrayList<GLabel>();
-	private GLabel level;
-	private int levelNumber;
-	private GLabel leaderboard;
-	private GLabel easy;
-	private GLabel medium;
-	private GLabel hard;
-	private GButton nextLevel;
-	private GButton prevLevel;
-	private GButton returnToMenu;
-	private static final double LEADERBOARD_X = MainApplication.WINDOW_WIDTH*((double)9/26);
-	private static final double LEADERBOARD_Y = MainApplication.WINDOW_HEIGHT*.25;
+	private MainApplication program;
+	private static final double LEADERBOARD_X = MainApplication.WINDOW_WIDTH*0.5 - 100;
+	private static final double LEADERBOARD_Y = MainApplication.WINDOW_HEIGHT*.1;
 	private static final int NUM_LEVELS = 3;
-	public HashMap<Integer, ArrayList<Pair<String, Integer>>> scores = new HashMap<Integer, ArrayList<Pair<String, Integer>>>();
+	private final static double FRAME_X_Y = 172.5;
+
+	private int levelNumber;
+	private int score;
+	private boolean valid;
+	
+	private GLabel level;
+	private GImage leaderboard;
+	private GImage nextLevel;
+	private GImage prevLevel;
+	private GImage returnToMenu;
+	private GImage background;
+	private GImage frame;
 	File save = new File("../media/data/levels/highscores.txt");
 	File save2 = new File("../media/data/levels/highscores2.txt");
 	File save3 = new File("../media/data/levels/highscores3.txt");
-	private ArrayList<File> saves = new ArrayList<File>(Arrays.asList(save, save2, save3));
 	private Scanner scan;
-	private boolean valid;
-	private int score;
-	private ArrayList<GLabel> currentScores = new ArrayList<GLabel>();
 	
+	private ArrayList<GLabel> levels = new ArrayList<GLabel>();
+	private ArrayList<GLabel> currentScores = new ArrayList<GLabel>();
+	private ArrayList<File> saves = new ArrayList<File>(Arrays.asList(save, save2, save3));
+	public HashMap<Integer, ArrayList<Pair<String, Integer>>> scores = new HashMap<Integer, ArrayList<Pair<String, Integer>>>();
 	//=====
 
 	public LeaderboardPane(MainApplication app) {
 		this.program = app;
-		//TODO Declare object properties here
-		leaderboard = new GLabel("Leaderboard", LEADERBOARD_X, LEADERBOARD_Y);
-		leaderboard.setFont("Arial-Bold-32");
-		nextLevel = new GButton("Next Level", MainApplication.WINDOW_WIDTH*((double)7/9), 0, MainApplication.WINDOW_WIDTH*((double)2/9), MainApplication.WINDOW_HEIGHT*((double)1/18));
-		prevLevel = new GButton("Previous Level", 0, 0, MainApplication.WINDOW_WIDTH*((double)2/9), MainApplication.WINDOW_HEIGHT*((double)1/18));
-		returnToMenu = new GButton("Return to Main Menu", 0, MainApplication.WINDOW_HEIGHT-MainApplication.WINDOW_HEIGHT*((double)1/18), MainApplication.WINDOW_WIDTH*((double)2/9), MainApplication.WINDOW_HEIGHT*((double)1/18));
+		
+		background = new GImage("../media/sprites/screen_images/title_back.png", 0, 0);
+		frame = new GImage("../media/sprites/screen_images/popup_frame.png", FRAME_X_Y, FRAME_X_Y);
+		leaderboard = new GImage("../media/sprites/screen_images/title_button_leaderboards.png", LEADERBOARD_X, LEADERBOARD_Y);
+		nextLevel = new GImage("../media/sprites/screen_images/lead_button_next.png", MainApplication.WINDOW_WIDTH - 200, 0);
+		prevLevel = new GImage("../media/sprites/screen_images/lead_button_prev.png", 0, 0);
+		returnToMenu = new GImage("../media/sprites/screen_images/lead_button_main.png", 0, MainApplication.WINDOW_HEIGHT-MainApplication.WINDOW_HEIGHT*((double)1/18));
 		for(int i = 0; i < NUM_LEVELS; ++i) {
 			level = new GLabel("Level " + (i+1), MainApplication.WINDOW_WIDTH*((double)4/9), MainApplication.WINDOW_HEIGHT*((double)1/3));
 			level.setFont("Arial-Bold-24");
@@ -65,6 +66,8 @@ public class LeaderboardPane extends GraphicsPane {
 	public void showContents() {
 		//TODO program.add(" ") all objects that should be immediately visible on load
 		levelNumber = 1;
+		program.add(background);
+		program.add(frame);
 		program.add(nextLevel);
 		program.add(prevLevel);
 		program.add(leaderboard);
@@ -79,12 +82,9 @@ public class LeaderboardPane extends GraphicsPane {
 
 	@Override
 	public void hideContents() {
-		//TODO program.remove(" ") all objects
 		program.removeAll();
 		//=====
 	}
-
-	//TODO Add all mouse/key events below here \/ \/ \/ 
 	
 	public void mousePressed(MouseEvent e) {
 		GObject obj = program.getElementAt(e.getX(), e.getY());
