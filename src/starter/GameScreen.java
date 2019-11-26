@@ -65,6 +65,8 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	private boolean spawnBoss = true;
 	private boolean deleteSuper = false;
 	private GRect gameSection;
+	private GImage frame;
+	private GImage background;
 	private GLabel healthBarLabel;
 	private GLabel superShotLabel;
 	private GLabel livesLabel;
@@ -102,6 +104,8 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		this.program = app;
 		player = AudioPlayer.getInstance();
 		
+		frame = new GImage("../media/sprites/screen_images/game_frame.png", 0, 0);
+		background = new GImage("../media/sprites/screen_images/game_back.png", 0, 0);
 		gameSection = new GRect(GAME_SCREEN_MARGIN, GAME_SCREEN_MARGIN, GAME_SCREEN_WIDTH, GAME_SCREEN_HEIGHT);
 		healthBarLabel = new GLabel("Health:", 50, gameSection.getY() + gameSection.getHeight() + 15);
 		superShotLabel = new GLabel("Super Shot:", 25, gameSection.getY() + gameSection.getHeight() + 35);
@@ -133,8 +137,6 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		insideBossBar.setFilled(true);
 		bossBar.setVisible(false);
 		insideBossBar.setVisible(false);
-		gameSection.setColor(Color.BLACK);
-		gameSection.setFilled(true);
 		playerShip = new GImage("../media/sprites/player/ship1_32x32.png", PLAYER_X, PLAYER_Y);
 		bullets = new ArrayList<Bullet>();
 		enemies = new ArrayList<Obstacle>();
@@ -149,6 +151,8 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		 */
 		
 		resetGame();
+		program.add(background);
+		program.add(frame);
 		program.add(gameSection);
 		program.add(healthBarLabel);
 		program.add(superShotLabel);

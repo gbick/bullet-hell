@@ -6,6 +6,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import acm.graphics.GImage;
 import acm.graphics.GLabel;
 import acm.graphics.GObject;
 
@@ -18,15 +19,15 @@ public class EndGamePop extends GraphicsPane {
 	private final static String LEVEL_MUSIC = "Level_Music.mp3";
 	private final static String BOSS_MUSIC = "Boss_Music.mp3";
 	
-	GButton frame;
+	GImage frame;
 	GLabel message;
-	GButton returnToMenu;
-	GButton exit;
+	GImage returnToMenu;
+	GImage exit;
 	GLabel pointsLabel;
-	GButton highScore;
+	GImage highScore;
 	boolean canRecord;
 	private AudioPlayer player;
-	private ArrayList<GButton> buttons;
+	private ArrayList<GImage> buttons;
 	
 	public EndGamePop(MainApplication app, GameScreen game, LeaderboardPane lead) {
 		this.program = app;
@@ -34,23 +35,15 @@ public class EndGamePop extends GraphicsPane {
 		this.lead = lead;
 		player = AudioPlayer.getInstance();
 		
-		frame = new GButton("", program.getWidth()/5, program.getHeight()/3, program.getWidth()/2, program.getHeight()*((double)6/13));
-		frame.setFillColor(Color.MAGENTA);
+		frame = new GImage("../media/sprites/screen_images/popup_frame.png", program.getWidth()/5, program.getHeight()/3);
 		message = new GLabel("", frame.getX() + 20, frame.getHeight() - 50);
 		message.setFont("Arial-22");
-		returnToMenu = new GButton("Return to Main Menu", frame.getX() + frame.getWidth()/65, frame.getY() + frame.getHeight()/3 + frame.getWidth()/65,
-				frame.getWidth() - ((frame.getWidth()/65) * 2), frame.getHeight()/3 - ((frame.getWidth()/65) * 2));
-		exit = new GButton("Exit Game", frame.getX() + frame.getWidth()/65, frame.getY() + ((frame.getHeight()/3) * 2) + frame.getWidth()/65,
-				frame.getWidth() - ((frame.getWidth()/65) * 2), frame.getHeight()/3 - ((frame.getWidth()/65) * 2));
 		pointsLabel = new GLabel("Total Points: " + game.getPoints(), message.getX() + 65, message.getY() + 30);
 		pointsLabel.setFont("Arial-22");
-		highScore = new GButton("Record your high score", returnToMenu.getX(), returnToMenu.getY() - 40, returnToMenu.getWidth(), returnToMenu.getHeight() - 40);
-		highScore.setEdgeColor(Color.MAGENTA);
-		buttons = new ArrayList<GButton>(Arrays.asList(returnToMenu, exit, highScore));
-		for(GButton button : buttons) {
-			button.setFillColor(Color.MAGENTA);
-			button.setEdgeColor(Color.MAGENTA);
-		}
+		highScore = new GImage("../media/sprites/screen_images/popup_option_record.png", frame.getX() + (frame.getWidth()/2) - 100, pointsLabel.getY() + 10);
+		returnToMenu = new GImage("../media/sprites/screen_images/lead_button_main.png", frame.getX() + (frame.getWidth()/2) - 100, pointsLabel.getY() + highScore.getHeight() + 20);
+		exit = new GImage("../media/sprites/screen_images/title_button_exit.png", frame.getX() + (frame.getWidth()/2) - 100, pointsLabel.getY() + highScore.getHeight() * 2 + 30);
+		buttons = new ArrayList<GImage>(Arrays.asList(returnToMenu, exit, highScore));
 	}
 	@Override
 	public void showContents() {
@@ -73,7 +66,7 @@ public class EndGamePop extends GraphicsPane {
 			player.playSound("sounds", WIN_MUSIC, true);
 		}
 		if(!canRecord) {
-			highScore.setFillColor(Color.LIGHT_GRAY);
+			highScore.setImage("../media/sprites/screen_images/popup_option_record_no.png");
 		}
 		program.add(frame);
 		program.add(message);

@@ -13,26 +13,26 @@ public class ReturnToMenuPop extends GraphicsPane {
 	private MainApplication program;
 	private final static String LEVEL_MUSIC = "Level_Music.mp3";
 	private final static String BOSS_MUSIC = "Boss_Music.mp3";
+	private final static double FRAME_X_Y = 162.5;
+	private final static double LABELS_X_Y = 162.5;
+	private final static double LABEL_2_Y = 272.83;
+	private final static double LABEL_3_Y = 381.17;
 	private AudioPlayer player;
 	
-	GButton frame;
-	GButton prompt;
-	GButton yes;
-	GButton no;
+	GImage frame;
+	GImage prompt;
+	GImage yes;
+	GImage no;
 	private ReturnToEnum pane;
 	
 	public ReturnToMenuPop(MainApplication app)
 	{
 		this.program = app;
 		player = AudioPlayer.getInstance();
-		frame = new GButton("", program.getWidth()/4, program.getHeight()/4, program.getWidth()/2, program.getHeight()/2);
-		prompt = new GButton("Would you like to return to the Main Menu?", frame.getX()  + frame.getWidth()/65, frame.getY()  + frame.getWidth()/65,
-				frame.getWidth() - ((frame.getWidth()/65) * 2), frame.getHeight()/3 - ((frame.getWidth()/65) * 2));
-		
-		yes = new GButton("Yes", frame.getX() + frame.getWidth()/65, frame.getY() + frame.getHeight()/3 + frame.getWidth()/65,
-				frame.getWidth() - ((frame.getWidth()/65) * 2), frame.getHeight()/3 - ((frame.getWidth()/65) * 2));
-		no = new GButton("No", frame.getX() + frame.getWidth()/65, frame.getY() + ((frame.getHeight()/3) * 2) + frame.getWidth()/65,
-				frame.getWidth() - ((frame.getWidth()/65) * 2), frame.getHeight()/3 - ((frame.getWidth()/65) * 2));
+		frame = new GImage("../media/sprites/screen_images/popup_frame.png", FRAME_X_Y, FRAME_X_Y);
+		prompt = new GImage("../media/sprites/screen_images/popup_option_menu_prompt.png", LABELS_X_Y, LABELS_X_Y);
+		yes = new GImage("../media/sprites/screen_images/popup_option_exit_yes.png", LABELS_X_Y, LABEL_2_Y);
+		no = new GImage("../media/sprites/screen_images/popup_option_exit_no.png", LABELS_X_Y, LABEL_3_Y);
 	}
 
 	@Override

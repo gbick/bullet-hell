@@ -24,7 +24,7 @@ public class Boss implements Obstacle{
 	
 	public Boss(double x, double y, GImage seek)
 	{
-		sprite = new GImage("../media/sprites/screen_images/title_button_controls.png",x, y);
+		sprite = new GImage("../media/sprites/obstacle/boss_level_one.png",x, y);
 		target = seek;
 		phase.add(new Pair<Pair<Integer, Path>, Bullet>(new Pair<Integer, Path>(0, new Path(sprite, MovementEquation.STAY_SEEK, target)), null));
 		phase.add(new Pair<Pair<Integer, Path>, Bullet>(new Pair<Integer, Path>(0, new Path(sprite, MovementEquation.STAY_SEEK, target)),

@@ -1,0 +1,10 @@
+ID: Bad
+Points: 862
+ID: eee
+Points: 502
+ID: eee
+Points: 502
+ID: eee
+Points: 483
+ID: tks
+Points: 171
