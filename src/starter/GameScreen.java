@@ -637,13 +637,12 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		//Reset to default values
 		read = new LevelReader(program.getLevel());
 		health = 100;
-		healthLabel.setLabel("HP: " + health);
+		setHealth();
 		superShotPercent = 0;
 		setSuper();
 		program.remove(playerShip);
 		program.delPop();
 		program.gameTimer.restart();
-		insideHealthBar.setSize(400,10);
 		playerShip.setLocation(PLAYER_X, PLAYER_Y);
 		shot = 0;
 		hits = 0;
@@ -744,7 +743,8 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	}
 	
 	public void setHealth() {
-		healthLabel.setLabel("HP: " + health);
+		String newLabel = (health > 0) ? ("HP: " + health) : ("HP: 0");
+		healthLabel.setLabel(newLabel);
 		insideHealthBar.setSize(health*4, 10);
 	}
 }
