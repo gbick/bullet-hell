@@ -499,6 +499,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		//OBSTACLES
 		for(Obstacle enemy : enemies) {
 			//Shooting
+			setVisible(enemy);
 			if(enemy instanceof Shooter) {
 				if(((Shooter) enemy).checkFireRate()) {
 					Bullet temp = ((Shooter) enemy).getBulletType();
@@ -524,7 +525,6 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 				obstaclesToRemove.add(enemy);
 				if(health > 0) {
 					health -= 5;
-					//healthLabel.setLabel("HP: " + health);
 					if(health <= 0) {
 						program.remove(insideHealthBar);
 						healthLabel.setLabel("HP: " + 0);
@@ -533,10 +533,6 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 					}
 					else {
 						setHealth();
-//						healthLabel.setLabel("HP: " + health);
-//						program.remove(insideHealthBar);
-//						insideHealthBar.setSize(insideHealthBar.getWidth()-20, 10);
-//						program.add(insideHealthBar);
 					}
 				}
 			}
@@ -586,8 +582,6 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 				if(spawnBoss) {
 					player.stopSound("sounds", LEVEL_MUSIC);
 					player.playSound("sounds", BOSS_MUSIC, true);
-				}
-				if(spawnBoss) {
 					boss = new Boss(GAME_SCREEN_WIDTH/4, GAME_SCREEN_MARGIN, playerShip, program.getLevel());
 					spawnBoss = false;
 					enemies.add(boss);
@@ -595,31 +589,6 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 					bossBar.setVisible(true);
 					insideBossBar.setVisible(true);
 				}
-				/*
-				if(rand < 1 && rand > 0) {				
-					Fighter enemyShip = new Fighter(random.nextDouble(0, GAME_SCREEN_WIDTH - 20), 0, MovementEquation.SEEK, playerShip);
-					BasicBullet shot = new BasicBullet(5, enemyShip.getSprite(), 2);
-					temp = new Shooter(enemyShip, shot, 50);
-					temp.getSprite().setColor(Color.WHITE);
-					temp.getSprite().setFillColor(Color.RED);
-				}
-				else if(rand > 1 && rand < 2) {
-					temp = new Fighter(random.nextDouble(0, GAME_SCREEN_WIDTH - 20), 0, MovementEquation.WAVE);
-					temp.getSprite().setColor(Color.WHITE);
-					temp.getSprite().setFillColor(Color.BLACK);
-				}
-				else if(rand > 2 && rand < 3) {
-					Fighter enemyShip = new Fighter(random.nextDouble(0, GAME_SCREEN_WIDTH - 20), 0 , MovementEquation.STRAIGHT);
-					WaveBullet shot = new WaveBullet(5, enemyShip.getSprite(), 2, true, true);
-					temp = new Shooter(enemyShip, shot, 100);
-				}
-				else {
-					temp = new Fighter(random.nextDouble(0, GAME_SCREEN_WIDTH - 20), 0, MovementEquation.CIRCLE);
-				}
-				enemies.add(temp);
-				program.add(temp.getSprite());
-				*/
-				
 			}
 			ticks++;
 		}
@@ -743,5 +712,14 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		String newLabel = (health > 0) ? ("HP: " + health) : ("HP: 0");
 		healthLabel.setLabel(newLabel);
 		insideHealthBar.setSize(health*4, 10);
+	}
+	public void setVisible(Obstacle enemy) {
+		if(enemy.getSprite().getX() > gameSection.getX() + gameSection.getWidth() || enemy.getSprite().getX() + enemy.getSprite().getWidth() < gameSection.getX() || enemy.getSprite().getY() > gameSection.getHeight() + gameSection.getY()) {
+			enemy.getSprite().setVisible(false);
+		}
+		else {
+			enemy.getSprite().setVisible(true);
+		}
+
 	}
 }
