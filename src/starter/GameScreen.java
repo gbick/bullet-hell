@@ -424,9 +424,9 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 									int currUnlocked = scan.nextInt();
 									scan.close();
 									if(currUnlocked == program.getLevel()) {
+										currUnlocked++;
+										String oldText = "Unlocked Levels: " + currUnlocked;
 										try {
-											currUnlocked++;
-											String oldText = "Unlocked Levels: " + currUnlocked;
 											writer = new FileWriter(save, false);
 											writer.write("ID: " + id);
 											writer.write("\r\n");
@@ -588,7 +588,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 					player.playSound("sounds", BOSS_MUSIC, true);
 				}
 				if(spawnBoss) {
-					boss = new Boss(GAME_SCREEN_WIDTH/4, GAME_SCREEN_MARGIN, playerShip);
+					boss = new Boss(GAME_SCREEN_WIDTH/4, GAME_SCREEN_MARGIN, playerShip, program.getLevel());
 					spawnBoss = false;
 					enemies.add(boss);
 					program.add(boss.getSprite());

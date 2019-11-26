@@ -61,6 +61,7 @@ public class ReturnToMenuPop extends GraphicsPane {
 		{	
 			program.delPop();
 			program.switchToMenu();
+			program.setLevel(0);
 			return;
 		}
 		else if(obj == no)

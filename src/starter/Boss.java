@@ -8,7 +8,7 @@ import javafx.util.Pair;
 
 public class Boss implements Obstacle{
 	
-	private final static double MAX_HEALTH = 3000;
+	private final static double MAX_HEALTH = 1500;
 	private double health;
 	private Path flightPath;
 	private Bullet shotType;
@@ -18,29 +18,54 @@ public class Boss implements Obstacle{
 	private double tick;
 	private double fireRate;
 	private int minionRate;
+	private int currentLevel;
 	private ArrayList<Pair<Enemy, Integer>> minion = new ArrayList<Pair<Enemy, Integer>>();
 	private ArrayList<Pair<Pair<Integer, Path>, Bullet>> phase = new ArrayList<Pair<Pair<Integer, Path>, Bullet>>();
 	private RandomGenerator rand;
 	
-	public Boss(double x, double y, GImage seek)
+	public Boss(double x, double y, GImage seek, int levelNum)
 	{
-		sprite = new GImage("../media/sprites/obstacle/boss_level_one.png",x, y);
+		currentLevel = levelNum;
 		target = seek;
-		phase.add(new Pair<Pair<Integer, Path>, Bullet>(new Pair<Integer, Path>(0, new Path(sprite, MovementEquation.STAY_SEEK, target)), null));
-		phase.add(new Pair<Pair<Integer, Path>, Bullet>(new Pair<Integer, Path>(0, new Path(sprite, MovementEquation.STAY_SEEK, target)),
-				new BasicBullet(10, sprite, 3)));
-		phase.add(new Pair<Pair<Integer, Path>, Bullet>(new Pair<Integer, Path>(1, new Path(sprite, MovementEquation.STAY, target)), null));
-		phase.add(new Pair<Pair<Integer, Path>, Bullet>(new Pair<Integer, Path>(0, new Path(sprite, MovementEquation.STAY_SEEK, target)),
-				new WaveBullet(10, sprite, 1, true, true)));
-		phase.add(new Pair<Pair<Integer, Path>, Bullet>(new Pair<Integer, Path>(0, new Path(sprite, MovementEquation.STAY_SEEK, target)),
-				new WaveBullet(10, sprite, 2, true, true)));
-		phase.add(new Pair<Pair<Integer, Path>, Bullet>(new Pair<Integer, Path>(2, new Path(sprite, MovementEquation.STAY_SEEK, target)), null));
-		minion.add(new Pair<Enemy, Integer>(new Enemy('2', sprite.getX() + sprite.getWidth()/2, target), 10));
-		minion.add(new Pair<Enemy, Integer>(new Enemy('1', sprite.getX() + sprite.getWidth()/2, target), 10));
 		rand = RandomGenerator.getInstance();
 		curPhase = -1;
-		changePhase();
 		health = MAX_HEALTH;
+		if(levelNum == 1) {			
+			sprite = new GImage("../media/sprites/obstacle/boss_level_one.png",x, y);
+			phase.add(new Pair<Pair<Integer, Path>, Bullet>(new Pair<Integer, Path>(0, new Path(sprite, MovementEquation.STAY_SEEK, target)), null));
+			phase.add(new Pair<Pair<Integer, Path>, Bullet>(new Pair<Integer, Path>(0, new Path(sprite, MovementEquation.STAY_SEEK, target)),
+					new BasicBullet(10, sprite, 3)));
+			phase.add(new Pair<Pair<Integer, Path>, Bullet>(new Pair<Integer, Path>(1, new Path(sprite, MovementEquation.STAY, target)), null));
+			phase.add(new Pair<Pair<Integer, Path>, Bullet>(new Pair<Integer, Path>(0, new Path(sprite, MovementEquation.STAY_SEEK, target)),
+					new WaveBullet(10, sprite, 1, true, true)));
+			phase.add(new Pair<Pair<Integer, Path>, Bullet>(new Pair<Integer, Path>(0, new Path(sprite, MovementEquation.STAY_SEEK, target)),
+					new WaveBullet(10, sprite, 2, true, true)));
+			phase.add(new Pair<Pair<Integer, Path>, Bullet>(new Pair<Integer, Path>(2, new Path(sprite, MovementEquation.STAY_SEEK, target)), null));
+			minion.add(new Pair<Enemy, Integer>(new Enemy('2', sprite.getX() + sprite.getWidth()/2, target), 10));
+			minion.add(new Pair<Enemy, Integer>(new Enemy('1', sprite.getX() + sprite.getWidth()/2, target), 10));
+		}
+		else if(levelNum == 2) {
+			sprite = new GImage("../media/sprites/obstacle/boss_level_two.png", x, y);
+			phase.add(new Pair<Pair<Integer, Path>, Bullet>(new Pair<Integer, Path>(0, new Path(sprite, MovementEquation.STAY_SEEK, target)), null));
+			phase.add(new Pair<Pair<Integer, Path>, Bullet>(new Pair<Integer, Path>(1, new Path(sprite, MovementEquation.STAY_SEEK, target)), 
+					new WaveBullet(10, sprite, 3, true, true)));
+			phase.add(new Pair<Pair<Integer, Path>, Bullet>(new Pair<Integer, Path>(0, new Path(sprite, MovementEquation.STAY_SEEK, target)), null));
+			phase.add(new Pair<Pair<Integer, Path>, Bullet>(new Pair<Integer, Path>(2, new Path(sprite, MovementEquation.STAY_SEEK, target)), 
+					new WaveBullet(10, sprite, 3, true, true)));
+			minion.add(new Pair<Enemy, Integer>(new Enemy('1', sprite.getX() + sprite.getWidth()/2, target), 30));
+			minion.add(new Pair<Enemy, Integer>(new Enemy('3', sprite.getX() + sprite.getWidth()/2, target), 30));	
+		}
+		else {
+			sprite = new GImage("../media/sprites/obstacle/enemy_circler.png", x, y);
+			phase.add(new Pair<Pair<Integer, Path>, Bullet>(new Pair<Integer, Path>(2, new Path(sprite, MovementEquation.STAY_SEEK, target)), null));
+			phase.add(new Pair<Pair<Integer, Path>, Bullet>(new Pair<Integer, Path>(1, new Path(sprite, MovementEquation.STAY, target)), 
+					new BasicBullet(10, sprite, 5)));
+			phase.add(new Pair<Pair<Integer, Path>, Bullet>(new Pair<Integer, Path>(1, new Path(sprite, MovementEquation.STAY_SEEK, target)), null));
+			phase.add(new Pair<Pair<Integer, Path>, Bullet>(new Pair<Integer, Path>(2, new Path(sprite, MovementEquation.STAY, target)), null));
+			minion.add(new Pair<Enemy, Integer>(new Enemy('4', sprite.getX() + sprite.getWidth()/2, target), 20));
+			minion.add(new Pair<Enemy, Integer>(new Enemy('4', sprite.getX() + sprite.getWidth()/2, target), 30));	
+		}
+		changePhase();
 	}
 
 	@Override
@@ -67,6 +92,11 @@ public class Boss implements Obstacle{
 			return temp;
 		}
 		else {
+			if(currentLevel != 1) {
+				double spawnLoc = rand.nextDouble(25, 525);
+				temp = new Enemy(temp.getType(), spawnLoc, temp.getTarget());
+				return temp;
+			}
 			double spawnLoc = rand.nextDouble(sprite.getX(), sprite.getX() + sprite.getWidth());
 			temp = new Enemy(temp.getType(), spawnLoc, temp.getTarget());
 			return temp;
