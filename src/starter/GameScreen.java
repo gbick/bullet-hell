@@ -221,7 +221,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 				shot++;
 				shotsLabel.setLabel("Shots: " + shot);
 				superShotPercent = 0;
-				insideSuperBar.setSize(0, 10);
+				setSuper();
 			}
 		}
 	}
@@ -340,8 +340,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		if(superShotPercent < 100 && timerRuns % 100 == 0)
 		{	
 			superShotPercent += 0.5;
-			superLabel.setLabel("Supershot: " + superShotPercent + "%");
-			insideSuperBar.setSize(superShotPercent*4, 10);
+			setSuper();
 		}
 		
 		//Check for loss
@@ -446,13 +445,11 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 							}
 							if(superShotPercent <= 98) {
 								superShotPercent += 2;
-								superLabel.setLabel("Supershot: " + superShotPercent + "%");
-								insideSuperBar.setSize(superShotPercent*4, 10);
+								setSuper();
 							}
 							else if(superShotPercent > 98 && superShotPercent < 100){
 								superShotPercent = 100;
-								superLabel.setLabel("Supershot: " + superShotPercent + "%");
-								insideSuperBar.setSize(superShotPercent*4, 10);
+								setSuper();
 							}
 						}
 					}
@@ -476,8 +473,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 					player.stopSound("sounds", LEVEL_MUSIC);
 					gameEnd();
 				}
-				healthLabel.setLabel("HP: " + health);
-				insideHealthBar.setSize(insideHealthBar.getWidth()-(4*bullet.getDamage()), 10);
+				setHealth();
 			}
 			
 			
@@ -529,7 +525,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 				obstaclesToRemove.add(enemy);
 				if(health > 0) {
 					health -= 5;
-					healthLabel.setLabel("HP: " + health);
+					//healthLabel.setLabel("HP: " + health);
 					if(health <= 0) {
 						program.remove(insideHealthBar);
 						healthLabel.setLabel("HP: " + 0);
@@ -537,10 +533,11 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 						gameEnd();
 					}
 					else {
-						healthLabel.setLabel("HP: " + health);
-						program.remove(insideHealthBar);
-						insideHealthBar.setSize(insideHealthBar.getWidth()-20, 10);
-						program.add(insideHealthBar);
+						setHealth();
+//						healthLabel.setLabel("HP: " + health);
+//						program.remove(insideHealthBar);
+//						insideHealthBar.setSize(insideHealthBar.getWidth()-20, 10);
+//						program.add(insideHealthBar);
 					}
 				}
 			}
@@ -642,12 +639,11 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		health = 100;
 		healthLabel.setLabel("HP: " + health);
 		superShotPercent = 0;
-		superLabel.setLabel("Supershot: " + superShotPercent + "%");
+		setSuper();
 		program.remove(playerShip);
 		program.delPop();
 		program.gameTimer.restart();
 		insideHealthBar.setSize(400,10);
-		insideSuperBar.setSize(0, 10);
 		playerShip.setLocation(PLAYER_X, PLAYER_Y);
 		shot = 0;
 		hits = 0;
@@ -742,4 +738,13 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		shotsLabel.setLabel("Shots: " + shot);
 	}
 	
+	public void setSuper() {
+		superLabel.setLabel("Supershot: " + superShotPercent + "%");
+		insideSuperBar.setSize(superShotPercent*4, 10);
+	}
+	
+	public void setHealth() {
+		healthLabel.setLabel("HP: " + health);
+		insideHealthBar.setSize(health*4, 10);
+	}
 }
