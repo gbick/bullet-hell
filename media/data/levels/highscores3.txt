@@ -1,0 +1,10 @@
+ID: UMR
+Points: 1500
+ID: Ian
+Points: 999
+ID: Der
+Points: 500
+ID: Gab
+Points: 480
+ID: OSV
+Points: 1

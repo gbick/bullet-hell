@@ -65,6 +65,8 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	private boolean spawnBoss = true;
 	private boolean deleteSuper = false;
 	private GRect gameSection;
+	private GImage frame;
+	private GImage background;
 	private GLabel healthBarLabel;
 	private GLabel superShotLabel;
 	private GLabel livesLabel;
@@ -81,7 +83,6 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 	private GRoundRect insideSuperBar;
 	private GRoundRect bossBar;
 	private GRoundRect insideBossBar;
-	private RandomGenerator random;
 	private LevelReader read;
 	private Boss boss;
 	private ArrayList<Bullet> bullets;
@@ -103,6 +104,8 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		this.program = app;
 		player = AudioPlayer.getInstance();
 		
+		frame = new GImage("../media/sprites/screen_images/game_frame.png", 0, 0);
+		background = new GImage("../media/sprites/screen_images/game_back.png", 0, 0);
 		gameSection = new GRect(GAME_SCREEN_MARGIN, GAME_SCREEN_MARGIN, GAME_SCREEN_WIDTH, GAME_SCREEN_HEIGHT);
 		healthBarLabel = new GLabel("Health:", 50, gameSection.getY() + gameSection.getHeight() + 15);
 		superShotLabel = new GLabel("Super Shot:", 25, gameSection.getY() + gameSection.getHeight() + 35);
@@ -134,14 +137,11 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		insideBossBar.setFilled(true);
 		bossBar.setVisible(false);
 		insideBossBar.setVisible(false);
-		gameSection.setColor(Color.BLACK);
-		gameSection.setFilled(true);
 		playerShip = new GImage("../media/sprites/player/ship1_32x32.png", PLAYER_X, PLAYER_Y);
 		bullets = new ArrayList<Bullet>();
 		enemies = new ArrayList<Obstacle>();
 		timerRuns = 0;
 		ticks = 0;
-		random = RandomGenerator.getInstance();
 	}
 	
 	@Override
@@ -151,6 +151,8 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 		 */
 		
 		resetGame();
+		program.add(background);
+		program.add(frame);
 		program.add(gameSection);
 		program.add(healthBarLabel);
 		program.add(superShotLabel);
@@ -379,17 +381,14 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 				
 			}
 			try {
-				if(temp.getY() < gameSection.getY()) {
-					bulletsToRemove.add(bullet);
-				}
-				else if(bullet instanceof SuperShot && temp2.getY() < gameSection.getY()) {
+				if(!(bullet instanceof SuperShot) && temp.getY() < gameSection.getY()) {
 					bulletsToRemove.add(bullet);
 				}
 			}
 			catch(NullPointerException f) {
 				bulletsToRemove.add(bullet);
 			}
-			if(temp instanceof GRect && !(temp instanceof GRoundRect) && temp != gameSection && !bullet.checkEnemyBullet()) {
+			if(temp instanceof GImage && !(temp instanceof Bullet) && temp != playerShip && !bullet.checkEnemyBullet()) {
 					GPoint tempPoint = new GPoint(bullet.getSprite().getX(), bullet.getSprite().getY());
 					bulletsToRemove.add(bullet);
 					for(Obstacle obstacle : enemies) {
@@ -425,9 +424,9 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 									int currUnlocked = scan.nextInt();
 									scan.close();
 									if(currUnlocked == program.getLevel()) {
+										currUnlocked++;
+										String oldText = "Unlocked Levels: " + currUnlocked;
 										try {
-											currUnlocked++;
-											String oldText = "Unlocked Levels: " + currUnlocked;
 											writer = new FileWriter(save, false);
 											writer.write("ID: " + id);
 											writer.write("\r\n");
@@ -589,9 +588,7 @@ public class GameScreen extends GraphicsPane implements ActionListener {
 					player.playSound("sounds", BOSS_MUSIC, true);
 				}
 				if(spawnBoss) {
-					boss = new Boss(GAME_SCREEN_WIDTH/4, GAME_SCREEN_MARGIN, playerShip);
-					boss.getSprite().setColor(Color.GRAY);
-					boss.getSprite().setFillColor(Color.WHITE);
+					boss = new Boss(GAME_SCREEN_WIDTH/4, GAME_SCREEN_MARGIN, playerShip, program.getLevel());
 					spawnBoss = false;
 					enemies.add(boss);
 					program.add(boss.getSprite());

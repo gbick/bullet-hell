@@ -32,15 +32,10 @@ public class MenuPane extends GraphicsPane {
 		player = AudioPlayer.getInstance();
 		
 		background = new GImage("../media/sprites/screen_images/title_back.png", 0, 0);
-		
 		title = new GImage("../media/sprites/screen_images/title.png",program.getWidth()/5, 0);
-		
 		start = new GImage("../media/sprites/screen_images/title_button_start.png", BUTTON_X - 100 , BUTTON_Y + 100);
-		
 		lead = new GImage("../media/sprites/screen_images/title_button_leaderboards.png", BUTTON_X - 100, BUTTON_Y + 200);
-		
 		controls = new GImage("../media/sprites/screen_images/title_button_controls.png",BUTTON_X - 100, BUTTON_Y + 300);
-		
 		exit = new GImage("../media/sprites/screen_images/title_button_exit.png", BUTTON_X - 100, BUTTON_Y + 400);	
 	}
 
