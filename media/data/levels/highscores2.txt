@@ -1,10 +1,10 @@
 ID: Bad
-Points: 862
+Points: 1500
+ID: oWo
+Points: 777
 ID: eee
-Points: 502
-ID: eee
-Points: 502
-ID: eee
-Points: 483
+Points: 500
+ID: hit
+Points: 300
 ID: tks
-Points: 171
+Points: 170
