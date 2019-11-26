@@ -61,8 +61,6 @@ public class ReturnToMenuPop extends GraphicsPane {
 		{	
 			program.delPop();
 			program.switchToMenu();
-			player.stopSound("sounds", LEVEL_MUSIC);
-			player.stopSound("sounds", BOSS_MUSIC);
 			return;
 		}
 		else if(obj == no)

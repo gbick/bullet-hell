@@ -22,6 +22,7 @@ public class MenuPane extends GraphicsPane {
 	private final static double BUTTON_Y = 81.25;
 	private final static String MENU_MUSIC = "Menu_Music.mp3";
 	private final static String CLICK_NOISE = "Menu_Button_Click.mp3";
+	private final static String WIN_MUSIC = "Victory_Fanfare.mp3";
 	private AudioPlayer player;
 	
 
@@ -45,6 +46,7 @@ public class MenuPane extends GraphicsPane {
 
 	@Override
 	public void showContents() {
+		player.stopSound("sounds", WIN_MUSIC);
 		player.playSound("sounds", MENU_MUSIC);
 		program.add(background);
 		program.add(title);
