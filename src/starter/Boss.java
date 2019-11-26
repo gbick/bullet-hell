@@ -56,14 +56,14 @@ public class Boss implements Obstacle{
 			minion.add(new Pair<Enemy, Integer>(new Enemy('3', sprite.getX() + sprite.getWidth()/2, target), 30));	
 		}
 		else {
-			sprite = new GImage("../media/sprites/obstacle/enemy_circler.png", x, y);
+			sprite = new GImage("../media/sprites/obstacle/enemy_circler_ship.png", x, y);
 			phase.add(new Pair<Pair<Integer, Path>, Bullet>(new Pair<Integer, Path>(2, new Path(sprite, MovementEquation.STAY_SEEK, target)), null));
 			phase.add(new Pair<Pair<Integer, Path>, Bullet>(new Pair<Integer, Path>(1, new Path(sprite, MovementEquation.STAY, target)), 
 					new BasicBullet(10, sprite, 5)));
 			phase.add(new Pair<Pair<Integer, Path>, Bullet>(new Pair<Integer, Path>(1, new Path(sprite, MovementEquation.STAY_SEEK, target)), null));
 			phase.add(new Pair<Pair<Integer, Path>, Bullet>(new Pair<Integer, Path>(2, new Path(sprite, MovementEquation.STAY, target)), null));
 			minion.add(new Pair<Enemy, Integer>(new Enemy('4', sprite.getX() + sprite.getWidth()/2, target), 20));
-			minion.add(new Pair<Enemy, Integer>(new Enemy('4', sprite.getX() + sprite.getWidth()/2, target), 30));	
+			minion.add(new Pair<Enemy, Integer>(new Enemy('4', sprite.getX() + sprite.getWidth()/2, target), 5));	
 		}
 		changePhase();
 	}
